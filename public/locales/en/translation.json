@@ -10,7 +10,7 @@
         "visits": "My visits"
     },
     "userLogin":{
-      "login":"Login",
+      "login":"System entry",
       "new":"New into system?",
       "notNew":"Already registerd?",
       "username":"Username",
@@ -36,6 +36,7 @@
     "button_no": "No",
     "button_back": "Back",
     "button_send": "Send",
+    "button_confirm": "Confirm",
     "landing_welcome":"Welcome in HelloKitty reservation system",
     "landing_chooseBranchTitle":"Choose branch you want to register or visit",
     "chooseCountrySelect":"Choose Country",
@@ -44,10 +45,12 @@
     "registerNewOption":"Register as first time donor",
     "registerExistingOption":"Register as already visited donor",
     "registerOption":"Register",
-    "loginOption":"Reservation system",
+    "loginOption":"Login",
     "gdprAgree":"I agree to the processing of personal data",
     "confirm":"Confirm",
     "close":"Close",
+    "password":"Password",
+    "repeatPassword":"Repeat password",
     "register":"Register",
     "checkRegisterData":"Please check if entered data correct",
     "noNextReservation":"You don't have any new planned reservation",
@@ -55,6 +58,7 @@
     "profile_changeBranch": "Change branch",
     "profile_changePassword": "Change password",
     "profile_changeLanguage": "Change language",
+    "profile_myBranch": "My branch",
     "form_name": "Name",
     "form_surname": "Surname",
     "form_birthdate": "Birthdate",
@@ -72,5 +76,8 @@
     "reservation_createReservationButton": "Create reservation",
     "reservation_createReservationConfirmation": "Do you really want to create reservation on this date?",
     "reservation_createReservationNew": "Create new reservation",
-    "reservation_noSlotsAvailable": "Unable to find free slots for selected slot"
+    "reservation_noSlotsAvailable": "Unable to find free slots for selected slot",
+    "reservation_next":"Next reservation",
+    "reservation_warning": "Please arrive at least 30 minutes before the ordered time!!!",
+    "reservation_cancel": "Do you really want to cancel reservation??"
   }

@@ -39,7 +39,8 @@ const MyDialogContent = styled(DialogContent)`
 `;
 
 const MyAlert = styled(MuiAlert)`
-  font-size: 20px;
+  font-size: 30px;
+  background: linear-gradient(to right, white, #b5ffc3);
 `;
 
 const useStyles = makeStyles(() => ({
@@ -166,7 +167,7 @@ export default function NextVisit() {
 
   return (
     <div className={classes.container}>
-      <Title title={"Next reservation date"} />
+      <Title title={t("reservation_next")} />
       <br></br>
       {isLoading ? (
         <Loader size={10} color={"#f54275"} loading={isLoading} />
@@ -179,7 +180,7 @@ export default function NextVisit() {
             <div className={classes.createReservation}>
               <div className={classes.noVisitMessage}>
                 <NoVisitMessage>{t("noNextReservation")}</NoVisitMessage>
-                <Button onClick={openReservationForm} width="50%" label="Vytvořit rezervaci" />
+                <Button onClick={openReservationForm} width="50%" label={t("Create reservation")}  />
               </div>
             {/* If new reservation requested */}
               {resForm ? <div> 
@@ -194,7 +195,7 @@ export default function NextVisit() {
             <div>
               <ParagraphText
                 content={
-                  "Please arrive at least 30 minutes before the ordered time!!!"
+                  t("reservation_warning")
                 }
               />
               <Button
@@ -208,15 +209,15 @@ export default function NextVisit() {
         </div>
       )}
       {/* Slide dialog to delete reservation  */}
-      <MyDialog open={open} keepMounted onClose={handleClose}>
+      <MyDialog open={open} onClose={handleClose}>
         <MyDialogContent>
-          <DialogTitle>
-            {"Do you really want to cancel reservation??"}
+          <DialogTitle> 
+            {t("reservation_cancel")}
           </DialogTitle>
 
           <DialogActions>
-            <Button label="No" width="50%" onClick={handleClose} />
-            <Button label="Confirm" width="50%" onClick={cancelReservation} />
+            <Button label={t("button_no")} width="50%" onClick={handleClose} />
+            <Button label={t("button_confirm")} width="50%" onClick={cancelReservation} />
           </DialogActions>
         </MyDialogContent>
       </MyDialog>
@@ -230,7 +231,7 @@ export default function NextVisit() {
         autoHideDuration={5000}
         onClose={handleCloseSuccessAlert}
       >
-        <MyAlert severity="success">Operation successful</MyAlert>
+        <MyAlert severity="success">Yeeeah</MyAlert>
       </Snackbar>
     </div>
   );

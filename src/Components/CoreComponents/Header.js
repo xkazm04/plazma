@@ -8,6 +8,7 @@ import AccountCircleIcon from "@material-ui/icons/AccountCircle";
 
 import { UserContext } from "../Utils/UserContext";
 import Button from "../Buttons/FormButton";
+import MenuButton from "../Buttons/MenuButton";
 
 import styled from "styled-components";
 
@@ -94,18 +95,18 @@ export default function Header() {
           <i>PlasmaStream</i>
         </StyledLink>
       </div>
-      {/* Center branch part */}
-      <div className={classes.centerLogo}>{branch}</div>
+      {/* Center branch part, remove for mobile */}
+      {/* <div className={classes.centerLogo}>{branch}</div> */}
       {/* Right menu part */}
       <div>
         <Link className={classes.userRightPart} to="/">
-          <Button width={"3rem"} label={heartSvg} />
+          <MenuButton width={"3rem"} label={heartSvg} />
         </Link>
         {/* <Link className={classes.userRightPart} to="/reservations"><Button width={"3rem"} label={<DateRangeIcon/>}/></Link> */}
         <Link className={classes.userRightPart} to="/profile">
-          <Button width={"3rem"} label={<AccountCircleIcon />} />
+          <MenuButton width={"3rem"} label={<AccountCircleIcon />} />
         </Link>
-        <Button
+        <MenuButton
           width={"3rem"}
           label={<PowerSettingsNewIcon />}
           onClick={handleLogout}

@@ -27,20 +27,15 @@ const StyledButton = styled.button`
         color: ${props => props.theme.colors.text};
         background: ${props => props.theme.colors.slotInput};
     }
-    @media screen and (max-width: 700px) {
-     font-size: 0.8rem;
-     width: 100%;
-     }
-
 `
 
 
 
-const FormButton = ({ onClick, width, label}) => {
+const MenuButton = ({ onClick, width, label}) => {
 return  <StyledButton 
             onClick={onClick}
             width={width}
             >{label}</StyledButton>;
 };
 
-export default FormButton
+export default MenuButton

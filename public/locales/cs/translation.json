@@ -10,7 +10,7 @@
         "visits": "Moje návštěvy"
     },
     "userLogin":{
-      "login":"Rezervační systém",
+      "login":"Vstup do systému",
       "new":"Ještě zde nemáte účet?",
       "notNew":"Již máte registraci?",
       "username":"Uživatelské jméno",
@@ -36,6 +36,7 @@
     "button_no": "Ne",
     "button_back": "Zpět",
     "button_send":"Odeslat",
+    "button_confirm": "Potvrdit",
     "landing_welcome":"Vítejte v rezervačním systému",
     "landing_chooseBranchTitle":"Vyberte pobočku, kterou chcete navštívit",
     "chooseCountrySelect":"Vyberte zemi",
@@ -58,6 +59,7 @@
     "profile_changeBranch": "Změnit pobočku",
     "profile_changePassword": "Změnit heslo",
     "profile_changeLanguage": "Změnit jazyk",
+    "profile_myBranch": "Moje pobočka",
     "form_name": "Jméno",
     "form_surname": "Příjmení",
     "form_birthdate": "Datum narození",
@@ -75,5 +77,8 @@
     "reservation_createReservationButton": "Vytvořit rezervaci",
     "reservation_createReservationConfirmation": "Opravdu si přejete zarezervovat na daný termín?",
     "reservation_createReservationNew": "Zadat novou rezervaci",
-    "reservation_noSlotsAvailable": "Pro tuto dobu nenalezen volný čas pro rezervaci"
+    "reservation_noSlotsAvailable": "Pro tuto dobu nenalezen volný čas pro rezervaci",
+    "reservation_next":"Datum příští rezervace",
+    "reservation_warning": "Prosím dostavte se nejpozději 30 minut před časem rezervace!!!",
+    "reservation_cancel": "Opravdu si přejete zrušit rezervaci??"
   }

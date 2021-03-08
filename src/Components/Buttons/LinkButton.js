@@ -22,6 +22,10 @@ const StyledButton = styled.button`
         text-decoration: underline;
         transition-duration: 0.2s;
     }
+    @media screen and (max-width: 700px) {
+     font-size: 0.8rem;
+     width: 100%;
+     }
 
 `
 

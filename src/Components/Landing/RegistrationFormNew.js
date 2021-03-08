@@ -13,7 +13,6 @@ import DialogContent from "@material-ui/core/DialogContent";
 import DialogTitle from "@material-ui/core/DialogTitle";
 
 import Button from "../Buttons/FormButton";
-import LoadingButton from "../Buttons/IconButton";
 import Loader from 'react-spinners/BounceLoader'
 import FormInput from "../Forms/FormInput";
 import FormInputLabel from "../Forms/FormInputLabel";
@@ -205,7 +204,7 @@ export default function RegistrationFormNew({ branch, email, password }) {
 
   return (
     <div className={classes.container}>
-      {isLoading ? <Loader size={100} color={'#f54275'} loading={isLoading}/> : 
+      {isLoading ? <Loader size={10} color={"#f54275"} loading={isLoading} /> : 
       <div className={classes.formContainer}>
         <div>
           {/* Error message if state true */}
@@ -353,7 +352,7 @@ export default function RegistrationFormNew({ branch, email, password }) {
             </div>
           </div>
           {checked === true ? (
-            <Button onClick={onSubmit} label="Register" />
+            <Button onClick={onSubmit} label={t("register")} />
           ) : null}
       </div>
 

@@ -117,13 +117,6 @@ export default function RegistrationFormExisting({ branch, password, email }) {
       const res = await axios({
         method: 'post',
         url: "https://virtserver.swaggerhub.com/xkazm04/User/1.0.0/register",
-        withCredentials: true,
-        headers: {
-          "Access-Control-Allow-Origin": "*",
-          "Access-Control-Allow-Methods": "GET,PUT,POST,DELETE,PATCH,OPTIONS",
-          "Access-Control-Allow-Headers": "Origin, X-Requested-With, Content-Type, Accept",
-          "Content-Type": "application/json"
-        },
         data: {
           Username: formEmail,
           Password: formPassword,

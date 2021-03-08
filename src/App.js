@@ -12,14 +12,12 @@ import Profile from './Pages/Profile'
 import Home from './Pages/Home'
 
 import { createGlobalStyle, ThemeProvider } from "styled-components";
-import { theme, darkTheme, greenTheme  } from "./Themes/theme";
-import { useDarkMode} from "./Components/Utils/useDarkMode";
+import { theme} from "./Themes/theme";
 import styled from "styled-components";
 
 import Paper from "@material-ui/core/Paper";
 import Grid from "@material-ui/core/Grid";
 import ToggleButton from '@material-ui/lab/ToggleButton';
-import Brightness3Icon from '@material-ui/icons/Brightness3';
 import TwoWheelerSharpIcon from '@material-ui/icons/TwoWheelerSharp';
 import FlashOn from '@material-ui/icons/FlashOn';
 import {useTranslation } from "react-i18next";
@@ -47,19 +45,18 @@ const useStyles = makeStyles(() => ({
 }));
 
 // Overriding Material UI with styled component
-const Darkness = styled(Brightness3Icon)`
-  color: ${(props) => props.theme.colors.shadow};
-`
+
 const Czech = styled(FlashOn)`
   color: ${(props) => props.theme.colors.shadow};
 `
 const English = styled(TwoWheelerSharpIcon)`
   color: ${(props) => props.theme.colors.shadow};
 `
+
 const DarknessButton = styled(ToggleButton)`
-  background-color: 'none';
-  
+  background-color: 'none'; 
 `
+
 const MyPaper = styled(Paper)`
   box-shadow: 0 2px 8px 0 ${(props) => props.theme.colors.shadow};
   color: ${(props) => props.theme.colors.text};
@@ -90,18 +87,8 @@ function App() {
 
   // Toggle theme mode
   const [selected, setSelected] = useState(false);
-  const [thema, setTheme] = useDarkMode();
-  const themeMode = thema === "theme" ? theme : darkTheme;
+  const themeMode =  theme
   const classes = useStyles();
-  const toggleTheme = () => {
-    if (thema === "theme") {
-      setTheme("dark");
-      console.log("Darkness");
-    } else {
-      setTheme("theme");
-      console.log("Holy light");
-    }
-  };
 
   const {i18n} = useTranslation()
   const changeLanguage = (language) => {
@@ -122,18 +109,8 @@ function App() {
                 {/* Do not Show header if not logged in */}
                 {isAuth === true ?   <Header />  :   null}           
                 
-                {/* Buttons for play - CZ,EN, Dark */}
-                <DarknessButton
-                      value="check"
-                      selected={selected}
-                      onChange={() => {
-                        setSelected(!selected);
-                        toggleTheme();
-                      }}
-                    >
-                      <Darkness/>
-                    </DarknessButton> 
-                    <DarknessButton
+                {/* Change language - CZ,EN */} 
+                {isAuth === false ? <div> <DarknessButton
                       value="check"
                       onChange={() => {
                         changeLanguage("cz");
@@ -148,14 +125,10 @@ function App() {
                       }}
                     >
                       <English/>
-                    </DarknessButton>      
+                    </DarknessButton>       </div>: null}
+ 
                   </MyPaper>
                 </Grid>
-                {/* Navigation component */}
-                {/* {isAuth === true ?           
-                <NavigationGrid item xs={12} sm={1} md={1}>
-                  <Navigation />
-                </NavigationGrid> : null } */}
                 {/* Content component */}
                 
                 <Grid container item xs={12} sm={11} m={11} spacing={3}>

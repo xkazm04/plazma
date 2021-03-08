@@ -32,7 +32,6 @@ import Branches from '../../enums/Branches'
 const useStyles = makeStyles(() => ({
   container: {
     marginTop: '20px',
-    width: '100vw',
     display: "flex",
     position: "relative",
     justifyContent: "center",
@@ -42,9 +41,10 @@ const useStyles = makeStyles(() => ({
     position: "relative",
     textAlign: "center",
     border: "none",
-    width: '70%',
+    width: '100%',
     border: '0.1px solid #0a3612',
     borderRadius: '25px',
+    marginLeft: '5%'
   },
   forgottenForm: {
     marginLeft: "20px",
@@ -67,7 +67,9 @@ const MyDialogContent = styled(DialogContent)`
   width: 900px;
   height: 700px;
 `;
-
+const ResetDialogContent = styled(DialogContent)`
+  background: ${(props) => props.theme.colors.blackWhite};
+`;
 
 const MyBranchSelect = styled(Select)`
 
@@ -235,14 +237,14 @@ export default function Login() {
         {passwordSentMessage ? <ErrorMessage title={passwordSentMessage} /> : null}
 
         {/* Login component */}
-        <FormInput          
-          smallerWidth="30vw"
+        <FormInput  
+          smallerWidth={"90%"}        
           onChange={updateEmail}
           width={"80%"}
           placeholder={"Email"} />
         <br></br>
         <FormInput
-          smallerWidth="30vw"
+          smallerWidth={"90%"}  
           onChange={updatePassword}
           placeholder={"****"}
           width={"80%"}
@@ -301,7 +303,7 @@ export default function Login() {
 
       {/* Forgotten email dialog */}
       <MyDialog open={openResetDialog} onClose={handleCloseReset} maxWidth={"lg"}>
-        <MyDialogContent>
+        <ResetDialogContent>
           <Title title={t("userLogin.forgottenPassword")} />
           <div className={classes.forgottenForm}>
             <ParagraphText
@@ -321,7 +323,7 @@ export default function Login() {
             <Button onClick={handleCloseReset} label={t("button_back")} />
             <Button onClick={passwordInquiry} label={t("button_send")}/>
           </DialogActions>
-        </MyDialogContent>
+        </ResetDialogContent>
       </MyDialog>
     </div>
   );

@@ -24,6 +24,9 @@ const useStyles = makeStyles(() => ({
     display: "flex",
     flexDirection: "column",
   },
+  inputItem: {
+    marginBottom: '5%'
+  }
 }));
 
 export default function CreateReservation({ changeVisit }) {
@@ -57,19 +60,19 @@ export default function CreateReservation({ changeVisit }) {
   const [slots, setSlots] = useState([
     {
       label: "10:15",
-      value: "10:15",
+      value: "Monday 12.1. 10:15",
     },
     {
       label: "10:30",
-      value: "10:30",
+      value: "Monday 12.1. 10:30",
     },
     {
       label: "10:45",
-      value: "10:45",
+      value: "Monday 12.1. 10:45",
     },
     {
       label: "11:00",
-      value: "11:00",
+      value: "Monday 12.1. 11:00",
     },
   ]);
 
@@ -89,7 +92,7 @@ export default function CreateReservation({ changeVisit }) {
   return (
     <div className={classes.container}>
       <div className={classes.inputItem}>
-        <FormInputLabel label={"Reservation date test daypicker"} />
+        <FormInputLabel label={"DateTimepicker"} />
         <DatePicker
           selected={date}
           onChange={setDate}
@@ -105,14 +108,14 @@ export default function CreateReservation({ changeVisit }) {
           // maxDate={"03/03/2022"}
         />
       </div>
-      <div className={classes.inputItem}>
+      {/* <div className={classes.inputItem}>
         <FormInputLabel label={"Reservation date"} />
         <FormInput onChange={setDate} type={"date"} />
       </div>
       <div className={classes.inputItem}>
         <FormInputLabel label={"Reservation time"} />
         <FormInput onChange={setDate} type={"time"} />
-      </div>
+      </div> */}
       <div className={classes.inputItem}>
         {/* Find slot */}
         <Button
@@ -150,7 +153,7 @@ export default function CreateReservation({ changeVisit }) {
           <DialogTitle>
             {t("reservation_createReservationConfirmation")} {"?"}
           </DialogTitle>
-          <Title title={"Monday 16.02." + slotSelected} />
+          <Title title={slotSelected} />
           <DialogActions>
             <Button label={t("button_no")} width="50%" onClick={handleClose} />
             <Button

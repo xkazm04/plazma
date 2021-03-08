@@ -34,7 +34,7 @@ const StyledInput = styled.input`
   }
   @media screen and (max-width: 700px) {
      font-size: 0.7rem;
-     width: ${props => props.smallerWidth || '70%'}
+     width: ${props => props.smallerWidth || '100%'}
      }
 `
 

@@ -93,7 +93,6 @@ export default function Register() {
           albertos@net.cz
         </MyGrid>
         <MyGrid item xs={12} sm={12} md={12}>
-          <ParagraphText content={"Moje pobočka: " + defaultBranch} /> 
           <ParagraphText content={t("profile_changeLanguage")} />
           <button onClick={() => {changeLanguage("cz");}}>CZ</button>             
           <button onClick={() => {changeLanguage("en");}}> EN</button>  
