@@ -3,7 +3,6 @@ import styled from 'styled-components'
 
 
 const StyledButton = styled.button` 
-    padding: 1rem 1.5rem;
     margin: 0.2rem;
     outline: none;
     color: ${props => props.theme.colors.text};
@@ -11,6 +10,7 @@ const StyledButton = styled.button`
         ${props => props.theme.colors.gradient.first}, 
         ${props => props.theme.colors.gradient.second}
         );
+        
     position: relative;
     padding: .5rem;
     font-weight: bold;

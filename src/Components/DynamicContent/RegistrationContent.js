@@ -1,41 +1,18 @@
-
-
 import ParagraphText from "../Texts/ParagraphText";
-import Point from "../Texts/PointText";
-import NoteText from "../Texts/NoteText";
-import Title from "../Texts/Title";
-import { makeStyles } from "@material-ui/core/styles";
 import styled from "styled-components";
+import { useTranslation } from 'react-i18next';
 
-const useStyles = makeStyles(() => ({
-  textPoints: {
-    textAlign: 'left',
-    marginLeft: '2%'
-},
 
-}))
 
 const Kontejner = styled.div`
   display: flex;
       position: relative;
       flex-direction: column;
-      text-align: left;
-      margin-left: 25%;
-      margin-bottom: 2%;
-  @media screen and (max-width: 700px) {
-     margin-left: 5%;
 `
 
 
-export default function RegistrationContent({location}) {
-  const classes = useStyles();
-  
-//  1. Target solution to retrieve text from PS Administration
-//  useEffect send location, receive texts
-// Text1,Text2,Text3,Text4
-
-
-//  2. Until that hardcoded text for each branch needed
+export default function RegistrationContent({branch}) {
+  const { t } = useTranslation();
 
   const NaFrantisku = {
       title: 'Registration to reservation system - Nemocnice na Františku',
@@ -47,17 +24,21 @@ export default function RegistrationContent({location}) {
      text1: '"We accept first time donors on email kladno@net.cz or phone number: +420: 123456789. Thank you."',
   }
 
+  const Ostrava = {
+    title: 'Registration to reservation system - Ostrava',
+   text1: '"We accept first time donors on email kladno@net.cz or phone number: +420: 123456789. Thank you."',
+}
     return (
       <Kontejner>
-         
+{branch === null ? <div>{t('form_branchNotSelected')}</div> : null}  
+{branch == 1 ? <ParagraphText content={NaFrantisku.title}/> : null}
+{branch == 2 ? <ParagraphText content={Kladno.title}/> : null}
+{branch == 3 ? <ParagraphText content={Ostrava.title}/> : null}
 
-{/* Static option */}
-{ location === '1' ? <Title title={NaFrantisku.title}/> :  <Title title={Kladno.title}/> }
-{ location === '1' ? <ParagraphText content={NaFrantisku.text1}/> :  <ParagraphText content={Kladno.text1}/> }
 
 
 {/* Space for dynamic */}
-<div className={classes.textPoints}>
+{/* <div className={classes.textPoints}>
 <Point content={" Po      8:30 – 11:30 a 13:30 - 17:15"} />
 <Point content={" Út     8:30 – 11:30 a 13:30 - 17:15"} />
 <Point content={" St      8:30 – 11:30 a 13:30 - 17:15"} />
@@ -86,7 +67,7 @@ content={
   "** the amount represents a supplement for the 1st collection and financial compensation for the 2nd collection"
 }
 />
-</div>
+</div> */}
 
 </Kontejner>
   );

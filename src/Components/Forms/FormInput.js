@@ -13,7 +13,7 @@ const StyledInput = styled.input`
     font-family: inter;
     border: none;
     border-bottom: 1px solid ${props => props.theme.colors.borderColor};
-    text-align: 'left'
+    text-align: 'left';
     transition-duration: 0.4s;
     width: ${props => props.width || '10rem'};
 
@@ -34,7 +34,8 @@ const StyledInput = styled.input`
   }
   @media screen and (max-width: 700px) {
      font-size: 0.7rem;
-     width: ${props => props.smallerWidth || '70%'};
+     width: ${props => props.smallerWidth || '70%'}
+     }
 `
 
 

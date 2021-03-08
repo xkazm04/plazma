@@ -4,7 +4,6 @@ import { makeStyles } from "@material-ui/core/styles";
 
 import ProtectedRoute from './Components/Utils/ProtectedRoute'
 import {UserContext } from './Components/Utils/UserContext'
-import {BranchContext } from './Components/Utils/BranchContext'
 
 import Header from "./Components/CoreComponents/Header";
 import ResetPassword from "./Pages/ResetPassword";
@@ -39,7 +38,7 @@ const useStyles = makeStyles(() => ({
   main: {
     backgroundColor: "inherit",
     minHeight: "700px",
-    marginLeft: '2rem',
+    marginLeft: '1rem',
     display: 'flex',
     justifySelf: 'center',
     justifyContent: 'center',
@@ -62,7 +61,6 @@ const DarknessButton = styled(ToggleButton)`
   
 `
 const MyPaper = styled(Paper)`
-  border-color: ${(props) => props.theme.colors.text};
   box-shadow: 0 2px 8px 0 ${(props) => props.theme.colors.shadow};
   color: ${(props) => props.theme.colors.text};
   background: linear-gradient(5deg, 
@@ -89,8 +87,7 @@ function App() {
   
   // Setting Auth to put in Context for whole application
   const [isAuth, setIsAuth] = useState(false);
-  const [defaultBranch, setDefaultBranch] = useState("Kladno");
-  
+
   // Toggle theme mode
   const [selected, setSelected] = useState(false);
   const [thema, setTheme] = useDarkMode();
@@ -118,7 +115,6 @@ function App() {
       <ThemeProvider theme={themeMode}>
         <GlobalStyle />
           <UserContext.Provider value={{isAuth, setIsAuth}}>
-           <BranchContext.Provider value={{defaultBranch, setDefaultBranch}}>
               <Grid container className={classes.container} spacing={3}>
                 <Grid item xs={12}>
                   {/*  */}
@@ -165,17 +161,16 @@ function App() {
                 <Grid container item xs={12} sm={11} m={11} spacing={3}>
                   <MyPaper className={classes.main}>
                     <Switch>
-                      <ProtectedRoute exact path="/reservations" component={Reservations} isAuth={isAuth} defaultBranch={defaultBranch} />
-                      <Route exact path="/" render={() => <Home />} isAuth={isAuth} defaultBranch={defaultBranch} />
+                      <ProtectedRoute exact path="/reservations" component={Reservations} isAuth={isAuth} />
+                      <Route exact path="/" render={() => <Home />} isAuth={isAuth} />
                       <Route exact path="/resetPassword" component={ResetPassword} />
-                      <ProtectedRoute exact path="/profile" component={Profile} isAuth={isAuth} defaultBranch={defaultBranch} theme={theme}/>
+                      <ProtectedRoute exact path="/profile" component={Profile} isAuth={isAuth} />
                       {/* Redirect any other routest */}
                       <Route render={() => <Redirect to="/" />} />
                     </Switch>
                   </MyPaper>
                 </Grid>
               </Grid>
-            </BranchContext.Provider>
           </UserContext.Provider>
       </ThemeProvider>
     </div>

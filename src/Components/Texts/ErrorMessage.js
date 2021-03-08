@@ -6,7 +6,7 @@ const StyledTitle = styled.h1`
     font-family: Roboto;
     font-size: 1.5rem;
     outline: none;
-    color: ${(props) => props.theme.colors.borderColor};
+    color: ${(props) => props.theme.Secondary.Dark};
     @media screen and (max-width: 700px) {
      font-size: 1rem;
   }

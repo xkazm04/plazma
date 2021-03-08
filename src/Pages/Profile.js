@@ -1,9 +1,8 @@
-import { useContext, useState } from "react";
+import { useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
 import styled from "styled-components";
 import { useTranslation } from "react-i18next";
-import { BranchContext } from "../Components/Utils/BranchContext";
 
 import Button from "../Components/Buttons/FormButton";
 import ParagraphText from "../Components/Texts/ParagraphText";
@@ -44,7 +43,7 @@ export default function Register() {
   }
 
   // Change password, Change branch, Change email
-  const { defaultBranch, setDefaultBranch } = useContext(BranchContext);
+  const defaultBranch = localStorage.getItem('defaultSubcenter')
   const [openPassDialog, setPassDialog] = useState(false);
   const [openEmailDialog, setEmailDialog] = useState(false);
   const [openBranchDialog, setBranchDialog] = useState(false);
@@ -74,7 +73,7 @@ export default function Register() {
   };
   const changeBranch = () => {
     setBranchDialog(false);
-    setDefaultBranch('Praha');
+    localStorage.setItem('New changed branch')
   };
 
   // Dialog styling

@@ -13,7 +13,7 @@ const StyledButton = styled.button`
     text-align: center;
     color: inherit;
     border: none;
-    background-color: ${props => props.theme.colors.main};
+    background-color: inherit;
     border-radius: 4px;
     cursor: pointer;
     width: ${props => props.width || '20rem'};

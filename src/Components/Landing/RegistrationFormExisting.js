@@ -1,8 +1,7 @@
 // create.component.js
 
-import React, { useRef, useState, useContext } from "react";
+import React, { useState, useContext } from "react";
 import { UserContext } from "../Utils/UserContext";
-import { BranchContext } from "../Utils/BranchContext";
 import useFormState from "../../hooks/useFormState";
 import axios from "axios";
 // Material UI form control
@@ -13,16 +12,13 @@ import Dialog from "@material-ui/core/Dialog";
 import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogTitle from "@material-ui/core/DialogTitle";
-import Grid from "@material-ui/core/Grid";
 
-import DataButton from "../Buttons/DataButton";
 import Button from "../Buttons/FormButton";
 import FormInput from "../Forms/FormInput";
 import FormInputLabel from "../Forms/FormInputLabel";
 import MyCheckbox from "../Buttons/Checkbox";
 import GdprDialog from "../Texts/Gdpr";
 import LinkButton from "../Buttons/LinkButton";
-import ParagraphText from "../Texts/ParagraphText";
 import ErrorMessage from "../Texts/ErrorMessage";
 
 import { useTranslation } from 'react-i18next';
@@ -67,30 +63,35 @@ const MyDialogContent = styled(DialogContent)`
   background: ${(props) => props.theme.colors.blackWhite};
 `;
 
-const token = '12345'
 
-export default function RegistrationFormExisting({ location }) {
+export default function RegistrationFormExisting({ branch, password, email }) {
   const { t } = useTranslation();
   const classes = useStyles();
   const [error, setError] = useState(null);
-  const { isAuth, setIsAuth } = useContext(UserContext);
-  const { defaultBranch, setDefaultBranch } = useContext(BranchContext);
-  const [donorCode, updateDonorCode] = useFormState("");
-  const [email, updateEmail] = useFormState("");
-  const [password, updatePassword] = useFormState("");
+  const { setIsAuth } = useContext(UserContext);
+  const [donorCode, updateDonorCode] = useFormState(null);
+  const [formEmail, updateFormEmail] = useFormState(email);
+  const [formPassword, updateFormPassword] = useFormState(password);
   const [repeatedPassword, updateRepeatedPassword] = useFormState("");
 
-  // Registration form, allow only if password match
-  const [regConfirm, setRegConfirm] = useState(false);
-  const handleCloseRegConfirm = () => {
-    setRegConfirm(false);
-  };
 
-  const handleOpenRegConfirm = () => {
-    if (password === repeatedPassword) {
+
+  // Input validations
+  const checkEmptyDonor = () => {
+    if (donorCode == null) {
+      console.log("fuck")
+      setError("Chyba: Kod dárce není vyplněn");
+    } else {
+      console.log("donor code ok")
+      checkPassword()
+    }
+  }
+
+  const checkPassword = () => {
+    if (formPassword === repeatedPassword) {
       console.log("Password ok");
       setError(null);
-      setRegConfirm(true);
+      onSubmit();
     } else {
       console.log("Password nok");
       setError("Chyba: Zadaná hesla nejsou shodná");
@@ -111,33 +112,33 @@ export default function RegistrationFormExisting({ location }) {
   };
 
   // Form submit function
-  const onSubmit = async (e) => {
-    e.preventDefault();
-    setDefaultBranch(location);
+  const onSubmit = async () => {
     try {
       const res = await axios({
         method: 'post',
-        url: 'http://localhost:5000/api/customer',
+        url: "https://virtserver.swaggerhub.com/xkazm04/User/1.0.0/register",
+        withCredentials: true,
         headers: {
-          'Content-Type': 'application/json',
-          Authorization: 'Bearer ' + token //the token is a variable which holds the token
+          "Access-Control-Allow-Origin": "*",
+          "Access-Control-Allow-Methods": "GET,PUT,POST,DELETE,PATCH,OPTIONS",
+          "Access-Control-Allow-Headers": "Origin, X-Requested-With, Content-Type, Accept",
+          "Content-Type": "application/json"
         },
         data: {
-          Username: email,
-          Password: password,
+          Username: formEmail,
+          Password: formPassword,
           DonorCode: donorCode,
-          DefaultSubcenterId: defaultBranch
+          DefaultSubcenterId: branch
       }
       });
-      console.log("Yess");
       console.log(res.data)
-      handleCloseRegConfirm();
       // Reset error message
+      localStorage.setItem('defaultSubcenter', branch)
       setError(null);
       // Go to login mode
       setIsAuth(true);
     }  catch (err) {
-      // Error 😨
+      // Error
       if (err.response) { 
         // client received an error response (5xx, 4xx)
         console.log(err.response)
@@ -148,8 +149,7 @@ export default function RegistrationFormExisting({ location }) {
         // anything else 
       } 
     console.log(err);
-    // setError(err);
-    handleCloseRegConfirm();
+    setError(err);
     }
   };
 
@@ -161,7 +161,7 @@ export default function RegistrationFormExisting({ location }) {
           <MyDialog open={openGdpr} onClose={handleCloseGdpr} maxWidth={"lg"}>
             <MyDialogContent>
               <DialogTitle>GDPR</DialogTitle>
-              <GdprDialog location={location} />
+              <GdprDialog branch={branch} />
               <DialogActions>
                 <Button onClick={handleCloseGdpr} label={t('close')} />
               </DialogActions>
@@ -177,7 +177,8 @@ export default function RegistrationFormExisting({ location }) {
                 <div className={classes.inputItem}>
                   <FormInputLabel label={"Email"} />
                   <FormInput
-                    onChange={updateEmail}
+                    value={formEmail}
+                    onChange={updateFormEmail}
                     width="200px"
                     smallerWidth="30vw"
                     placeholder={"mirekdusin@email.cz"}
@@ -203,9 +204,10 @@ export default function RegistrationFormExisting({ location }) {
               <div className={classes.inputItem}>
                 <FormInputLabel label={t('password')}  />
                 <FormInput
+                  value={formPassword}
                   width="200px"
                   smallerWidth="30vw"
-                  onChange={updatePassword}
+                  onChange={updateFormPassword}
                   placeholder={"****"}
                   type={"password"}
                 />
@@ -231,49 +233,11 @@ export default function RegistrationFormExisting({ location }) {
         </div>
 
             {checked === true ? (
-              <Button onClick={handleOpenRegConfirm} label={t('register')}  />
+              <Button onClick={checkEmptyDonor} label={t('register')}  />
             ) : null}
+
           </div>
         </div>
-        {/* Register confirmation dialog */}
-        <MyDialog
-          open={regConfirm}
-          onClose={handleCloseRegConfirm}
-          maxWidth={"lg"}
-        >
-          <MyDialogContent>
-            <DialogTitle>Confirm registration</DialogTitle>
-            <div className={classes.dialogWarning}>
-              <ParagraphText
-                content=
-                {t('checkRegisterData')}  
-              />
-            </div>
-            <Grid
-              container
-              spacing={1}
-              className={classes.dialogValuesContainer}
-            >
-              <Grid item sm={6}>
-                <div className={classes.dialogContainer}>
-                  <p className={classes.formP}>Email </p>
-                </div>
-              </Grid>
-              <Grid item sm={6}>
-                <div className={classes.dialogValuesContainer}>
-                  <p>
-                    <DataButton label={email} />
-                  </p>
-                </div>
-              </Grid>
-            </Grid>
-
-            <DialogActions>
-              <Button onClick={onSubmit} label={t('confirm')} />
-              <Button onClick={handleCloseRegConfirm} label={t('close')}  />
-            </DialogActions>
-          </MyDialogContent>
-        </MyDialog>
       </div>
     </div>
   );

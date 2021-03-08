@@ -1,9 +1,7 @@
 import {useState} from 'react'
 import { makeStyles } from "@material-ui/core/styles";
-import {ReservedContext } from '../Components/Utils/ReservedContext'
 
 import NextVisit from '../Components/Reservation/NextVisit';
-import Slots from '../Components/Reservation/Slots';
 import Grid from "@material-ui/core/Grid";
 import styled from "styled-components";
 
@@ -23,12 +21,9 @@ const MyGrid = styled(Grid)`
 
 
 export default function Visits() {
-  const [reserved, setReserved] = useState(false);
-  
   const classes = useStyles();
 
   return (
-    <ReservedContext.Provider value={{reserved, setReserved}}>
     <div className={classes.container}>
     <Grid className={classes.container} container spacing={1}>
       
@@ -37,11 +32,9 @@ export default function Visits() {
             <NextVisit/>
       </MyGrid>
       <MyGrid item xs={12} sm={12} md={8} lg={8}>
-        {/* Show dummy slots */}
-      {reserved === true ?<Slots /> : null}
+
       </MyGrid>
     </Grid>
     </div>
-    </ReservedContext.Provider>
   );
 }

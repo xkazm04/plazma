@@ -1,4 +1,5 @@
 
+
 export const theme = {
   colors:{
     // White with little red
@@ -95,7 +96,7 @@ export const theme = {
         large: '3rem',
         medium: '2rem',
         p: '1.5rem'
-      }
+      },
     }
     
     export const greenTheme = {

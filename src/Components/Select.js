@@ -32,7 +32,7 @@ const StyledSelect = styled.select`
   }
 `
 
-
+// přes Children to udělat
 
 const Select = ({value, option}) => {
 return  <StyledSelect>

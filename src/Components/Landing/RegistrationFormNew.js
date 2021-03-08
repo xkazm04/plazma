@@ -1,10 +1,8 @@
-// create.component.js
 
-import React, {useRef, useState, useContext}  from 'react';
-import { UserContext } from '../Utils/UserContext'
-import { BranchContext } from '../Utils/BranchContext'
+import React, { useState, useContext } from "react";
+import { UserContext } from "../Utils/UserContext";
 import useFormState from "../../hooks/useFormState";
-import axios from 'axios';
+import axios from "axios";
 // Material UI form control
 import { makeStyles } from "@material-ui/core/styles";
 import styled from "styled-components";
@@ -13,115 +11,143 @@ import Dialog from "@material-ui/core/Dialog";
 import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogTitle from "@material-ui/core/DialogTitle";
-import Grid from "@material-ui/core/Grid";
 
-import DataButton from "../Buttons/DataButton";
 import Button from "../Buttons/FormButton";
 import LoadingButton from "../Buttons/IconButton";
+import Loader from 'react-spinners/BounceLoader'
 import FormInput from "../Forms/FormInput";
 import FormInputLabel from "../Forms/FormInputLabel";
 import MyCheckbox from "../Buttons/Checkbox";
 import GdprDialog from "../Texts/Gdpr";
-import LinkButton from '../Buttons/LinkButton';
-import ParagraphText from '../Texts/ParagraphText';
-import ErrorMessage from '../Texts/ErrorMessage';
+import LinkButton from "../Buttons/LinkButton";
+import ErrorMessage from "../Texts/ErrorMessage";
 
-import { useTranslation } from 'react-i18next';
+import { useTranslation } from "react-i18next";
+import Countries from "../../enums/Countries";
 
-const token = '12345'
+import MenuItem from "@material-ui/core/MenuItem";
+import Select from "@material-ui/core/Select";
 
 const useStyles = makeStyles(() => ({
-    container: {
-        display: 'flex',
-        position: 'relative',
-        justifyContent: 'center',
-    },
-    formInputRow:{
-        display: 'flex',
-        marginBottom: '0.2rem',
-    },
-    inputItem:{
-        display: 'flex',
-        flexDirection: 'column',
-    },
-    gdpr: {
-        display: 'flex',
-        marginBottom: '2vh',
-      },
-    formContainer:{
-        marginTop: '3vh',
-    },
-    dialogContainer:{
-      paddingTop: '5px',
-      padding: '2rem',
-      paddingLeft: '5rem',
-      minWidth: '150px',
-    },
-    dialogValuesContainer:{
-      padding: '1rem',
-      maxWidth: '100%',
-    },
-    dialogWarning:{
-      paddingLeft: '4%',
-    },
-    formP:{
-      paddingBottom: '0.6rem',
-    } ,
-    loader:{
-      position: 'absolute'
-    }
-  }));
+  container: {
+    display: "flex",
+    position: "relative",
+    justifyContent: "center",
+  },
+  formInputRow: {
+    display: "flex",
+    marginBottom: "0.2rem",
+  },
+  inputItem: {
+    display: "flex",
+    flexDirection: "column",
+  },
+  gdpr: {
+    display: "flex",
+    marginBottom: "2vh",
+  },
+  formContainer: {
+    marginTop: "3vh",
+  },
+  dialogContainer: {
+    paddingTop: "5px",
+    padding: "2rem",
+    paddingLeft: "5rem",
+    minWidth: "150px",
+  },
+  dialogValuesContainer: {
+    padding: "1rem",
+    maxWidth: "100%",
+  },
+  dialogWarning: {
+    paddingLeft: "4%",
+  },
+  formP: {
+    paddingBottom: "0.6rem",
+  },
+  loader: {
+    position: "absolute",
+  },
+}));
 
-  const MyDialog = styled(Dialog)`
+const MyDialog = styled(Dialog)`
   background: black;
-`
+`;
 
 const MyDialogContent = styled(DialogContent)`
-  background: ${props => props.theme.colors.blackWhite};
-`
+  background: ${(props) => props.theme.colors.blackWhite};
+`;
+const MySelect = styled(Select)`
+  margin: 0.3rem;
+  color: ${(props) => props.theme.colors.text};
+  position: relative;
+  padding: 0.2rem;
+  font-weight: bold;
+  font-size: 0.8rem;
+  text-align: center;
+  border-radius: 0.5em;
+  cursor: pointer;
+  outline: none;
+  border: none;
+  border-bottom: 0.1px solid ${props => props.theme.colors.borderColor};
+  min-width: 220px;
+  transition-duration: 0.4s;
+  &:hover {
+    background-color: ${(props) => props.theme.colors.main};
+    border: none;
+  }
+`;
 
+const MyMenuItem = styled(MenuItem)`
+  background-color: ${(props) => props.theme.colors.input};
+  color: ${(props) => props.theme.colors.text};
+  font-size: 0.8rem;
+  
+  &:hover {
+    background-color: ${(props) => props.theme.colors.inputOption};
+  }
+  &:focus {
+    background-color: ${(props) => props.theme.colors.inputOption};
+    &:hover {
+      background-color: ${(props) => props.theme.colors.inputOption};
+    }
+  }
+`;
 
-export default function RegistrationFormNew ({location}) {  
-  const classes = useStyles(); 
+export default function RegistrationFormNew({ branch, email, password }) {
+  const classes = useStyles();
   const { t } = useTranslation();
-  const [error, setError] = useState(null)
-  const {isAuth, setIsAuth} = useContext(UserContext);
-  const {defualtBranch, setDefaultBranch} = useContext(BranchContext)
+  const [error, setError] = useState(null);
+  const { setIsAuth } = useContext(UserContext);
 
+  //Loading
+  const [isLoading, setLoading] = useState(false);
 
-    //Method 1
-    const [isLoading, setLoading] = useState(false);
-
-
-
+  // Form states
   const [donorFirstName, updateFirstName] = useFormState("");
   const [donorSurname, updateSurname] = useFormState("");
   const [birthdate, updateBirthdate] = useFormState("");
-  const [email, updateEmail] = useFormState("");
+  const [pin, updatePin] = useFormState("");
+  const [country, setCountry] = useState("");
+  const [formEmail, updateFormEmail] = useFormState(email);
   const [phone, updatePhone] = useFormState("");
-  const [password, updatePassword] = useFormState("");
+  const [formPassword, updateFormPassword] = useFormState(password);
   const [repeatedPassword, updateRepeatedPassword] = useFormState("");
 
-// Registration form, allow only if password match
-  const [regConfirm, setRegConfirm] = useState(false);
 
-  const handleCloseRegConfirm = () => {
-    setRegConfirm(false);
+  // Country selection functions
+  const [openCountries, setOpenCountries] = useState(false);
+  const handleOpenCountries = () => {
+    setOpenCountries(true);
   };
-  
-  const handleOpenRegConfirm = () => {
-    if (password === repeatedPassword){
-      console.log("Password ok");
-      setError(null);
-      setRegConfirm(true);
-    } else {
-      console.log("Password nok")
-      setError("Chyba: Zadaná hesla nejsou shodná");
-    }
+  const handleCloseCountries = () => {
+    setOpenCountries(false);
+  };
+  const handleChangeCountry = (event) => {
+    setCountry(event.target.value);
   };
 
-
-// Gdpr
+  // Gdpr
   const [checked, setChecked] = useState(false);
   const [openGdpr, setOpenGdpr] = useState(false);
   const handleOpenGdpr = () => {
@@ -134,164 +160,215 @@ export default function RegistrationFormNew ({location}) {
     setChecked(event.target.checked);
   };
 
-
-
-const onSubmit = async (e) => {
-  setLoading(true);
-  e.preventDefault();
-  setDefaultBranch(location)
-  try {
+  const onSubmit = async (e) => {
+    setLoading(true);
+    try {
       const res = await axios({
-        method: 'post',
-        url: 'https://development-mobileapi.plasmastream.eu/RegisterNewUser',
-        headers: {
-          'Access-Control-Allow-Origin': '*',
-          'Access-Control-Allow-Methods':'GET,PUT,POST,DELETE,PATCH,OPTIONS',
-          'Content-Type': 'application/json'
-        },
+        method: "post",
+        url: "https://virtserver.swaggerhub.com/xkazm04/User/1.0.0/register",
         data: {
-          Username: email,
-          Password: password,
+          Username: formEmail,
+          Password: formPassword,
           FirstName: donorFirstName,
           LastName: donorSurname,
           PersonalIdentificationNumber: birthdate,
-          DefaultSubcenterId: "3"
-      }
+          DefaultSubcenterId: branch,
+        },
       });
-      console.log("Yess");
-      console.log(res.data)
-      setLoading(false);
-      handleCloseRegConfirm();
-      // Reset error message 
+      setTimeout(()=> {
+        setLoading(false)
+      },2000)
+      // Reset error message
       setError(null);
-      // Go to login mode
+      localStorage.setItem('defaultSubcenter', branch)
       setIsAuth(true);
-  } catch (err) {
-    // Error 😨
-    if (err.response) { 
-      // client received an error response (5xx, 4xx)
-      console.log(err.response)
-    } else if (err.request) { 
-      // client never received a response, or request never left 
-      console.log(err.request)
-    } else { 
-      // anything else 
-    } 
-  setLoading(false);
-  console.log(err);
-  // setError(err);
-  handleCloseRegConfirm();
+    } catch (err) {
+      // Error 😨
+      if (err.response) {
+        // client received an error response (5xx, 4xx)
+        console.log(err.response);
+        setError(err.request)
+        setLoading(false);
+      } else if (err.request) {
+        setError(err.request)
+        // client never received a response, or request never left
+        console.log(err.request);
+        setLoading(false);
+      } else {
+        // anything else
+      }
+      setError(err.request)
+      setLoading(false);
+      
+    }
   };
-};
 
-return (
-  <div className={classes.container}>
-    <div className={classes.formContainer}>
- <div>
-    {/* Error message if state true */}
-    {error  ? <ErrorMessage title={error} /> : null }
+  return (
+    <div className={classes.container}>
+      {isLoading ? <Loader size={100} color={'#f54275'} loading={isLoading}/> : 
+      <div className={classes.formContainer}>
+        <div>
+          {/* Error message if state true */}
+          {error ? <ErrorMessage title={error} /> : null}
 
-{/* Register from */}
- <div className={classes.formInputRow}>
-     <div className={classes.inputItem}>
-            <FormInputLabel label={t('form_donorCode')}/>
-            <FormInput onChange={updateFirstName} placeholder={"Mirek"} type={"text"} width="200px" smallerWidth='20vw'/>
-        </div>
-      <div className={classes.inputItem}>
-            <FormInputLabel label={t('form_surname')}/>
-            <FormInput onChange={updateSurname} placeholder={"Dušín"} type={"text"} width="200px" smallerWidth='20vw'/>
-        </div>  
-        <div className={classes.inputItem}>  
-            <FormInputLabel label={t('form_birthdate')}/>
-            <FormInput onChange={updateBirthdate}  placeholder={"8010123289"}  type={"text"}  width="200px" smallerWidth='20vw' />
-        </div>
-      <div>
-     </div>
- </div>
- <div>
-    <div className={classes.formInputRow}>
-         <div className={classes.inputItem}>
-            <FormInputLabel label={"Email"}/>
-            <FormInput onChange={updateEmail} width="200px" smallerWidth='30vw'placeholder={"mirekdusin@email.cz"} type={"email"} />
-         </div>
-        <div className={classes.inputItem}>
-            <FormInputLabel label={t('form_phoneNumber')}/>
-            <FormInput onChange={updatePhone} width="200px" smallerWidth='30vw' placeholder={"+420123456789"} type={"text"} />
-     </div>
-     </div>
- </div>
- <div>
- <div className={classes.formInputRow}>
-     <div className={classes.inputItem}>
-            <FormInputLabel label={t('form_password')}/>
-            <FormInput onChange={updatePassword} placeholder={"****"} type={"password"} width="200px" smallerWidth='30vw'/>
-     </div>
+          {/* Register form */}
+          <div className={classes.formInputRow}>
+            {/* First name input */}
+            <div className={classes.inputItem}>
+              <FormInputLabel label={t("form_name")} />
+              <FormInput
+                onChange={updateFirstName}
+                placeholder={"Mirek"}
+                type={"text"}
+                width="200px"
+                smallerWidth="20vw"
+              />
+            </div>
+            {/* Surname input  */}
+            <div className={classes.inputItem}>
+              <FormInputLabel label={t("form_surname")} />
+              <FormInput
+                onChange={updateSurname}
+                placeholder={"Dušín"}
+                type={"text"}
+                width="200px"
+                smallerWidth="20vw"
+              />
+            </div>
+            {/* Country input  */}
+            <div className={classes.inputItem}>
+              {/* Country select */}
+              <FormInputLabel label={t("form_country")} />
+              <MySelect
+                open={openCountries}
+                onChange={handleChangeCountry}
+                onOpen={handleOpenCountries}
+                onClose={handleCloseCountries}
+                defaultValue={t("chooseCountrySelect")}
+              >
+                <MyMenuItem value={null}>
+                  {" "}
+                  <em>{t("chooseCountrySelect")}</em>
+                </MyMenuItem>
+                {Countries.map((c) => (
+                  <MyMenuItem value={c.id}>{c.countryRk}</MyMenuItem>
+                ))}
+              </MySelect>
+            </div>
+            <div></div>
+          </div>
+          <div>
+            {/* Email input */}
+            <div className={classes.formInputRow}>
+              <div className={classes.inputItem}>
+                <FormInputLabel label={"Email"} />
+                <FormInput
+                  value={formEmail}
+                  onChange={updateFormEmail}
+                  width="200px"
+                  smallerWidth="30vw"
+                  placeholder={"mirekdusin@email.cz"}
+                  type={"email"}
+                />
+              </div>
 
-     <div className={classes.inputItem}>
-            <FormInputLabel label={t('form_repeatPassword')}/>
-            <FormInput onChange={updateRepeatedPassword} placeholder={"****"}  type={"password"} width="200px" smallerWidth='30vw'/>
-     </div>
+              {/* Based on selected country show PIN or BirthDate */}
+              {country == 1 ? (
+                <div className={classes.inputItem}>
+                <FormInputLabel label={t("form_pin")} />
+                <FormInput
+                  onChange={updatePin}
+                  placeholder={"8010123289"}
+                  type={"text"}
+                  width="200px"
+                  smallerWidth="20vw"
+                />
+              </div>
+              ) : (
+                <div className={classes.inputItem}>
+                <FormInputLabel label={t("form_birthdate")} />
+                <FormInput
+                  onChange={updateBirthdate}
+                  placeholder={"02-10-1998"}
+                  type={"text"}
+                  width="200px"
+                  smallerWidth="20vw"
+                />
+              </div>
 
-     </div>
-     <div className={classes.gdpr}>
-        <MyCheckbox checked={checked} onChange={handleCheck}/>  
-        <LinkButton label={t('gdprAgree')} onClick={handleOpenGdpr}/>
-    </div>
- </div>
-          {checked === true ? <Button onClick={handleOpenRegConfirm} label="Register"/> : null }
- </div>
- {/* Register confirmation dialog */}
-            <MyDialog open={regConfirm} onClose={handleCloseRegConfirm}  maxWidth={"lg"}>
-              <MyDialogContent>
-            <DialogTitle>{t('userLogin_TBD')}</DialogTitle>
-            <div className={classes.dialogWarning}>
-            <ParagraphText content={t('checkRegisterData')} />
-            </div>  
-            <Grid container spacing={1} className={classes.dialogValuesContainer}>
-              <Grid item sm={6}>
-                  <div className={classes.dialogContainer}>
-                  <p className={classes.formP}>{t('form_name')} </p>
-                  <p className={classes.formP}>{t('form_surname')}</p>
-                  <p className={classes.formP}>{t('form_birthDate')}</p>
-                  <p className={classes.formP}>Email </p>
-                  <p className={classes.formP}>{t('form_phoneNumber')} </p>
-                  </div>
-              </Grid>
-              <Grid item sm={6}>
-              <div className={classes.dialogValuesContainer}>
-                  <p><DataButton label={donorFirstName}/></p>
-                  <p><DataButton label={donorSurname}/>  </p>
-                  <p><DataButton label={birthdate}/></p>
-                  <p><DataButton label={email}/></p>
-                  <p><DataButton label={phone}/></p>
-                </div>
-              </Grid>
-              </Grid>
-             
-            <DialogActions>
-              {isLoading == false ?
-                <Button onClick={onSubmit} label="Confirm" /> 
-                :
-                <LoadingButton label="Loading" /> 
-              }
-                
-                <Button onClick={handleCloseRegConfirm} label="Close" />
-            </DialogActions>
-            </MyDialogContent>
-            </MyDialog>
+              )}
 
-                    
-{/* Gdpr dialog */}
-<MyDialog open={openGdpr} onClose={handleCloseGdpr} maxWidth={"lg"}>
+              {/* Phone number input */}
+              <div className={classes.inputItem}>
+                <FormInputLabel label={t("form_phoneNumber")} />
+                { country == 1 ?                 
+                <FormInput
+                  onChange={updatePhone}
+                  width="200px"
+                  smallerWidth="30vw"
+                  placeholder={"+420123456789"}
+                  type={"text"}
+                /> :                
+               <FormInput
+                onChange={updatePhone}
+                width="200px"
+                smallerWidth="30vw"
+                placeholder={"+12 3456789"}
+                type={"text"}
+              /> }
+
+              </div>
+            </div>
+          </div>
+          <div>
+            <div className={classes.formInputRow}>
+              {/* Password input */}
+              <div className={classes.inputItem}>
+                <FormInputLabel label={t("form_password")} />
+                <FormInput
+                  value={formPassword}
+                  onChange={updateFormPassword}
+                  placeholder={"****"}
+                  type={"password"}
+                  width="200px"
+                  smallerWidth="30vw"
+                />
+              </div>
+
+              <div className={classes.inputItem}>
+                <FormInputLabel label={t("form_repeatPassword")} />
+                <FormInput
+                  onChange={updateRepeatedPassword}
+                  placeholder={"****"}
+                  type={"password"}
+                  width="200px"
+                  smallerWidth="30vw"
+                />
+              </div>
+            </div>
+            {/* GDPR */}
+            <div className={classes.gdpr}>
+              <MyCheckbox checked={checked} onChange={handleCheck} />
+              <LinkButton label={t("gdprAgree")} onClick={handleOpenGdpr} />
+            </div>
+          </div>
+          {checked === true ? (
+            <Button onClick={onSubmit} label="Register" />
+          ) : null}
+      </div>
+
+        {/* Gdpr dialog */}
+        <MyDialog open={openGdpr} onClose={handleCloseGdpr} maxWidth={"lg"}>
           <MyDialogContent>
-          <DialogTitle>GDPR</DialogTitle>
-            <GdprDialog location={location}/>
-          <DialogActions>
-            <Button onClick={handleCloseGdpr} label={t('close')} />
-          </DialogActions>
+            <DialogTitle>GDPR</DialogTitle>
+            <GdprDialog branch={branch} />
+            <DialogActions>
+              <Button onClick={handleCloseGdpr} label={t("close")} />
+            </DialogActions>
           </MyDialogContent>
         </MyDialog>
-        </div>
-       
+      </div>
+      }
     </div>
-      )};
+  );
+}
