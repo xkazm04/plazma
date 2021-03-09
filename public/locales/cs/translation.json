@@ -63,7 +63,7 @@
     "form_name": "Jméno",
     "form_surname": "Příjmení",
     "form_birthdate": "Datum narození",
-    "form_phoneNumber": "Telefonní číslo",
+    "form_phone": "Telefonní číslo",
     "form_donorCode": "Kód dárce",
     "form_password":"Heslo",
     "form_repeatPassword":"Opakujte heslo",

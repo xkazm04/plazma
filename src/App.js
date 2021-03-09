@@ -5,7 +5,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import ProtectedRoute from './Components/Utils/ProtectedRoute'
 import {UserContext } from './Components/Utils/UserContext'
 
-import Header from "./Components/CoreComponents/Header";
+import Header from "./Components/PageCoreComponents/Header";
 import ResetPassword from "./Pages/ResetPassword";
 import Reservations from "./Pages/Reservations";
 import Profile from './Pages/Profile'

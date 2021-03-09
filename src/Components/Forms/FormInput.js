@@ -3,6 +3,7 @@ import styled from 'styled-components'
 
 const StyledInput = styled.input` 
     margin: 0.5rem;
+    margin-bottom: 1rem;
     font-size: ${props => props.theme.fonts.p};
     outline: none;
     background-color: ${props => props.theme.colors.blackWhite};
@@ -12,7 +13,7 @@ const StyledInput = styled.input`
     font-size: 0.8rem;
     font-family: inter;
     border: none;
-    border-bottom: 1px solid ${props => props.theme.colors.borderColor};
+    border: 1px solid #CFD0D7;
     text-align: 'left';
     transition-duration: 0.4s;
     width: ${props => props.width || '10rem'};
@@ -20,12 +21,12 @@ const StyledInput = styled.input`
     &:hover{
         background-color: ${props => props.theme.colors.main};
         transition-duration: 0.4s;
-        border-radius: 25px;
+        border-radius: 15px;
     }
     &:focus{
         background-color: ${props => props.theme.colors.main};
         transition-duration: 0.4s;
-        border-radius: 25px;
+        border-radius: 15px;
     }
     &::placeholder {
         font-size: 0.8rem;
@@ -44,7 +45,6 @@ const FormInput = ({ value, type, onChange, placeholder, width, smallerWidth, pa
 return  <StyledInput 
            value={value} onChange={onChange} placeholder={placeholder} type={type} width={width} smallerWidth={smallerWidth} pattern={pattern} required={required} maxLength={magLength}
             />  
-            ;
 };
 
 export default FormInput

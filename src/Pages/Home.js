@@ -3,8 +3,9 @@ import { UserContext } from "../Components/Utils/UserContext";
 import styled from "styled-components";
 
 import Dashboard from "./Dashboard";
-import Login from "../Components/Landing/Login";
+import Login from "../Components/PageLandingComponents/Login";
 import PayoutComponent from "../Components/DynamicContent/PayoutComponent";
+
 import Grid from "@material-ui/core/Grid";
 
 const Kontejner = styled.div`

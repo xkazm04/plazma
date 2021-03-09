@@ -5,7 +5,6 @@ import styled from "styled-components";
 
 import Button from "../Buttons/FormButton";
 import Title from "../Texts/Title";
-import FormInput from "../Forms/FormInput";
 import FormInputLabel from "../Forms/FormInputLabel";
 
 import Radio from "@material-ui/core/Radio";

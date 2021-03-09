@@ -1,9 +1,9 @@
-import {useState} from 'react'
-import { makeStyles } from "@material-ui/core/styles";
 
-import NextVisit from '../Components/Reservation/NextVisit';
+import { makeStyles } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
 import styled from "styled-components";
+
+import NextVisit from '../Components/PageReservationComponents/NextVisit';
 
 const useStyles = makeStyles(() => ({
   container: {

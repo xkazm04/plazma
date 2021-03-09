@@ -7,7 +7,6 @@ import { useTranslation } from "react-i18next";
 import AccountCircleIcon from "@material-ui/icons/AccountCircle";
 
 import { UserContext } from "../Utils/UserContext";
-import Button from "../Buttons/FormButton";
 import MenuButton from "../Buttons/MenuButton";
 
 import styled from "styled-components";
