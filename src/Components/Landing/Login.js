@@ -36,16 +36,6 @@ const useStyles = makeStyles(() => ({
     position: "relative",
     justifyContent: "center",
   },
-  form: {
-    padding: 10,
-    position: "relative",
-    textAlign: "center",
-    border: "none",
-    width: '100%',
-    border: '0.1px solid #0a3612',
-    borderRadius: '25px',
-    marginLeft: '5%'
-  },
   forgottenForm: {
     marginLeft: "20px",
     marginRight: "20px",
@@ -57,6 +47,23 @@ const useStyles = makeStyles(() => ({
     justifyContent: "center",
   }
 }));
+
+const FormContainer = styled.div`
+      padding: 10px;
+    position: relative;
+    text-align: center;
+    border: none;
+    width: 40%;
+    border: 0.1px solid #0a3612;
+    border-radius: 25px;
+    margin-left: 5%;
+    @media screen and (max-width: 1000px) {
+     width: 100%;
+     }
+     @media screen and (max-width: 1500px) {
+     width: 80%;
+     }
+`
 
 const MyDialog = styled(Dialog)`
   background: black;
@@ -230,7 +237,7 @@ export default function Login() {
 
 // Login component
     <div className={classes.container}>
-      <div className={classes.form}>
+      <FormContainer>
         <Title title={t("userLogin.login")}  />
         {/* Error message if state true */}
         {error ? <ErrorMessage title={error} /> : null}
@@ -260,7 +267,7 @@ export default function Login() {
           label={t("userLogin.forgottenPassword")}
           onClick={handleOpenReset}
         />
-      </div>
+      </FormContainer>
 
 
       {/* Registration dialog */}
