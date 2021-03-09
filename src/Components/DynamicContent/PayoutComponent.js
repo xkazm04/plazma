@@ -33,6 +33,8 @@ const Welcome = styled.div`
 const Payout = styled.div`
     background: rgba(255,255,255, 0.7);
     margin-top: 20%;
+    border-top: 10px solid ${(props) => props.theme.Primary.Main};
+    box-shadow: 12px 16px 40px rgba(0, 72, 102, 0.05);
 `
 
 const PayoutTitleRow = styled.div`

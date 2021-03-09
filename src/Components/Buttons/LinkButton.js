@@ -7,16 +7,14 @@ const StyledButton = styled.button`
     font-size: ${props => props.theme.fonts.p};
     outline: none;
     position: relative;
-    padding: .2rem;
-    font-family: 'Inter';
-    font-size: 0.9rem;
+    font-family: Inter;
+    font-size: 0.8rem;
     text-align: center;
-    color: inherit;
+    color: #979797;
     border: none;
     background-color: inherit;
     border-radius: 4px;
     cursor: pointer;
-    width: ${props => props.width || '20rem'};
     transition-duration: 0.4s;
     &:hover{
         text-decoration: underline;
@@ -24,7 +22,6 @@ const StyledButton = styled.button`
     }
     @media screen and (max-width: 700px) {
      font-size: 0.8rem;
-     width: 100%;
      }
 
 `

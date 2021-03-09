@@ -63,7 +63,7 @@
     "form_surname": "Surname",
     "form_birthdate": "Birthdate",
     "form_pin": "PIN",
-    "form_phoneNumber": "Phone number",
+    "form_phone": "Phone number",
     "form_donorCode": "Donor code",
     "form_currentPassword":"Current password",
     "form_password":"Password",

@@ -14,12 +14,17 @@ import DialogContent from "@material-ui/core/DialogContent";
 import DialogTitle from "@material-ui/core/DialogTitle";
 
 import Button from "../Buttons/FormButton";
-import FormInput from "../Forms/FormInput";
-import FormInputLabel from "../Forms/FormInputLabel";
 import MyCheckbox from "../Buttons/Checkbox";
 import GdprDialog from "../Texts/Gdpr";
 import LinkButton from "../Buttons/LinkButton";
 import ErrorMessage from "../Texts/ErrorMessage";
+
+import Grid from "@material-ui/core/Grid";
+
+//Form
+import {useForm} from 'react-hook-form'
+import * as Yup from 'yup'
+import { NewFormInput } from "../Forms/NewFormInput";
 
 import { useTranslation } from 'react-i18next';
 
@@ -29,20 +34,9 @@ const useStyles = makeStyles(() => ({
     position: "relative",
     justifyContent: "center",
   },
-  formInputRow: {
-    display: "flex",
-    marginBottom: "0.2rem",
-  },
-  inputItem: {
-    display: "flex",
-    flexDirection: "column",
-  },
   gdpr: {
     display: "flex",
     marginBottom: "2vh",
-  },
-  formContainer: {
-    marginTop: "3vh",
   },
   dialogContainer: {
     paddingTop: "5px",
@@ -63,6 +57,11 @@ const MyDialogContent = styled(DialogContent)`
   background: ${(props) => props.theme.colors.blackWhite};
 `;
 
+const FinalPartDiv = styled.div`
+  margin-left: 5%;
+  margin-top: 5%;
+`
+
 
 export default function RegistrationFormExisting({ branch, password, email }) {
   const { t } = useTranslation();
@@ -75,17 +74,17 @@ export default function RegistrationFormExisting({ branch, password, email }) {
   const [repeatedPassword, updateRepeatedPassword] = useFormState("");
 
 
+  // Form validations
+  const {register, handleSubmit, errors} = useForm({
+    mode: 'onBlur',
+    validationSchema: Yup.object({
+      formPassword: Yup.string().min(3, 'Password should be longer than 3 characters').max(20, 'Max exceeded').required('Required'),
+      repeatedPassword: Yup.string().min(3, 'Password should be longer than 3 characters').max(20, 'Max exceeded').required('Required'),
+      formEmail: Yup.string().max(50, 'Max exceeded').required(),
+      donorCode: Yup.string().max(20, 'Max exceeded').required(),
+    }),
+  })
 
-  // Input validations
-  const checkEmptyDonor = () => {
-    if (donorCode == null) {
-      console.log("fuck")
-      setError("Chyba: Kod dárce není vyplněn");
-    } else {
-      console.log("donor code ok")
-      checkPassword()
-    }
-  }
 
   const checkPassword = () => {
     if (formPassword === repeatedPassword) {
@@ -148,6 +147,76 @@ export default function RegistrationFormExisting({ branch, password, email }) {
 
   return (
     <div className={classes.container}>
+                    {/* Error message if state true */}
+      {error ? <ErrorMessage title={error} /> : null}
+        <form onSubmit={handleSubmit(onSubmit)}>
+        <Grid container spacing={1}>
+          <Grid item xs={12} sm={12} md={5} lg={5}>
+      <NewFormInput         id="donorCode"
+        type="string"
+        value={donorCode}
+        name="donorCode"
+        placeholder="123456"
+        label={t("form_donorCode")}
+        onChange={updateDonorCode}
+        ref={register}
+        error={errors.donorCode}/>
+        </Grid>
+       
+        <Grid item xs={12} sm={12} md={5} lg={5}>
+      <NewFormInput         id="formEmail"
+        type="text"
+        value={formEmail}
+        name="formEmail"
+        label="Email"
+        placeholder="myplasma@email.com"
+        onChange={updateFormEmail}
+        ref={register}
+        error={errors.formEmail}/>
+        </Grid>
+        <Grid item xs={12} sm={12} md={5} lg={5}>
+      <NewFormInput         id="formPassword"
+        type="password"
+        value={formPassword}
+        name="formPassword"
+        label={t("form_password")}
+        placeholder={"****"}
+        onChange={updateFormPassword}
+        ref={register}
+        error={errors.formPassword}/>
+        </Grid>
+        <Grid item xs={12} sm={12} md={5} lg={5}>
+      <NewFormInput         id="repeatedPassword"
+        type="password"
+        value={repeatedPassword}
+        name="repeatedPassword"
+        placeholder={"****"}
+        label={t("form_repeatPassword")}
+        onChange={updateRepeatedPassword}
+        ref={register}
+        error={errors.formPassword}/>
+        </Grid>
+        </Grid>
+    {/* GDPR checkbox */}
+    <FinalPartDiv>
+      <Grid container spascing={0}>
+    <Grid item xs={1} sm={1} md={1} lg={1}>
+        <MyCheckbox checked={checked} onChange={handleCheck} /> </Grid>
+        <Grid item xs={11} sm={11} md={11} lg={11}>
+          <LinkButton
+            label={t('gdprAgree')}
+            onClick={handleOpenGdpr}
+          />
+         
+            </Grid>
+            </Grid>
+           {checked === true ? (
+              <Button onClick={handleSubmit(onSubmit)} label={t('register')}  />
+            ) : null}
+            </FinalPartDiv>
+          
+        
+    </form>
       <div>
         <div className={classes.formContainer}>
           {/* Gdpr dialog */}
@@ -161,74 +230,6 @@ export default function RegistrationFormExisting({ branch, password, email }) {
             </MyDialogContent>
           </MyDialog>
           <div>
-            {/* Error message if state true */}
-            {error ? <ErrorMessage title={error} /> : null}
-
-            {/* Register from */}
-            <div>
-              <div className={classes.formInputRow}>
-                <div className={classes.inputItem}>
-                  <FormInputLabel label={"Email"} />
-                  <FormInput
-                    value={formEmail}
-                    onChange={updateFormEmail}
-                    width="200px"
-                    smallerWidth="30vw"
-                    placeholder={"mirekdusin@email.cz"}
-                    type={"email"}
-                    required
-                  />
-                </div>
-                <div className={classes.inputItem}>
-                  <FormInputLabel label={t('form_donorCode')} />
-                  <FormInput
-                    onChange={updateDonorCode}
-                    width="200px"
-                    smallerWidth="30vw"
-                    placeholder={"DN123456789"}
-                    type={"text"}
-                    required
-                  />
-                </div>
-              </div>
-            </div>
-
-            <div className={classes.formInputRow}>
-              <div className={classes.inputItem}>
-                <FormInputLabel label={t('password')}  />
-                <FormInput
-                  value={formPassword}
-                  width="200px"
-                  smallerWidth="30vw"
-                  onChange={updateFormPassword}
-                  placeholder={"****"}
-                  type={"password"}
-                />
-              </div>
-
-              <div className={classes.inputItem}>
-                <FormInputLabel label={t('repeatPassword')} />
-                <FormInput
-                  width="200px"
-                  smallerWidth="30vw"
-                  onChange={updateRepeatedPassword}
-                  placeholder={"****"}
-                  type={"password"}
-                />
-              </div>
-            </div>
-            <div className={classes.gdpr}>
-          <MyCheckbox checked={checked} onChange={handleCheck} />
-          <LinkButton
-            label={t('gdprAgree')}
-            onClick={handleOpenGdpr}
-          />
-        </div>
-
-            {checked === true ? (
-              <Button onClick={checkEmptyDonor} label={t('register')}  />
-            ) : null}
-
           </div>
         </div>
       </div>

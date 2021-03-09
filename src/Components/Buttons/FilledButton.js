@@ -6,11 +6,8 @@ const StyledButton = styled.button`
     margin: 0.2rem;
     margin-top: 2%;
     outline: none;
-    color: ${props => props.theme.colors.text};
-    background: linear-gradient(45deg, 
-        ${props => props.theme.colors.gradient.first}, 
-        ${props => props.theme.colors.gradient.second}
-        );
+    color: ${props => props.theme.colors.blackWhite};
+    background: ${props => props.theme.Primary.Main};
         
     position: relative;
     padding: .5rem;
@@ -37,11 +34,11 @@ const StyledButton = styled.button`
 
 
 
-const FormButton = ({ onClick, width, label}) => {
+const FilledButton = ({ onClick, width, label}) => {
 return  <StyledButton 
             onClick={onClick}
             width={width}
             >{label}</StyledButton>;
 };
 
-export default FormButton
+export default FilledButton

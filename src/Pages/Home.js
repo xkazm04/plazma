@@ -6,13 +6,10 @@ import Dashboard from "./Dashboard";
 import Login from "../Components/Landing/Login";
 import PayoutComponent from "../Components/DynamicContent/PayoutComponent";
 import Grid from "@material-ui/core/Grid";
-import img from "../Back.jpg";
-import darkImg from "../BackDark.jpg";
 
 const Kontejner = styled.div`
   text-align: center;
-  color: ${(props) => props.theme.background};
-  background-image: url(${img});
+  color: ${(props) => props.theme.blackwhite};
   background-repeat: no-repeat;
 `;
 

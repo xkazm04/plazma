@@ -1,4 +1,3 @@
-
 import React, { useState, useContext } from "react";
 import { UserContext } from "../Utils/UserContext";
 import useFormState from "../../hooks/useFormState";
@@ -11,15 +10,20 @@ import Dialog from "@material-ui/core/Dialog";
 import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogTitle from "@material-ui/core/DialogTitle";
+import Grid from "@material-ui/core/Grid";
 
 import Button from "../Buttons/FormButton";
-import Loader from 'react-spinners/BounceLoader'
+import Loader from "react-spinners/BounceLoader";
 import FormInput from "../Forms/FormInput";
 import FormInputLabel from "../Forms/FormInputLabel";
 import MyCheckbox from "../Buttons/Checkbox";
 import GdprDialog from "../Texts/Gdpr";
 import LinkButton from "../Buttons/LinkButton";
 import ErrorMessage from "../Texts/ErrorMessage";
+
+import { useForm } from "react-hook-form";
+import * as Yup from "yup";
+import { NewFormInput } from "../Forms/NewFormInput";
 
 import { useTranslation } from "react-i18next";
 import Countries from "../../enums/Countries";
@@ -88,7 +92,7 @@ const MySelect = styled(Select)`
   cursor: pointer;
   outline: none;
   border: none;
-  border-bottom: 0.1px solid ${props => props.theme.colors.borderColor};
+  border-bottom: 0.1px solid ${(props) => props.theme.colors.borderColor};
   min-width: 220px;
   transition-duration: 0.4s;
   &:hover {
@@ -101,7 +105,7 @@ const MyMenuItem = styled(MenuItem)`
   background-color: ${(props) => props.theme.colors.input};
   color: ${(props) => props.theme.colors.text};
   font-size: 0.8rem;
-  
+
   &:hover {
     background-color: ${(props) => props.theme.colors.inputOption};
   }
@@ -133,6 +137,26 @@ export default function RegistrationFormNew({ branch, email, password }) {
   const [formPassword, updateFormPassword] = useFormState(password);
   const [repeatedPassword, updateRepeatedPassword] = useFormState("");
 
+  // Form validations
+  const { register, handleSubmit, errors } = useForm({
+    mode: "onBlur",
+    validationSchema: Yup.object({
+      donorFirstName: Yup.string()
+        .min(3, "Password should be longer than 3 characters")
+        .max(20, "Max exceeded")
+        .required("Required"),
+      donorLastName: Yup.string()
+        .min(3, "Password should be longer than 3 characters")
+        .max(20, "Max exceeded")
+        .required("Required"),
+      formEmail: Yup.string().max(50, "Max exceeded").required(),
+      birthdate: Yup.string().max(20, "Max exceeded").required(),
+      pin: Yup.string().max(20, "Max exceeded").required(),
+      phone: Yup.string().max(20, "Max exceeded").required(),
+      formPassword: Yup.string().max(20, "Max exceeded").required(),
+      repeatedPassword: Yup.string().max(20, "Max exceeded").required(),
+    }),
+  });
 
   // Country selection functions
   const [openCountries, setOpenCountries] = useState(false);
@@ -174,69 +198,74 @@ export default function RegistrationFormNew({ branch, email, password }) {
           DefaultSubcenterId: branch,
         },
       });
-      setTimeout(()=> {
-        setLoading(false)
-      },2000)
+      setTimeout(() => {
+        setLoading(false);
+      }, 2000);
       // Reset error message
       setError(null);
-      localStorage.setItem('defaultSubcenter', branch)
+      localStorage.setItem("defaultSubcenter", branch);
       setIsAuth(true);
     } catch (err) {
       // Error 😨
       if (err.response) {
         // client received an error response (5xx, 4xx)
         console.log(err.response);
-        setError(err.request)
+        setError(err.request);
         setLoading(false);
       } else if (err.request) {
-        setError(err.request)
+        setError(err.request);
         // client never received a response, or request never left
         console.log(err.request);
         setLoading(false);
       } else {
         // anything else
       }
-      setError(err.request)
+      setError(err.request);
       setLoading(false);
-      
     }
   };
 
   return (
     <div className={classes.container}>
-      {isLoading ? <Loader size={10} color={"#f54275"} loading={isLoading} /> : 
-      <div className={classes.formContainer}>
-        <div>
-          {/* Error message if state true */}
-          {error ? <ErrorMessage title={error} /> : null}
+      {isLoading ? (
+        <Loader size={10} color={"#f54275"} loading={isLoading} />
+      ) : (
+        <div className={classes.formContainer}>
+          <div>
+            {/* Error message if state true */}
+            {error ? <ErrorMessage title={error} /> : null}
 
-          {/* Register form */}
-          <div className={classes.formInputRow}>
-            {/* First name input */}
-            <div className={classes.inputItem}>
-              <FormInputLabel label={t("form_name")} />
-              <FormInput
-                onChange={updateFirstName}
-                placeholder={"Mirek"}
-                type={"text"}
-                width="200px"
-                smallerWidth="20vw"
-              />
-            </div>
-            {/* Surname input  */}
-            <div className={classes.inputItem}>
-              <FormInputLabel label={t("form_surname")} />
-              <FormInput
-                onChange={updateSurname}
-                placeholder={"Dušín"}
-                type={"text"}
-                width="200px"
-                smallerWidth="20vw"
-              />
-            </div>
-            {/* Country input  */}
-            <div className={classes.inputItem}>
+            <Grid container spacing={1}>
+              {/* First name */}
+              <Grid item xs={12} sm={12} md={5} lg={5}>
+                <NewFormInput
+                  id="firstName"
+                  type="text"
+                  value={donorFirstName}
+                  name="firstName"
+                  placeholder="John"
+                  label={t("form_name")}
+                  onChange={updateFirstName}
+                  ref={register}
+                  error={errors.donorFirstName}
+                />
+              </Grid>
+              {/* Last name */}
+              <Grid item xs={12} sm={12} md={5} lg={5}>
+                <NewFormInput
+                  id="donorSurname"
+                  type="text"
+                  value={donorSurname}
+                  name="donorSurname"
+                  label={t("form_surname")}
+                  placeholder="Smith"
+                  onChange={updateSurname}
+                  ref={register}
+                  error={errors.formEmail}
+                />
+              </Grid>
               {/* Country select */}
+              {/* <Grid item xs={12} sm={12} md={5} lg={5}>
               <FormInputLabel label={t("form_country")} />
               <MySelect
                 open={openCountries}
@@ -253,121 +282,123 @@ export default function RegistrationFormNew({ branch, email, password }) {
                   <MyMenuItem value={c.id}>{c.countryRk}</MyMenuItem>
                 ))}
               </MySelect>
-            </div>
-            <div></div>
-          </div>
-          <div>
-            {/* Email input */}
-            <div className={classes.formInputRow}>
-              <div className={classes.inputItem}>
-                <FormInputLabel label={"Email"} />
-                <FormInput
+              </Grid> */}
+              
+              {/* Birthdate/Personal identificator based on chose country */}
+
+               <Grid item xs={12} sm={12} md={5} lg={5}>
+                  <NewFormInput
+                    id="birthdate"
+                    type="text"
+                    value={birthdate}
+                    name="birthdate"
+                    label={t("form_birthdate")}
+                    placeholder="10-05-1965"
+                    onChange={updateBirthdate}
+                    ref={register}
+                    error={errors.birthdate}
+                  />
+                </Grid>
+
+                <Grid item xs={12} sm={12} md={5} lg={5}>
+                  <NewFormInput
+                    id="pin"
+                    type="text"
+                    value={pin}
+                    name="pin"
+                    label={t("form_pin")}
+                    placeholder="123456789"
+                    onChange={updatePin}
+                    ref={register}
+                    error={errors.pin}
+                  />
+                </Grid>
+              
+              <Grid item xs={12} sm={12} md={5} lg={5}>
+                <NewFormInput
+                  id="formEmail"
+                  type="text"
                   value={formEmail}
+                  name="formEmail"
+                  label="Email"
+                  placeholder="myplasma@email.com"
                   onChange={updateFormEmail}
-                  width="200px"
-                  smallerWidth="30vw"
-                  placeholder={"mirekdusin@email.cz"}
-                  type={"email"}
+                  ref={register}
+                  error={errors.formEmail}
                 />
-              </div>
-
-              {/* Based on selected country show PIN or BirthDate */}
-              {country == 1 ? (
-                <div className={classes.inputItem}>
-                <FormInputLabel label={t("form_pin")} />
-                <FormInput
-                  onChange={updatePin}
-                  placeholder={"8010123289"}
-                  type={"text"}
-                  width="200px"
-                  smallerWidth="20vw"
-                />
-              </div>
-              ) : (
-                <div className={classes.inputItem}>
-                <FormInputLabel label={t("form_birthdate")} />
-                <FormInput
-                  onChange={updateBirthdate}
-                  placeholder={"02-10-1998"}
-                  type={"text"}
-                  width="200px"
-                  smallerWidth="20vw"
-                />
-              </div>
-
-              )}
-
-              {/* Phone number input */}
-              <div className={classes.inputItem}>
-                <FormInputLabel label={t("form_phoneNumber")} />
-                { country == 1 ?                 
-                <FormInput
+              </Grid>
+              {/* Phone number*/}
+              <Grid item xs={12} sm={12} md={5} lg={5}>
+                <NewFormInput
+                  id="phone"
+                  type="text"
+                  value={phone}
+                  name="phone"
+                  label={t("form_phone")}
+                  placeholder="+123900900900"
                   onChange={updatePhone}
-                  width="200px"
-                  smallerWidth="30vw"
-                  placeholder={"+420123456789"}
-                  type={"text"}
-                /> :                
-               <FormInput
-                onChange={updatePhone}
-                width="200px"
-                smallerWidth="30vw"
-                placeholder={"+12 3456789"}
-                type={"text"}
-              /> }
+                  ref={register}
+                  error={errors.phone}
+                />
+              </Grid>
 
-              </div>
-            </div>
+              {/* Password */}
+              <Grid item xs={12} sm={12} md={5} lg={5}>
+                <NewFormInput
+                  id="formPassword"
+                  type="password"
+                  value={formPassword}
+                  name="formPassword"
+                  label={t("form_password")}
+                  placeholder={"****"}
+                  onChange={updateFormPassword}
+                  ref={register}
+                  error={errors.formPassword}
+                />
+              </Grid>
+              {/* Repeat password */}
+              <Grid item xs={12} sm={12} md={5} lg={5}>
+                <NewFormInput
+                  id="repeatedPassword"
+                  type="password"
+                  value={repeatedPassword}
+                  name="repeatedPassword"
+                  placeholder={"****"}
+                  label={t("form_repeatPassword")}
+                  onChange={updateRepeatedPassword}
+                  ref={register}
+                  error={errors.formPassword}
+                />
+              </Grid>
+            </Grid>
+
           </div>
+
           <div>
             <div className={classes.formInputRow}>
-              {/* Password input */}
-              <div className={classes.inputItem}>
-                <FormInputLabel label={t("form_password")} />
-                <FormInput
-                  value={formPassword}
-                  onChange={updateFormPassword}
-                  placeholder={"****"}
-                  type={"password"}
-                  width="200px"
-                  smallerWidth="30vw"
-                />
-              </div>
-
-              <div className={classes.inputItem}>
-                <FormInputLabel label={t("form_repeatPassword")} />
-                <FormInput
-                  onChange={updateRepeatedPassword}
-                  placeholder={"****"}
-                  type={"password"}
-                  width="200px"
-                  smallerWidth="30vw"
-                />
+              {/* GDPR */}
+              <div className={classes.gdpr}>
+                <MyCheckbox checked={checked} onChange={handleCheck} />
+                <LinkButton label={t("gdprAgree")} onClick={handleOpenGdpr} />
               </div>
             </div>
-            {/* GDPR */}
-            <div className={classes.gdpr}>
-              <MyCheckbox checked={checked} onChange={handleCheck} />
-              <LinkButton label={t("gdprAgree")} onClick={handleOpenGdpr} />
-            </div>
+            {checked === true ? (
+              <Button onClick={handleSubmit(onSubmit)} label={t("register")} />
+            ) : null}
           </div>
-          {checked === true ? (
-            <Button onClick={onSubmit} label={t("register")} />
-          ) : null}
-      </div>
 
-        {/* Gdpr dialog */}
-        <MyDialog open={openGdpr} onClose={handleCloseGdpr} maxWidth={"lg"}>
-          <MyDialogContent>
-            <DialogTitle>GDPR</DialogTitle>
-            <GdprDialog branch={branch} />
-            <DialogActions>
-              <Button onClick={handleCloseGdpr} label={t("close")} />
-            </DialogActions>
-          </MyDialogContent>
-        </MyDialog>
-      </div>
-      }
+          {/* Gdpr dialog */}
+          <MyDialog open={openGdpr} onClose={handleCloseGdpr} maxWidth={"lg"}>
+            <MyDialogContent>
+              <DialogTitle>GDPR</DialogTitle>
+              <GdprDialog branch={branch} />
+              <DialogActions>
+                <Button onClick={handleCloseGdpr} label={t("close")} />
+              </DialogActions>
+            </MyDialogContent>
+          </MyDialog>
+        </div>
+      )}
     </div>
   );
 }

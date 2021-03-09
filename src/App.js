@@ -60,16 +60,13 @@ const DarknessButton = styled(ToggleButton)`
 const MyPaper = styled(Paper)`
   box-shadow: 0 2px 8px 0 ${(props) => props.theme.colors.shadow};
   color: ${(props) => props.theme.colors.text};
-  background: linear-gradient(5deg, 
-       ${props => props.theme.colors.gradient.first},
-        ${props => props.theme.colors.gradient.second}
-        );
+  background: ${(props) => props.theme.colors.blackwhite};
 `;
 
 
 const GlobalStyle = createGlobalStyle`
   body {
-   background-color: ${(props) => props.theme.colors.main};
+   background-color: ${(props) => props.theme.colors.blackwhite};
   }
   h1, a, div{
     color: ${(props) => props.theme.colors.text};

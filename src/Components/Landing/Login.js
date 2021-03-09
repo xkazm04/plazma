@@ -8,6 +8,8 @@ import styled from "styled-components";
 
 import useFormState from "../../hooks/useFormState";
 import Button from "../Buttons/FormButton";
+import RegisterButton from '../Buttons/RegisterButton';
+import FilledButton from '../Buttons/FilledButton';
 import ToggleButton from "../Buttons/ToggleButton";
 import LinkButton from "../Buttons/LinkButton";
 import FormInput from "../Forms/FormInput";
@@ -54,9 +56,9 @@ const FormContainer = styled.div`
     text-align: center;
     border: none;
     width: 40%;
-    border: 0.1px solid #0a3612;
     border-radius: 25px;
     margin-left: 5%;
+    box-shadow: 12px 16px 40px rgba(0, 72, 102, 0.05);
     @media screen and (max-width: 1000px) {
      width: 100%;
      }
@@ -71,8 +73,8 @@ const MyDialog = styled(Dialog)`
 
 const MyDialogContent = styled(DialogContent)`
   background: ${(props) => props.theme.colors.blackWhite};
-  width: 900px;
-  height: 700px;
+  height: 800px;
+
 `;
 const ResetDialogContent = styled(DialogContent)`
   background: ${(props) => props.theme.colors.blackWhite};
@@ -121,6 +123,13 @@ const MyMenuItem = styled(MenuItem)`
       background-color: ${(props) => props.theme.colors.inputOption};
     }
   }
+`
+
+const Line = styled.div`
+  margin: 10%;
+  border-top: 1px solid #D1D1D1;
+  width: 80%;
+  height: 2px;
 `
 
 export default function Login() {
@@ -239,6 +248,8 @@ export default function Login() {
     <div className={classes.container}>
       <FormContainer>
         <Title title={t("userLogin.login")}  />
+        <RegisterButton label={t("registerOption")} onClick={handleOpenRegister} />
+        <Line></Line>
         {/* Error message if state true */}
         {error ? <ErrorMessage title={error} /> : null}
         {passwordSentMessage ? <ErrorMessage title={passwordSentMessage} /> : null}
@@ -258,10 +269,8 @@ export default function Login() {
           type="password"
           placeholder={t("userLogin.password")}
         />
-         <p>{t("userLogin.new")}</p>
-        <Button label={t("registerOption")} onClick={handleOpenRegister} />
-        <p>{t("userLogin.notNew")}</p>
-        <Button label={t("loginOption")} onClick={handleLogin} />
+        
+        <FilledButton label={t("loginOption")} onClick={handleLogin} />
         <br></br>
         <LinkButton width="100%"
           label={t("userLogin.forgottenPassword")}
