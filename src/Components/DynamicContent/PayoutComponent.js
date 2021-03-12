@@ -1,6 +1,7 @@
 
 import styled from "styled-components";
 import Grid from "@material-ui/core/Grid";
+import Dotted from '../Dotted';
 
 const HeartSvg = <svg width="11" height="11" viewBox="0 0 11 11" fill="none" xmlns="http://www.w3.org/2000/svg">
 <path d="M2.95154 0.5C1.13303 0.5 0.0170898 2.09032 0.0170898 3.39474C0.0170898 6.21526 3.22291 8.83333 5.48584 10.5C7.74877 8.83333 10.9546 6.21526 10.9546 3.39474C10.9546 2.09032 9.83865 0.5 8.02014 0.5C7.00452 0.5 6.13688 1.30972 5.48584 2.07895C4.8348 1.30972 3.96715 0.5 2.95154 0.5Z" fill="#FA6966"/>
@@ -25,8 +26,9 @@ const Kontejner = styled.div`
       flex-direction: column;
       text-align: left;
       margin-left: 5%;
-      margin-bottom: 2%;
-      margin-top: 10%;
+      margin-bottom: 10%;
+      margin-top: 1%;
+      
   @media screen and (max-width: 700px) {
      margin-left: 5%;
   }
@@ -42,6 +44,7 @@ const Welcome = styled.div`
 `
 
 const Payout = styled.div`
+    position: relative;
     background: rgba(255,255,255, 0.7);
     margin-top: 20%;
     border-top: 10px solid ${(props) => props.theme.Primary.Main};
@@ -55,6 +58,7 @@ const PayoutTitleRow = styled.div`
   margin-top: 2%;
   margin-bottom: 3%;
 `
+
 
 
 const Collection = styled.p`
@@ -73,7 +77,14 @@ const MyGrid = styled(Grid)`
   margin-bottom: 2%;
   max-width: 80%;
   border-bottom: 1px solid #EAEAEA;
-;
+`
+
+const Subtitle = styled.h2`
+  font-weight: 300;
+`
+
+const SubSub = styled.p`
+  color: #ed3b9a;
 `
 
 export default function RegistrationContent({ branch }) {
@@ -84,6 +95,8 @@ export default function RegistrationContent({ branch }) {
         <Welcome>
         
       <h1>Be A Hero - It's in your blood</h1>
+      <Subtitle>PlasmaStream will make you happy</Subtitle>
+      <SubSub>Because we care {HeartSvg}</SubSub>
 
         </Welcome>
         <Payout>
@@ -100,6 +113,7 @@ export default function RegistrationContent({ branch }) {
               <Grid item xs={3} sm={3} md={3}><Collection>3rd collection</Collection></Grid>
             <Grid item xs={9} sm={9} md={9}><Amount>{HeartSvg}{HeartSvg}{HeartSvg}deposit 400 Kč from amount 700 Kč</Amount></Grid>
           </MyGrid>
+         {/* <DottedBox> <Dotted/></DottedBox> */}
         </Payout>
 
     </Kontejner>

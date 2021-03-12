@@ -3,22 +3,18 @@ import React from 'react'
 import styled from 'styled-components'
 
 const StyledInput = styled.input` 
-    margin-left: 10%;
-    margin-top: 7%;
+    margin-left: 5%;
     font-size: ${props => props.theme.fonts.p};
     outline: none;
-    background-color: ${props => props.theme.colors.blackWhite};
+    background-color: ${props => props.theme.Primitive.Shade};
     color: ${props => props.theme.colors.text};
     position: relative;
     padding: .5rem;
     font-size: 0.8rem;
-    font-family: inter;
     border: none;
-    border: 1px solid #CFD0D7;
     text-align: 'left';
     transition-duration: 0.4s;
-    width: ${props => props.width || '70%'};
-
+    width: ${props => props.width || '85%'};
     &:hover{
         background-color: ${props => props.theme.colors.main};
         transition-duration: 0.4s;
@@ -42,9 +38,11 @@ const StyledInput = styled.input`
 
 const StyledLabel = styled.label`
     font-size: 0.9rem;
-    position: absolute;
-    font-family: Inter;
-    color: ${props => props.theme.Primary.Dark};
+    margin-left: 5%;   
+    position: relative;
+    font-family: Roboto;
+    font-weight: 400;
+    color: #858795;
 `
 
 

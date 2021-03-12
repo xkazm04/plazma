@@ -6,6 +6,7 @@ import { UserContext } from "../Utils/UserContext";
 import axios from 'axios'
 import styled from "styled-components";
 
+
 import useFormState from "../../hooks/useFormState";
 import Button from "../Buttons/FormButton";
 import RegisterButton from '../Buttons/RegisterButton';
@@ -21,23 +22,15 @@ import ParagraphText from "../Texts/ParagraphText";
 import Dialog from "@material-ui/core/Dialog";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogActions from "@material-ui/core/DialogActions";
-import MenuItem from "@material-ui/core/MenuItem";
-import Select from "@material-ui/core/Select";
 
-import RegistrationContent from '../DynamicContent/RegistrationContent'
+
 import RegisterFormNew from './RegistrationFormNew'
 import RegisterFormExisting from './RegistrationFormExisting'
 
-import Branches from '../../enums/Branches'
+
 
 
 const useStyles = makeStyles(() => ({
-  container: {
-    marginTop: '20px',
-    display: "flex",
-    position: "relative",
-    justifyContent: "center",
-  },
   forgottenForm: {
     marginLeft: "20px",
     marginRight: "20px",
@@ -50,12 +43,21 @@ const useStyles = makeStyles(() => ({
   }
 }));
 
+
+
+const Kontejner = styled.div`
+    margin-top: 10%;
+    display: flex;
+    position: relative;
+    justify-content: center;
+`
+
 const FormContainer = styled.div`
-      padding: 10px;
+    padding: 10px;
     position: relative;
     text-align: center;
     border: none;
-    width: 40%;
+    width: 50%;
     border-radius: 25px;
     margin-left: 5%;
     box-shadow: 12px 16px 40px rgba(0, 72, 102, 0.05);
@@ -68,61 +70,16 @@ const FormContainer = styled.div`
 `
 
 const MyDialog = styled(Dialog)`
-  background: black;
-`;
+  background: ${(props) => props.theme.Primary.Shade};
+`
 
 const MyDialogContent = styled(DialogContent)`
   background: ${(props) => props.theme.colors.blackWhite};
-  height: 800px;
-
-`;
-const ResetDialogContent = styled(DialogContent)`
-  background: ${(props) => props.theme.colors.blackWhite};
-`;
-
-const MyBranchSelect = styled(Select)`
-
-  background-color: ${(props) => props.theme.colors.input};
-  color: ${(props) => props.theme.colors.text};
-  height: 15%;
-  display: flex;
-  position: relative;
-  padding: 0.2rem;
-  font-weight: bold;
-  font-size: 1rem;
-  text-align: center;
-  border-radius: 0.5em;
-  cursor: pointer;
-  outline: none;
-  min-width: 220px;
-  transition-duration: 0.4s;
-  font-family: Roboto;
-  margin-bottom: 2rem;
-
-  &:hover {
-    background-color: ${(props) => props.theme.colors.main};
-    border-bottom: none;
-  }
-  &:focus {
-    background-color: ${(props) => props.theme.colors.main};
-    border-bottom: none;
-  }
-
+  height: 1000px;
 `
 
-const MyMenuItem = styled(MenuItem)`
-  background-color: ${(props) => props.theme.colors.input};
-  color: ${(props) => props.theme.colors.text};
-  font-size: 0.8rem;
-  &:hover {
-    background-color: ${(props) => props.theme.colors.inputOption};
-  }
-  &:focus {
-    background-color: ${(props) => props.theme.colors.inputOption};
-    &:hover {
-      background-color: ${(props) => props.theme.colors.inputOption};
-    }
-  }
+const ResetDialogContent = styled(DialogContent)`
+  background: ${(props) => props.theme.colors.blackWhite};
 `
 
 const Line = styled.div`
@@ -142,21 +99,10 @@ export default function Login() {
 
   const [email, updateEmail] = useFormState("");
   const [password, updatePassword] = useFormState("");
-  const [branch, setBranch] = useState(null)
+
   const [passwordSentMessage, setPasswordSentMessage] = useState(false)
   const [registerFormType, setRegisterFormType] = useState(false)
 
-  // Country selection functions
-    const [openBranches, setOpenBranches] = useState(false);
-    const handleOpenBranches = () => {
-      setOpenBranches(true);
-    };
-    const handleCloseBranches = () => {
-      setOpenBranches(false); 
-    };
-    const handleChangeBranch = (event) => {
-      setBranch(event.target.value);
-    };
 
     // Login request
   const handleLogin = async (e) => {
@@ -245,7 +191,7 @@ export default function Login() {
   return (
 
 // Login component
-    <div className={classes.container}>
+    <Kontejner>
       <FormContainer>
         <Title title={t("userLogin.login")}  />
         <RegisterButton label={t("registerOption")} onClick={handleOpenRegister} />
@@ -285,33 +231,10 @@ export default function Login() {
     
         <ToggleButton onClick={toggleRegisterType} width={'50%'} label={t("registerNewOption")} active={!registerFormType}/>
         <ToggleButton onClick={toggleRegisterType} width={'50%'} label={t("registerExistingOption")} active={registerFormType}/>
-              {/* Branch select */}
-              <MyBranchSelect
-                      open={openBranches}
-                      value={branch}
-                      onChange={handleChangeBranch}
-                      displayEmpty
-                      onOpen={handleOpenBranches}
-                      onClose={handleCloseBranches}
-                      defaultValue={t("landing_chooseBranchSelect")} >
-                      <MyMenuItem value={null}>
-                        <em>{t("chooseBranchSelect")}</em>
-                      </MyMenuItem>
-                      {Branches.map((loc) => (
-                        <MyMenuItem value={loc.id}>
-                          {loc.locationName}
-                        </MyMenuItem>
-                      ))}
-                    </MyBranchSelect>
-      <div className={classes.registerTitle}> 
-      {/* Dynamic component title based on chosen brnach */}
-      <RegistrationContent branch={branch}/>
- 
-      </div>
 
       {registerFormType === false ? 
-      <RegisterFormNew email={email} password={password} branch={branch}/> :  
-      <RegisterFormExisting email={email} password={password} branch={branch}/>  }
+      <RegisterFormNew email={email} password={password}/> :  
+      <RegisterFormExisting email={email} password={password}/>  }
              
         </MyDialogContent>
       </MyDialog>
@@ -341,6 +264,6 @@ export default function Login() {
           </DialogActions>
         </ResetDialogContent>
       </MyDialog>
-    </div>
+    </Kontejner>
   );
 }

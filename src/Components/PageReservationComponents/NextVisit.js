@@ -64,6 +64,7 @@ const useStyles = makeStyles(() => ({
 
 export default function NextVisit() {
   const { t } = useTranslation();
+  const [isLoading, setLoading] = useState(true);
   const myDonorCode = localStorage.getItem("donorCode");
   const [nextVisit, setNextVisit] = useState(null);
   const [reservationId, setReservationId] = useState(null);
@@ -73,9 +74,7 @@ export default function NextVisit() {
   const openReservationForm = () => {
     setResForm(true)
   }
-
-  // Loading
-  const [isLoading, setLoading] = useState(true);
+  
 
   // Alert dialog
   const [successAlertOpen, setSuccessAlertOpen] = useState(false);

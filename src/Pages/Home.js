@@ -8,6 +8,8 @@ import PayoutComponent from "../Components/DynamicContent/PayoutComponent";
 
 import Grid from "@material-ui/core/Grid";
 
+
+
 const Kontejner = styled.div`
   text-align: center;
   color: ${(props) => props.theme.blackwhite};
@@ -49,6 +51,7 @@ export default function Home() {
           <Grid container spacing={3}>
             <InfoGrid item xs={12} sm={12} md={12} lg={6}>
               <PayoutComponent branch={"1"} />
+
             </InfoGrid>
 
             <Grid item xs={12} sm={12} md={12} lg={6}>

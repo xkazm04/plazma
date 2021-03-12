@@ -7,36 +7,35 @@ const StyledButton = styled.button`
     margin-top: 2%;
     outline: none;
     color: ${props => props.theme.colors.blackWhite};
-    background: ${props =>  props.color || props.theme.Primary.Main};
+    background: ${props =>  props.color || props.theme.Primitive.Shade};
     position: relative;
     padding: .5rem;
     font-size: 0.9rem;
     font-family: Roboto;
     text-align: center;
+    opacity: 0.3;
     border: none;
     border-radius: 4px;
     cursor: pointer;
     width: ${props => props.width || '14rem'};
     animation: 2s ease-in;
     transition-duration: 0.4s;
-    &:hover{
-        color: ${props => props.theme.Primary.Main};
-        background: ${props => props.theme.colors.slotInput};
-    }
+
     @media screen and (max-width: 700px) {
      font-size: 0.8rem;
      width: 100%;
      }
+
 `
 
 
 
-const FilledButton = ({ onClick, width, label, color}) => {
-return  <StyledButton
-            onClick={onClick}
-            width={width}
+const DisabledButton = ({ width, label, color}) => {
+return  <StyledButton 
+            disabled
             color={color}
+            width={width}
             >{label}</StyledButton>;
 };
 
-export default FilledButton
+export default DisabledButton

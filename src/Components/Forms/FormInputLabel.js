@@ -6,8 +6,7 @@ const StyledLabel = styled.label`
     font-size: 1rem;
     font-weight: bold;
     @media screen and (max-width: 700px) {
-     font-size: 0.8rem;
-
+     font-size: 0.8rem;}
 `
 
 const FormInputLabel = ({label}) => {

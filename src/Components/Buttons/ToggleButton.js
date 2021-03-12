@@ -13,19 +13,17 @@ const StyledButton = styled.button`
     font-size: 0.8rem;
     text-align: center;
     height: 50px;
-    border: 1px solid ${props => props.theme.colors.borderColor};
-    border-bottom: none;
-    border-top: none;
-    border-right: none;
+    border: none;
+    border-bottom: 3px solid ${ (props) => (props.active ? props.theme.Primary.Main : props.theme.Primitive.Shade )};
     cursor: pointer;
-    color:  ${ (props) => (props.active ? props.theme.colors.blackWhite : props.theme.colors.text )};
-    background-color: ${ (props) => (props.active ? props.theme.colors.borderColor : props.theme.colors.main )};
+    color:  ${ (props) => (props.active ? props.theme.Primary.Main : props.theme.colors.text )};
+    background-color: ${props => props.theme.colors.blackWhite};
     /* Setting defualt width if not passed in props */
     width: ${props => props.width || '10rem'};
     &:hover{
         transition-duration: 0.2s;
         color: ${props => props.theme.colors.text};
-        background-color: ${ (props) => (props.active ? null  : props.theme.colors.shadow)};
+        background-color: ${ (props) => (props.active ? null  : props.theme.colors.input)};
     }
 `
 

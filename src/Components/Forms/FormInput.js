@@ -39,7 +39,14 @@ const StyledInput = styled.input`
      }
 `
 
-
+const StyledLabel = styled.label` 
+    position:'relative';
+    font-size: 1rem;
+    font-weight: bold;
+    @media screen and (max-width: 700px) {
+     font-size: 0.8rem;
+    }
+`
 
 const FormInput = ({ value, type, onChange, placeholder, width, smallerWidth, pattern, required, magLength}) => {
 return  <StyledInput 
