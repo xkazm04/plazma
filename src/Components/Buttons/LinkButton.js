@@ -13,6 +13,7 @@ const StyledButton = styled.button`
     border: none;
     background-color: inherit;
     border-radius: 4px;
+    color: ${props => props.theme.Primary.Main};
     cursor: pointer;
     transition-duration: 0.4s;
     &:hover{

@@ -56,7 +56,10 @@ const GdprContainer = styled.div`
 
 const GdprGrid = styled(Grid)`
   margin-bottom: 6%;
+  font-family: Roboto;
+  font-size: 0.8rem;
 `
+
 
 const FormTitle = styled.div`
   margin-top: 2%;
@@ -64,6 +67,9 @@ const FormTitle = styled.div`
   color: #828282;
   font-family: Roboto;
   font-size: 1rem;
+  @media screen and (max-width: 700px) {
+    font-size: 0.9rem;
+     }
 `;
 
 export default function RegistrationFormExisting({ password, email }) {
@@ -168,7 +174,7 @@ export default function RegistrationFormExisting({ password, email }) {
             <Grid item xs={12} sm={12} md={12} lg={12}>
               <Title title={t("form_title_personal")} />{" "}
             </Grid>
-            <Grid item xs={12} sm={12} md={3} lg={3}>
+            <Grid item xs={12} sm={6} md={6} lg={3}>
               <NewFormInput
                 id="donorCode"
                 type="string"
@@ -182,7 +188,7 @@ export default function RegistrationFormExisting({ password, email }) {
               />
             </Grid>
 
-            <Grid item xs={12} sm={12} md={3} lg={3}>
+            <Grid item xs={12} sm={6} md={6} lg={3}>
               <NewFormInput
                 id="formEmail"
                 type="text"
@@ -198,7 +204,7 @@ export default function RegistrationFormExisting({ password, email }) {
             <Grid item xs={12} sm={12} md={12} lg={12}>
               <Title title={t("form_password")} />{" "}
             </Grid>
-            <Grid item xs={12} sm={12} md={3} lg={3}>
+            <Grid item xs={12} sm={6} md={6} lg={3}>
               <NewFormInput
                 id="formPassword"
                 type="password"
@@ -211,7 +217,7 @@ export default function RegistrationFormExisting({ password, email }) {
                 error={errors.formPassword}
               />
             </Grid>
-            <Grid item xs={12} sm={12} md={3} lg={3}>
+            <Grid item xs={12} sm={6} md={6} lg={3}>
               <NewFormInput
                 id="repeatedPassword"
                 type="password"
@@ -236,7 +242,7 @@ export default function RegistrationFormExisting({ password, email }) {
         <GdprContainer>
           <GdprGrid item xs={12} sm={12} md={12} lg={12}>
             <Checkbox checked={checked} onChange={handleCheck} label={"ahoj"}>
-              <LinkButton label={t("gdprAgree")} onClick={handleOpenGdpr} />
+            {t("gdprAgreePre")}<LinkButton label={t("gdprAgree")} onClick={handleOpenGdpr} />
             </Checkbox>
           </GdprGrid>
           {checked === true ? (

@@ -7,6 +7,8 @@ const StyledTitle = styled.h1`
     font-size: 1.5rem;
     outline: none;
     color: ${(props) => props.theme.Secondary.Dark};
+    background-color: #ffd9df;
+    border-radius: 10px;
     @media screen and (max-width: 700px) {
      font-size: 1rem;
   }

@@ -20,11 +20,6 @@ const LoginContainer = styled.div`
   width: 1200px;
 `;
 
-const InfoGrid = styled(Grid)`
-  @media screen and (max-width: 700px) {
-    display: none;
-  }
-`;
 
 export default function Home() {
   const { isAuth, setIsAuth } = useContext(UserContext);
@@ -49,10 +44,10 @@ export default function Home() {
         // If not, show Login/Registered from
         <div>
           <Grid container spacing={3}>
-            <InfoGrid item xs={12} sm={12} md={12} lg={6}>
+            <Grid item xs={12} sm={12} md={12} lg={6}>
               <PayoutComponent branch={"1"} />
 
-            </InfoGrid>
+            </Grid>
 
             <Grid item xs={12} sm={12} md={12} lg={6}>
               <LoginContainer>

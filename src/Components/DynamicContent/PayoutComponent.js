@@ -41,6 +41,9 @@ const Welcome = styled.div`
     font-weight: 700;
     font-family: Roboto;
     font-size: 20px;
+    @media screen and (max-width: 700px) {
+      font-size: 14px;
+  }
 `
 
 const Payout = styled.div`
@@ -49,6 +52,9 @@ const Payout = styled.div`
     margin-top: 20%;
     border-top: 10px solid ${(props) => props.theme.Primary.Main};
     box-shadow: 12px 16px 40px rgba(0, 72, 102, 0.05);
+    @media screen and (max-width: 700px) {
+      display:none;
+  }
 `
 
 const PayoutTitleRow = styled.div`

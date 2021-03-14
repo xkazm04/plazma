@@ -83,7 +83,6 @@ function App() {
   const [isAuth, setIsAuth] = useState(false);
 
   // Toggle theme mode
-  const [selected, setSelected] = useState(false);
   const themeMode =  theme
   const classes = useStyles();
 

@@ -36,19 +36,10 @@ const StyledInput = styled.input`
      }
 `
 
-const StyledLabel = styled.label`
-    font-size: 0.9rem;
-    margin-left: 5%;   
-    position: relative;
-    font-family: Roboto;
-    font-weight: 400;
-    color: #858795;
-`
 
 
-export const NewFormInput = ({ ref,error, label, id, ...inputProps}) => {
+export const FormInputYup = ({ ref,error, ...inputProps}) => {
   return <>
-    <StyledLabel htmlFor={id}>{label}</StyledLabel>
     <StyledInput
       {...inputProps}
     />

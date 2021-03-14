@@ -37,7 +37,10 @@ const GreyGrid = styled(Grid)`
   background: linear-gradient(180.13deg, #FAFAFA 0.11%, rgba(255, 255, 255, 0) 25.72%);
   margin-top: 0;
 `
-
+const Day = styled.div`
+  font-size: 14px;
+  margin: 0;
+`
 
 const MyBranchSelect = styled(Select)`
   padding: 0.2rem;
@@ -149,7 +152,7 @@ export default function BranchSpecificContent(branch) {
     <Kontejner>
       {/* Branch select */}
       {/* Dynamic component title based on chosen brnach */}
-      <Grid container spacing={3}>
+      <Grid container spacing={1}>
         <Grid item xs={12} sm={12} md={3} lg={3}>
           <InputLabel shrink id="demo-simple-select-placeholder-label-label">
             {t("form_branch")}
@@ -180,7 +183,7 @@ export default function BranchSpecificContent(branch) {
           </MyBranchSelect>
         </Grid>
         {branch === null ? null : (
-        <GreyGrid item xs={12} sm={12} md={3} lg={3}>
+        <GreyGrid item xs={12} sm={6} md={3} lg={3}>
        
             <ContactContainer>
            <ol>{isLoading ?  <Loader size={10} color={"#f54275"} loading={isLoading} /> :  <Contact><label>Email contact:</label><a>{emailContact}</a> </Contact> }  </ol>
@@ -189,14 +192,14 @@ export default function BranchSpecificContent(branch) {
             </GreyGrid>
          
       )}
-          <GreyGrid item xs={12} sm={12} md={3} lg={3}>
-          <ol>{isLoading ?  <Loader size={10} color={"#f54275"} loading={isLoading} /> :  <div> Monday 7:00 - 19:30</div> }  </ol>
-          <ol>{isLoading ?  <Loader size={10} color={"#f54275"} loading={isLoading} /> :  <div> Tuesday 7:00 - 19:30</div> }  </ol>
-          <ol>{isLoading ?  <Loader size={10} color={"#f54275"} loading={isLoading} /> :  <div> Wednesday 7:00 - 19:30</div> }  </ol>
-          <ol>{isLoading ?  <Loader size={10} color={"#f54275"} loading={isLoading} /> :  <div> Thursday 7:00 - 19:30</div> }  </ol>
-          <ol>{isLoading ?  <Loader size={10} color={"#f54275"} loading={isLoading} /> :  <div> Friday 7:00 - 19:30</div> }  </ol>
-          <ol>{isLoading ?  <Loader size={10} color={"#f54275"} loading={isLoading} /> :  <div> Saturday 7:00 - 19:30</div> }  </ol>
-          <ol>{isLoading ?  <Loader size={10} color={"#f54275"} loading={isLoading} /> :  <div> Sunday 7:00 - 19:30</div> }  </ol>
+          <GreyGrid item xs={12} sm={6} md={3} lg={3}>
+          <ol>{isLoading ?  <Loader size={10} color={"#f54275"} loading={isLoading} /> :  <Day> Monday 7:00 - 19:30</Day> }  </ol>
+          <ol>{isLoading ?  <Loader size={10} color={"#f54275"} loading={isLoading} /> :  <Day> Tuesday 7:00 - 19:30</Day> }  </ol>
+          <ol>{isLoading ?  <Loader size={10} color={"#f54275"} loading={isLoading} /> :  <Day> Wednesday 7:00 - 19:30</Day> }  </ol>
+          <ol>{isLoading ?  <Loader size={10} color={"#f54275"} loading={isLoading} /> :  <Day> Thursday 7:00 - 19:30</Day> }  </ol>
+          <ol>{isLoading ?  <Loader size={10} color={"#f54275"} loading={isLoading} /> :  <Day> Friday 7:00 - 19:30</Day> }  </ol>
+          <ol>{isLoading ?  <Loader size={10} color={"#f54275"} loading={isLoading} /> :  <Day> Saturday 7:00 - 19:30</Day> }  </ol>
+          <ol>{isLoading ?  <Loader size={10} color={"#f54275"} loading={isLoading} /> :  <Day> Sunday 7:00 - 19:30</Day> }  </ol>
            </GreyGrid>
       </Grid>
     </Kontejner>
