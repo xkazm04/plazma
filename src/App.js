@@ -15,12 +15,15 @@ import { createGlobalStyle, ThemeProvider } from "styled-components";
 import { theme} from "./Themes/theme";
 import styled from "styled-components";
 
-import Paper from "@material-ui/core/Paper";
 import Grid from "@material-ui/core/Grid";
 import ToggleButton from '@material-ui/lab/ToggleButton';
 import TwoWheelerSharpIcon from '@material-ui/icons/TwoWheelerSharp';
 import FlashOn from '@material-ui/icons/FlashOn';
 import {useTranslation } from "react-i18next";
+
+import BottomNavigation from '@material-ui/core/BottomNavigation';
+import BottomNavigationAction from '@material-ui/core/BottomNavigationAction';
+
 
 
 const useStyles = makeStyles(() => ({
@@ -29,10 +32,6 @@ const useStyles = makeStyles(() => ({
     justifySelf: 'center',
     justifyContent: 'center',
   },
-  header: {
-    backgroundColor: "inherit",
-    marginLeft: '1.1rem',
-  },
   main: {
     backgroundColor: "inherit",
     minHeight: "700px",
@@ -40,7 +39,6 @@ const useStyles = makeStyles(() => ({
     display: 'flex',
     justifySelf: 'center',
     justifyContent: 'center',
-    
   },
 }));
 
@@ -57,11 +55,24 @@ const DarknessButton = styled(ToggleButton)`
   background-color: 'none'; 
 `
 
-const MyPaper = styled(Paper)`
-  box-shadow: 0 2px 8px 0 ${(props) => props.theme.colors.shadow};
-  color: ${(props) => props.theme.colors.text};
-  background: ${(props) => props.theme.colors.blackwhite};
-`;
+const HeaderContainer = styled.div`
+    background-color: inherit;
+    margin-left: 5%;
+`
+
+const Footer = styled(Grid)`
+  background: ${(props) => props.theme.Primitive.Shade};
+  height: 40px;
+  `
+
+const FooterNavigation = styled(BottomNavigation)`
+  background: ${(props) => props.theme.Primitive.Shade};
+`
+
+const MyBottomNavigationAction = styled(BottomNavigationAction)`
+   background: ${(props) => props.theme.Primitive.Shade};
+   display: none;
+`
 
 
 const GlobalStyle = createGlobalStyle`
@@ -100,8 +111,7 @@ function App() {
           <UserContext.Provider value={{isAuth, setIsAuth}}>
               <Grid container className={classes.container} spacing={3}>
                 <Grid item xs={12}>
-                  {/*  */}
-                  <MyPaper className={classes.header}>
+                  <HeaderContainer>
                 {/* Do not Show header if not logged in */}
                 {isAuth === true ?   <Header />  :   null}           
                 
@@ -122,13 +132,12 @@ function App() {
                     >
                       <English/>
                     </DarknessButton>       </div>: null}
- 
-                  </MyPaper>
+                    </HeaderContainer>
                 </Grid>
                 {/* Content component */}
                 
-                <Grid container item xs={12} sm={11} m={11} spacing={3}>
-                  <MyPaper className={classes.main}>
+                <Grid  item xs={12} sm={11} m={11} spacing={3}>
+                  <div className={classes.main}>
                     <Switch>
                       <ProtectedRoute exact path="/reservations" component={Reservations} isAuth={isAuth} />
                       <Route exact path="/" render={() => <Home />} isAuth={isAuth} />
@@ -137,8 +146,16 @@ function App() {
                       {/* Redirect any other routest */}
                       <Route render={() => <Redirect to="/" />} />
                     </Switch>
-                  </MyPaper>
+                  </div>
                 </Grid>
+                <Footer  item xs={12} sm={12} m={12}>
+               
+                <FooterNavigation showLabels  >
+                <MyBottomNavigationAction label="Recents" />
+                <MyBottomNavigationAction label="Favorites"  />
+                 <MyBottomNavigationAction label="Nearby"/>
+                </FooterNavigation>
+                 </Footer> 
               </Grid>
           </UserContext.Provider>
       </ThemeProvider>

@@ -6,6 +6,7 @@ import { UserContext } from "../Utils/UserContext";
 import axios from 'axios'
 import styled from "styled-components";
 
+import Loader from "react-spinners/GridLoader";
 
 import useFormState from "../../hooks/useFormState";
 import Button from "../Buttons/FormButton";
@@ -15,7 +16,6 @@ import ToggleButton from "../Buttons/ToggleButton";
 import LinkButton from "../Buttons/LinkButton";
 import FormInput from "../Forms/FormInput";
 import Title from "../Texts/Title";
-import ErrorMessage from '../Texts/ErrorMessage';
 import FormInputLabel from "../Forms/FormInputLabel";
 import ParagraphText from "../Texts/ParagraphText";
 
@@ -26,6 +26,10 @@ import DialogActions from "@material-ui/core/DialogActions";
 
 import RegisterFormNew from './RegistrationFormNew'
 import RegisterFormExisting from './RegistrationFormExisting'
+
+//Alerts
+import ErrorMessage from '../Texts/ErrorMessage';
+import OKMessage from '../Texts/OKMessage';
 
 
 
@@ -107,6 +111,7 @@ export default function Login() {
     // Login request
   const handleLogin = async (e) => {
     e.preventDefault();
+    setLoading(true);
     try {
       const res = await axios.post("https://virtserver.swaggerhub.com/xkazm04/User/1.0.0/login", { Username: email, Password: password });
     //  Catch token from response and save it (local storage)
@@ -115,20 +120,24 @@ export default function Login() {
       localStorage.setItem('donorCode', res.data.DonorCode)
       setError(null);
       setIsAuth(true);
+      setLoading(false);
     } catch (err) {
       // Error
       if (err.response) { 
         // client received an error response (5xx, 4xx)
         console.log(err.response)
+        setLoading(false);
       } else if (err.request) { 
         // client never received a response, or request never left 
         console.log(err.request)
+        setLoading(false);
       } else { 
         // anything else 
       } 
     console.log(err);
     // setError(err);
     setError(err);
+    setLoading(false);
     }
   };
 
@@ -165,41 +174,42 @@ export default function Login() {
       const res = await axios.post("https://virtserver.swaggerhub.com/xkazm04/User/1.0.0/resetPassword", { email });
       console.log("Yess");
       handleCloseReset();
-      setError(null);
-      setPasswordSentMessage(true);
     } catch (err) {
       // Error 😨
       if (err.response) {
         // client received an error response (5xx, 4xx)
         console.log(err.response);
-        setError(err.request)
+        setError("Reset password error")
         setLoading(false);
       } else if (err.request) {
-        setError(err.request)
+        setError("Reset password error")
         // client never received a response, or request never left
         console.log(err.request);
         setLoading(false);
       } else {
-        // anything else
       }
-      setError(err.request)
-      setLoading(false);
-      
     }
+    setPasswordSentMessage("New password requested");
+    setError(null);
+    setLoading(false);
   };
 
   return (
 
 // Login component
     <Kontejner>
+      
       <FormContainer>
         <Title title={t("userLogin.login")}  />
+
         <RegisterButton label={t("registerOption")} onClick={handleOpenRegister} />
         <Line></Line>
         {/* Error message if state true */}
         {error ? <ErrorMessage title={error} /> : null}
-        {passwordSentMessage ? <ErrorMessage title={passwordSentMessage} /> : null}
-
+        {passwordSentMessage ? <OKMessage title={passwordSentMessage} /> : null}
+        {loading ? <Loader size={10} color={"#f54275"} loading={loading} /> :
+          null
+        }
         {/* Login component */}
         <FormInput  
           smallerWidth={"90%"}        

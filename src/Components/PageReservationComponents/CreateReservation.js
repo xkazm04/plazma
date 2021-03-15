@@ -58,9 +58,42 @@ export default function CreateReservation({ changeVisit }) {
     background: ${(props) => props.theme.colors.blackWhite};
   `;
 
+  const DateField = styled(TextField)`
+    margin: 2%;
+  `
+
   const { t } = useTranslation();
   const classes = useStyles();
-  const [slots, setSlots] = useState([
+  const [slots, setSlots] = useState([]);
+  const [slotSelected, setSlot] = useState(null);
+  const pickSlot = (event) => {
+    setSlot(event.target.value);
+  };
+
+      // Login request
+      const findSlots = async () => {
+        try {
+          const res = await axios.post("https://virtserver.swaggerhub.com/xkazm04/User/1.0.0/login");
+          console.log(slots);
+          setSlots(dummySlots)
+        } catch (err) {
+          // Error
+          if (err.response) { 
+            // client received an error response (5xx, 4xx)
+            console.log(err.response)
+          } else if (err.request) { 
+            // client never received a response, or request never left 
+            console.log(err.request)
+          } else { 
+            // anything else 
+          } 
+        }
+      };
+
+  // Dummy toggle found slots
+
+  const [slotFound, setSlotFound] = useState(false);
+  const dummySlots = [
     {
       label: "10:15",
       value: "Monday 12.1. 10:15",
@@ -77,23 +110,14 @@ export default function CreateReservation({ changeVisit }) {
       label: "11:00",
       value: "Monday 12.1. 11:00",
     },
-  ]);
-
-  const [slotSelected, setSlot] = useState(null);
-  const pickSlot = (event) => {
-    setSlot(event.target.value);
-  };
-
-  // Dummy toggle found slots
-
-  const [slotFound, setSlotFound] = useState(false);
+  ]
 
   const handleFindNewTerm = () => {
     setSlotFound(true);
-
+    findSlots();
   };
 
-  const onSubmit = async (e) => {
+  const onSubmit = async () => {
     setLoading(true);
     try {
       const res = await axios({
@@ -124,19 +148,28 @@ export default function CreateReservation({ changeVisit }) {
   return (
     <div className={classes.container}>
       <div className={classes.inputItem}>
-        <TextField
-        id="datetime-local"
-        label="od"
-        type="datetime-local"
+        <DateField
+        id="date"
+        label="Termín"
+        type="date"
         defaultValue="2017-05-24T10:30"
         InputLabelProps={{
           shrink: true,
         }}
       />
-              <TextField
-        id="datetime-local"
+              <DateField
+        id="time"
+        label="od"
+        type="time"
+        defaultValue={""}
+        InputLabelProps={{
+          shrink: true,
+        }}
+      />
+        <DateField
+        id="time"
         label="do"
-        type="datetime-local"
+        type="time"
         defaultValue={""}
         InputLabelProps={{
           shrink: true,
@@ -159,13 +192,15 @@ export default function CreateReservation({ changeVisit }) {
           onClick={handleFindNewTerm}
         />
         {/* Display found slots via radio buttons */}
+        {slotFound ? null : null}
         {slotFound ? (
-          <RadioGroup value={slotSelected} onChange={pickSlot}>
+          <RadioGroup row value={slotSelected} onChange={pickSlot}>
             {slots.map((slot) => (
               <FormControlLabel
                 value={slot.value}
                 control={<Radio />}
                 label={slot.label}
+                onChange={pickSlot}
               />
             ))}
           </RadioGroup>

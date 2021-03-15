@@ -21,7 +21,6 @@ import LinkButton from "../Buttons/LinkButton";
 import ErrorMessage from "../Texts/ErrorMessage";
 import Title from "../Texts/Title";
 import Checkbox from "../Forms/Checkbox";
-import Loader from "react-spinners/BounceLoader";
 
 import { useForm } from "react-hook-form";
 import * as yup from "yup";

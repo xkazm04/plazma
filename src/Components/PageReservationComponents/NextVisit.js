@@ -38,10 +38,6 @@ const MyDialogContent = styled(DialogContent)`
   background: ${(props) => props.theme.colors.blackWhite};
 `;
 
-const MyAlert = styled(MuiAlert)`
-  font-size: 30px;
-  background: linear-gradient(to right, white, #b5ffc3);
-`;
 
 const useStyles = makeStyles(() => ({
   container: {},
@@ -213,10 +209,9 @@ export default function NextVisit() {
           <DialogTitle> 
             {t("reservation_cancel")}
           </DialogTitle>
-
           <DialogActions>
-            <Button label={t("button_no")} width="50%" onClick={handleClose} />
-            <Button label={t("button_confirm")} width="50%" onClick={cancelReservation} />
+             <Button label={t("button_no")} width="50%" onClick={handleClose} />
+             <Button label={t("button_confirm")} width="50%" onClick={cancelReservation} />
           </DialogActions>
         </MyDialogContent>
       </MyDialog>
@@ -230,7 +225,7 @@ export default function NextVisit() {
         autoHideDuration={5000}
         onClose={handleCloseSuccessAlert}
       >
-        <MyAlert severity="success">Yeeeah</MyAlert>
+        <MuiAlert severity="success">Yeeeah</MuiAlert>
       </Snackbar>
     </div>
   );
