@@ -1,8 +1,6 @@
 
 import styled from "styled-components";
 import Grid from "@material-ui/core/Grid";
-import Dotted from '../Dotted';
-
 const HeartSvg = <svg width="11" height="11" viewBox="0 0 11 11" fill="none" xmlns="http://www.w3.org/2000/svg">
 <path d="M2.95154 0.5C1.13303 0.5 0.0170898 2.09032 0.0170898 3.39474C0.0170898 6.21526 3.22291 8.83333 5.48584 10.5C7.74877 8.83333 10.9546 6.21526 10.9546 3.39474C10.9546 2.09032 9.83865 0.5 8.02014 0.5C7.00452 0.5 6.13688 1.30972 5.48584 2.07895C4.8348 1.30972 3.96715 0.5 2.95154 0.5Z" fill="#FA6966"/>
 </svg>
@@ -60,6 +58,7 @@ const Payout = styled.div`
 const PayoutTitleRow = styled.div`
   font-weight: 500;
   font-family: Roboto;
+  font-style: normal;
   font-size: 28px;
   margin-top: 2%;
   margin-bottom: 3%;
@@ -70,12 +69,17 @@ const PayoutTitleRow = styled.div`
 const Collection = styled.p`
   color: #0B3A3D;
   margin-top: 5px;
-  font-weight: bold;
+  font-weight: 700;
+  font-family: Roboto;
+  font-size: 18px;
 `
 
-const Amount = styled.p`
+const AmountText = styled.p`
   color: #0B3A3D;
   margin-top: 5px;
+  font-weight: 400;
+  font-family: Roboto;
+  font-size: 18px;
 `
 
 const MyGrid = styled(Grid)`
@@ -109,15 +113,15 @@ export default function RegistrationContent({ branch }) {
           <MyGrid container spacing={1}>
             <Grid item xs={12}><PayoutTitleRow>{DollarSvg} Financial rewards</PayoutTitleRow></Grid>
               <Grid item xs={3} sm={3} md={3}><Collection>1st collection</Collection></Grid>
-            <Grid item xs={9} sm={9} md={9}><Amount>{HeartSvg}deposit 400 Kč from amount 700 Kč</Amount></Grid>
+            <Grid item xs={9} sm={9} md={9}><AmountText>{HeartSvg} donor 400 Kč from amount 700 Kč</AmountText></Grid>
           </MyGrid>
           <MyGrid container spacing={1}>
               <Grid item xs={3} sm={3} md={3}><Collection>2nd collection</Collection></Grid>
-            <Grid item xs={9} sm={9} md={9}><Amount>{HeartSvg}{HeartSvg}deposit 400 Kč from amount 700 Kč</Amount></Grid>
+            <Grid item xs={9} sm={9} md={9}><AmountText>{HeartSvg}{HeartSvg} 1000Kč</AmountText></Grid>
           </MyGrid>
           <MyGrid container spacing={1}>
               <Grid item xs={3} sm={3} md={3}><Collection>3rd collection</Collection></Grid>
-            <Grid item xs={9} sm={9} md={9}><Amount>{HeartSvg}{HeartSvg}{HeartSvg}deposit 400 Kč from amount 700 Kč</Amount></Grid>
+            <Grid item xs={9} sm={9} md={9}><AmountText>{HeartSvg}{HeartSvg}{HeartSvg} every next collection - 700 Kč</AmountText></Grid>
           </MyGrid>
          {/* <DottedBox> <Dotted/></DottedBox> */}
         </Payout>
