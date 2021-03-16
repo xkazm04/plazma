@@ -6,6 +6,8 @@ import axios from 'axios'
 
 import Button from "../Buttons/FormButton";
 import Title from "../Texts/Title";
+import RegisterButton from "../Buttons/RegisterButton";
+import FilledButton from "../Buttons/FilledButton";
 
 import Radio from "@material-ui/core/Radio";
 import RadioGroup from "@material-ui/core/RadioGroup";
@@ -15,6 +17,8 @@ import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import TextField from '@material-ui/core/TextField';
+
+import Grid from '@material-ui/core/Grid';
 
 
 
@@ -51,15 +55,20 @@ export default function CreateReservation({ changeVisit }) {
 
   // Dialog
   const MyDialog = styled(Dialog)`
-    background: black;
+    background: ${(props) => props.theme.colors.blackWhite};
   `;
 
   const MyDialogContent = styled(DialogContent)`
     background: ${(props) => props.theme.colors.blackWhite};
   `;
 
+  const GridDate = styled(Grid)`
+    margin-bottom: 3%;
+  `
+
   const DateField = styled(TextField)`
-    margin: 2%;
+    width: 80%;
+    margin-bottom: 1%;
   `
 
   const { t } = useTranslation();
@@ -147,35 +156,44 @@ export default function CreateReservation({ changeVisit }) {
 
   return (
     <div className={classes.container}>
-      <div className={classes.inputItem}>
+      <Grid container spacing={0}>
+        <GridDate item xs={12} lg={4}>
         <DateField
         id="date"
         label="Termín"
         type="date"
         defaultValue="2017-05-24T10:30"
+        fullWidth
         InputLabelProps={{
           shrink: true,
         }}
       />
-              <DateField
+ </GridDate>
+ <GridDate item xs={12} lg={4}>
+        <DateField
         id="time"
         label="od"
         type="time"
         defaultValue={""}
+        fullWidth
         InputLabelProps={{
           shrink: true,
         }}
       />
+ </GridDate>
+ <GridDate item xs={12} lg={4}>
         <DateField
         id="time"
         label="do"
         type="time"
+        fullWidth
         defaultValue={""}
         InputLabelProps={{
           shrink: true,
         }}
       />
-      </div>
+       </GridDate>
+      </Grid>
       {/* <div className={classes.inputItem}>
         <FormInputLabel label={"Reservation date"} />
         <FormInput onChange={setDate} type={"date"} />
@@ -225,8 +243,8 @@ export default function CreateReservation({ changeVisit }) {
           </DialogTitle>
           <Title title={slotSelected} />
           <DialogActions>
-            <Button label={t("button_no")} width="50%" onClick={handleClose} />
-            <Button
+            <RegisterButton label={t("button_no")} width="50%" onClick={handleClose} />
+            <FilledButton
               label={t("reservation_createReservationButton")}
               width="50%"
               onClick={createReservation}

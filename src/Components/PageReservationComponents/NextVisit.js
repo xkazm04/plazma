@@ -5,6 +5,8 @@ import { useTranslation } from "react-i18next";
 import CreateReservation from "./CreateReservation";
 import styled from "styled-components";
 
+import RegisterButton from "../Buttons/RegisterButton";
+import FilledButton from "../Buttons/FilledButton";
 import Button from "../Buttons/FormButton";
 import Title from "../Texts/Title";
 
@@ -15,7 +17,6 @@ import MuiAlert from "@material-ui/lab/Alert";
 import { makeStyles } from "@material-ui/core/styles";
 import Dialog from "@material-ui/core/Dialog";
 import DialogActions from "@material-ui/core/DialogActions";
-import DialogTitle from "@material-ui/core/DialogTitle";
 import DialogContent from "@material-ui/core/DialogContent";
 import ParagraphText from "../Texts/ParagraphText";
 import Loader from "react-spinners/GridLoader";
@@ -31,11 +32,11 @@ const NoVisitMessage = styled.p`
 `;
 
 const MyDialog = styled(Dialog)`
-  background: black;
+   background: ${(props) => props.theme.Primary.Shade};
 `;
 
 const MyDialogContent = styled(DialogContent)`
-  background: ${(props) => props.theme.colors.blackWhite};
+  background: ${(props) => props.theme.Primary.Shade};
 `;
 
 
@@ -51,6 +52,7 @@ const useStyles = makeStyles(() => ({
   },
   createReservationTitle: {
     borderTop: "1px solid",
+    marginTop: '3%'
   },
   inputItem: {
     display: "flex",
@@ -206,12 +208,10 @@ export default function NextVisit() {
       {/* Slide dialog to delete reservation  */}
       <MyDialog open={open} onClose={handleClose}>
         <MyDialogContent>
-          <DialogTitle> 
-            {t("reservation_cancel")}
-          </DialogTitle>
+          <Title title={t("reservation_cancel")}/> 
           <DialogActions>
-             <Button label={t("button_no")} width="50%" onClick={handleClose} />
-             <Button label={t("button_confirm")} width="50%" onClick={cancelReservation} />
+             <RegisterButton label={t("button_no")} width="50%" onClick={handleClose} />
+             <FilledButton label={t("button_confirm")} width="50%" onClick={cancelReservation} />
           </DialogActions>
         </MyDialogContent>
       </MyDialog>

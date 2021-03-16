@@ -43,12 +43,17 @@ const Welcome = styled.div`
       font-size: 14px;
   }
 `
+const PayoutBackground = styled.div`
+  display: flex;
+  justify-content: center;
+`
 
 const Payout = styled.div`
     position: relative;
     background: rgba(255,255,255, 0.7);
     margin-top: 20%;
-    border-top: 10px solid ${(props) => props.theme.Primary.Main};
+    width: 100%;
+    border-top: 4px solid ${(props) => props.theme.Primary.Main};
     box-shadow: 12px 16px 40px rgba(0, 72, 102, 0.05);
     @media screen and (max-width: 700px) {
       display:none;
@@ -62,6 +67,8 @@ const PayoutTitleRow = styled.div`
   font-size: 28px;
   margin-top: 2%;
   margin-bottom: 3%;
+  padding-top: 5%;
+  padding-bottom: 5%;
 `
 
 
@@ -89,6 +96,12 @@ const MyGrid = styled(Grid)`
   border-bottom: 1px solid #EAEAEA;
 `
 
+const LastGrid = styled(Grid)`
+  margin-left: 5%;
+  margin-bottom: 2%;
+  max-width: 80%;
+`
+
 const Subtitle = styled.h2`
   font-weight: 300;
 `
@@ -96,6 +109,8 @@ const Subtitle = styled.h2`
 const SubSub = styled.p`
   color: #ed3b9a;
 `
+
+
 
 export default function RegistrationContent({ branch }) {
 
@@ -109,6 +124,7 @@ export default function RegistrationContent({ branch }) {
       <SubSub>Because we care {HeartSvg}</SubSub>
 
         </Welcome>
+        <PayoutBackground>
         <Payout>
           <MyGrid container spacing={1}>
             <Grid item xs={12}><PayoutTitleRow>{DollarSvg} Financial rewards</PayoutTitleRow></Grid>
@@ -119,13 +135,13 @@ export default function RegistrationContent({ branch }) {
               <Grid item xs={3} sm={3} md={3}><Collection>2nd collection</Collection></Grid>
             <Grid item xs={9} sm={9} md={9}><AmountText>{HeartSvg}{HeartSvg} 1000Kč</AmountText></Grid>
           </MyGrid>
-          <MyGrid container spacing={1}>
+          <LastGrid container spacing={1}>
               <Grid item xs={3} sm={3} md={3}><Collection>3rd collection</Collection></Grid>
             <Grid item xs={9} sm={9} md={9}><AmountText>{HeartSvg}{HeartSvg}{HeartSvg} every next collection - 700 Kč</AmountText></Grid>
-          </MyGrid>
+          </LastGrid>
          {/* <DottedBox> <Dotted/></DottedBox> */}
         </Payout>
-
+        </PayoutBackground>
     </Kontejner>
   );
 }
