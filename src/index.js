@@ -2,7 +2,6 @@ import React, {Suspense} from 'react';
 import ReactDOM from 'react-dom';
 import {BrowserRouter} from 'react-router-dom'
 import App from './App';
-import swDev from './swDev'
 import * as serviceWorkerRegistration from "./serviceWorkerRegistration";
 
 import "./i18n";

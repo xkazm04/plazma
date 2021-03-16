@@ -136,7 +136,7 @@ function App() {
                 </Grid>
                 {/* Content component */}
                 
-                <Grid  item xs={12} sm={11} m={11} spacing={3}>
+                <Grid  item xs={12} sm={11} m={11} >
                   <div className={classes.main}>
                     <Switch>
                       <ProtectedRoute exact path="/reservations" component={Reservations} isAuth={isAuth} />

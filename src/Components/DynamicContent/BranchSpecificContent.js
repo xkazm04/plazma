@@ -244,6 +244,7 @@ export default function BranchSpecificContent(branch) {
       )} */}
 
       {/* Map component */}
+      {process.env.REACT_APP_MAPBOX_TOKEN == 1 ?
         <MapContainer>
         <ReactMapGL {...viewport}
          mapboxApiAccessToken={process.env.REACT_APP_MAPBOX_TOKEN}
@@ -254,6 +255,7 @@ export default function BranchSpecificContent(branch) {
               <Marker     latitude= {50.0755381} longitude={14.4378005}>{heartSvg}</Marker>
          </ReactMapGL>
                     </MapContainer>
+                    : null}
 
           {/* Working hours */}
           <GreyGrid item xs={12} sm={6} md={3} lg={3}>
