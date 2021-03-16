@@ -244,7 +244,7 @@ export default function BranchSpecificContent(branch) {
       )} */}
 
       {/* Map component */}
-      {process.env.REACT_APP_MAPBOX_TOKEN == 1 ?
+      {process.env.SHOW_MAP == 1 ?
         <MapContainer>
         <ReactMapGL {...viewport}
          mapboxApiAccessToken={process.env.REACT_APP_MAPBOX_TOKEN}
