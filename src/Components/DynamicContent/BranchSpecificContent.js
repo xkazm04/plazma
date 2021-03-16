@@ -111,6 +111,8 @@ const MapContainer = styled.div`
   }
 `
 
+
+
 export default function BranchSpecificContent(branch) {
   const { t } = useTranslation();
   const [isLoading, setLoading] = useState(false);
@@ -244,7 +246,8 @@ export default function BranchSpecificContent(branch) {
       )} */}
 
       {/* Map component */}
-      {process.env.SHOW_MAP == 1 ?
+      {process.env.ENV}
+      {process.env.REACT_APP_SHOW_MAP == 1 ?
         <MapContainer>
         <ReactMapGL {...viewport}
          mapboxApiAccessToken={process.env.REACT_APP_MAPBOX_TOKEN}
