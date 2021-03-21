@@ -4,20 +4,21 @@ import styled from 'styled-components'
 
 const StyledButton = styled.button` 
     margin: 0.2rem;
-    margin-top: 2%;
+    margin-top: 4%;
     outline: none;
     color: ${props => props.theme.Secondary.Main};
     background: ${props => props.theme.colors.blackWhite};
     position: relative;
     padding: .5rem;
     font-weight: bold;
-    font-size: 0.8rem;
+    font-size: 0.9rem;
     font-family: Roboto;
     text-align: center;
     border: 1px solid ${props => props.theme.Secondary.Main};
     border-radius: 4px;
     cursor: pointer;
     width: ${props => props.width || '14rem'};
+    height: ${props => props.height || '2.5rem'};
     animation: 2s ease-in;
     transition-duration: 0.4s;
     &:hover{
@@ -33,8 +34,9 @@ const StyledButton = styled.button`
 
 
 
-const RegisterButton = ({ onClick, width, label}) => {
+const RegisterButton = ({ onClick, width, label, disabled}) => {
 return  <StyledButton 
+            disabled={disabled}
             onClick={onClick}
             width={width}
             >{label}</StyledButton>;

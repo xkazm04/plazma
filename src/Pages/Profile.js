@@ -88,16 +88,16 @@ export default function Register() {
   return (
     <div >
       <Grid container className={classes.container} spacing={3}>
-        <MyGrid item xs={12} sm={12} md={12}>
+        <MyGrid item xs={12} sm={2} md={2}>
           <h1> Albert Brutus</h1>
           albertos@net.cz
         </MyGrid>
-        <MyGrid item xs={12} sm={12} md={12}>
+        <MyGrid item xs={122} sm={2} md={2}>
           <ParagraphText content={t("profile_changeLanguage")} />
           <button onClick={() => {changeLanguage("cz");}}>CZ</button>             
           <button onClick={() => {changeLanguage("en");}}> EN</button>  
         </MyGrid>
-        <MyGrid item xs={12} sm={12} md={12}>
+        <MyGrid item xs={12} sm={2} md={2}>
           <div className={classes.changeButtons}>
             <Button label={t("profile_changeEmail")} onClick={openEmail}  />
             <Button label={t("profile_changePassword")} onClick={openPass} />

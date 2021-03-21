@@ -10,6 +10,8 @@ import FilledButton from "../Buttons/FilledButton";
 import Button from "../Buttons/FormButton";
 import Title from "../Texts/Title";
 
+import CloseIcon from '@material-ui/icons/Close';
+
 // Alert
 import Snackbar from "@material-ui/core/Snackbar";
 import MuiAlert from "@material-ui/lab/Alert";
@@ -23,36 +25,49 @@ import Loader from "react-spinners/GridLoader";
 
 // Styled components
 const Date = styled.h1`
-  margin: 0rem 0rem 1.5rem 1.5rem;
+  margin: 0rem 0rem 1rem 0rem;
 `;
 
 const NoVisitMessage = styled.p`
-  font-style: italic;
-  font-weight: lighter;
+  font-weight: normal;
+  color: #8690A1;
+  font-size: 18px;
+  text-align:center;
 `;
 
 const MyDialog = styled(Dialog)`
    background: ${(props) => props.theme.Primary.Shade};
+   margin-top:50px;
 `;
 
 const MyDialogContent = styled(DialogContent)`
   background: ${(props) => props.theme.Primary.Shade};
+  margin-top: 5px;
+  min-width: 400px;
+  @media screen and (max-width: 800px) {
+    min-width: 10px;
+  }
 `;
+
+const Xicon = styled(CloseIcon)`
+  position: absolute;
+  margin-left: 85%;
+  color: ${(props) => props.theme.Primary.Main};
+  &:hover{
+    cursor:pointer;
+    color: ${(props) => props.theme.Primary.Dark};
+  };
+  @media screen and (max-width: 1000px) {
+    opacity: 0;
+  }
+`
 
 
 const useStyles = makeStyles(() => ({
   container: {},
-  createReservation: {
-    paddingLeft: "4%",
-    width: "90%",
-  },
   noVisitMessage: {
-    paddingLeft: "4%",
+    paddingLeft: "6%",
     width: "90%",
-  },
-  createReservationTitle: {
-    borderTop: "1px solid",
-    marginTop: '3%'
   },
   inputItem: {
     display: "flex",
@@ -68,6 +83,9 @@ export default function NextVisit() {
   const [reservationId, setReservationId] = useState(null);
   const classes = useStyles();
   const [open, setOpen] = useState(false);
+
+
+  // Reservation form
   const [resForm, setResForm] = useState(false)
   const openReservationForm = () => {
     setResForm(true)
@@ -177,13 +195,10 @@ export default function NextVisit() {
             <div className={classes.createReservation}>
               <div className={classes.noVisitMessage}>
                 <NoVisitMessage>{t("noNextReservation")}</NoVisitMessage>
-                <Button onClick={openReservationForm} width="50%" label={t("Create reservation")}  />
+                <FilledButton onClick={openReservationForm} width="327px" label={t("Create reservation")}  />
               </div>
             {/* If new reservation requested */}
               {resForm ? <div> 
-              <div className={classes.createReservationTitle}>
-                <Title title={t("Create reservation")} />
-              </div>
            <CreateReservation changeVisit={nextVisit => setNextVisit(nextVisit)}/> 
              </div>: null}
             </div>
@@ -195,10 +210,9 @@ export default function NextVisit() {
                   t("reservation_warning")
                 }
               />
-              <Button
+              <FilledButton
                 onClose={handleClose}
                 onClick={handleClickOpen}
-                width="50%"
                 label={t("visits.cancelReservation")}
               />
             </div>
@@ -208,7 +222,8 @@ export default function NextVisit() {
       {/* Slide dialog to delete reservation  */}
       <MyDialog open={open} onClose={handleClose}>
         <MyDialogContent>
-          <Title title={t("reservation_cancel")}/> 
+          <Xicon onClick={handleClose}/>
+          <ParagraphText content={t("reservation_cancel")}/> 
           <DialogActions>
              <RegisterButton label={t("button_no")} width="50%" onClick={handleClose} />
              <FilledButton label={t("button_confirm")} width="50%" onClick={cancelReservation} />

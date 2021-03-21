@@ -26,6 +26,7 @@ const Kontejner = styled.div`
       margin-left: 5%;
       margin-bottom: 10%;
       margin-top: 1%;
+      padding-left: 5%;
       
   @media screen and (max-width: 700px) {
      margin-left: 5%;
@@ -53,6 +54,7 @@ const Payout = styled.div`
     background: rgba(255,255,255, 0.7);
     margin-top: 20%;
     width: 100%;
+    padding-left: 5%;
     border-top: 4px solid ${(props) => props.theme.Primary.Main};
     box-shadow: 12px 16px 40px rgba(0, 72, 102, 0.05);
     @media screen and (max-width: 700px) {
@@ -127,17 +129,13 @@ export default function RegistrationContent({ branch }) {
         <PayoutBackground>
         <Payout>
           <MyGrid container spacing={1}>
-            <Grid item xs={12}><PayoutTitleRow>{DollarSvg} Financial rewards</PayoutTitleRow></Grid>
-              <Grid item xs={3} sm={3} md={3}><Collection>1st collection</Collection></Grid>
-            <Grid item xs={9} sm={9} md={9}><AmountText>{HeartSvg} donor 400 Kč from amount 700 Kč</AmountText></Grid>
-          </MyGrid>
-          <MyGrid container spacing={1}>
-              <Grid item xs={3} sm={3} md={3}><Collection>2nd collection</Collection></Grid>
-            <Grid item xs={9} sm={9} md={9}><AmountText>{HeartSvg}{HeartSvg} 1000Kč</AmountText></Grid>
+            <Grid item xs={12}><PayoutTitleRow>{DollarSvg} Přihlašovací údaje</PayoutTitleRow></Grid>
+              <Grid item xs={3} sm={3} md={3}><Collection>Email</Collection></Grid>
+            <Grid item xs={9} sm={9} md={9}><AmountText>testik</AmountText></Grid>
           </MyGrid>
           <LastGrid container spacing={1}>
-              <Grid item xs={3} sm={3} md={3}><Collection>3rd collection</Collection></Grid>
-            <Grid item xs={9} sm={9} md={9}><AmountText>{HeartSvg}{HeartSvg}{HeartSvg} every next collection - 700 Kč</AmountText></Grid>
+              <Grid item xs={3} sm={3} md={3}><Collection>Heslo</Collection></Grid>
+            <Grid item xs={9} sm={9} md={9}><AmountText>testik</AmountText></Grid>
           </LastGrid>
          {/* <DottedBox> <Dotted/></DottedBox> */}
         </Payout>

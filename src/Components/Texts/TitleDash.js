@@ -4,8 +4,10 @@ import styled from 'styled-components'
 const StyledTitle = styled.h1` 
     margin: 1rem 1.5rem;
     font-family: Inter;
-    font-size: 36px;
-    font-weight: 700;
+    font-size: 18px;
+    position: absolute;
+    margin-left: 30px;
+    font-weight: 600;
     outline: none;
     color: ${(props) => props.theme.colors.font.paragraphText};
     text-decoration:  ${props => props.theme.colors.text};
@@ -14,10 +16,12 @@ const StyledTitle = styled.h1`
   }
 `
 
+const Space = styled.a`
+  padding: 5px;
+`
 
-
-const Title = ({title}) => {
-return  <StyledTitle>{title}</StyledTitle>;
+const DashTitle = ({title,icon}) => {
+return  <StyledTitle>{icon}<Space/>{title}</StyledTitle>;
 };
 
-export default Title
+export default DashTitle

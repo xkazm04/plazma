@@ -18,7 +18,7 @@ import DisabledButton from "../Buttons/DisabledButton";
 import FilledButton from "../Buttons/FilledButton";
 import GdprDialog from "../Texts/Gdpr";
 import LinkButton from "../Buttons/LinkButton";
-import ErrorMessage from "../Texts/ErrorMessage";
+import ErrorMessage from "../Alerts/ErrorMessage";
 import Title from "../Texts/Title";
 import Checkbox from "../Forms/Checkbox";
 

@@ -9,35 +9,33 @@ import styled from "styled-components";
 import Loader from "react-spinners/GridLoader";
 
 import useFormState from "../../hooks/useFormState";
-import Button from "../Buttons/FormButton";
 import RegisterButton from '../Buttons/RegisterButton';
 import FilledButton from '../Buttons/FilledButton';
 import ToggleButton from "../Buttons/ToggleButton";
 import LinkButton from "../Buttons/LinkButton";
 import FormInput from "../Forms/FormInput";
 import Title from "../Texts/Title";
-import FormInputLabel from "../Forms/FormInputLabel";
-import ParagraphText from "../Texts/ParagraphText";
+import TitleParagraphText from "../Texts/TitleParagraphText";
 
 import Dialog from "@material-ui/core/Dialog";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogActions from "@material-ui/core/DialogActions";
+import CloseIcon from '@material-ui/icons/Close';
 
 
 import RegisterFormNew from './RegistrationFormNew'
 import RegisterFormExisting from './RegistrationFormExisting'
 
 //Alerts
-import ErrorMessage from '../Texts/ErrorMessage';
+import ErrorMessage from '../Alerts/ErrorMessage';
 import OKMessage from '../Texts/OKMessage';
-
-
 
 
 const useStyles = makeStyles(() => ({
   forgottenForm: {
     marginLeft: "20px",
     marginRight: "20px",
+    padding: '20px',
   },
   registerTitle:{
     marginTop: '5%',
@@ -46,7 +44,6 @@ const useStyles = makeStyles(() => ({
     justifyContent: "center",
   }
 }));
-
 
 
 const Kontejner = styled.div`
@@ -58,6 +55,7 @@ const Kontejner = styled.div`
 
 const FormContainer = styled.div`
     padding: 10px;
+    background: white;
     position: relative;
     text-align: center;
     border: none;
@@ -93,6 +91,19 @@ const Line = styled.div`
   height: 2px;
 `
 
+const Xicon = styled(CloseIcon)`
+  position: absolute;
+  margin-left: 78%;
+  color: ${(props) => props.theme.Primary.Main};
+  &:hover{
+    cursor:pointer;
+    color: ${(props) => props.theme.Primary.Dark};
+  };
+  @media screen and (max-width: 1000px) {
+    opacity: 0;
+  }
+`
+
 export default function Login() {
   const { t } = useTranslation();
   const classes = useStyles();
@@ -113,9 +124,9 @@ export default function Login() {
     e.preventDefault();
     setLoading(true);
     try {
-      const res = await axios.post("https://virtserver.swaggerhub.com/xkazm04/User/1.0.0/login", { Username: email, Password: password });
+      const res = await axios.post("http://localhost:5000/api/emp/login", { email: email, password: password });
     //  Catch token from response and save it (local storage)
-      localStorage.setItem('token', res.data.Token)
+      localStorage.setItem('jwt', res.data.token)
       localStorage.setItem('defaultSubcenter', res.data.DefaultSubcenter)
       localStorage.setItem('donorCode', res.data.DonorCode)
       setError(null);
@@ -125,18 +136,18 @@ export default function Login() {
       // Error
       if (err.response) { 
         // client received an error response (5xx, 4xx)
-        console.log(err.response)
+        console.log(err)
         setLoading(false);
       } else if (err.request) { 
         // client never received a response, or request never left 
-        console.log(err.request)
+        console.log(err)
         setLoading(false);
       } else { 
         // anything else 
+        console.log(err.message)
       } 
-    console.log(err);
-    // setError(err);
-    setError(err);
+    console.log(err.message);
+    setError(err.message);
     setLoading(false);
     }
   };
@@ -205,7 +216,6 @@ export default function Login() {
         <RegisterButton label={t("registerOption")} onClick={handleOpenRegister} />
         <Line></Line>
         {/* Error message if state true */}
-        {error ? <ErrorMessage title={error} /> : null}
         {passwordSentMessage ? <OKMessage title={passwordSentMessage} /> : null}
         {loading ? <Loader size={10} color={"#f54275"} loading={loading} /> :
           null
@@ -225,7 +235,7 @@ export default function Login() {
           type="password"
           placeholder={t("userLogin.password")}
         />
-        
+         {error ? <ErrorMessage title={error} /> : null}
         <FilledButton label={t("loginOption")} onClick={handleLogin} />
         <br></br>
         <LinkButton width="100%"
@@ -253,13 +263,12 @@ export default function Login() {
       {/* Forgotten email dialog */}
       <MyDialog open={openResetDialog} onClose={handleCloseReset} maxWidth={"lg"}>
         <ResetDialogContent>
-          <Title title={t("userLogin.forgottenPassword")} />
           <div className={classes.forgottenForm}>
-            <ParagraphText
+            <Xicon onClick={handleCloseReset}/>
+            <TitleParagraphText
               content=
                 {t("userLogin.emailNewPassowrd")}     
             />
-            <FormInputLabel label={"Email"} />
             <FormInput
               onChange={updateEmail}
               width={"20rem"}
@@ -269,8 +278,8 @@ export default function Login() {
             />
           </div>
           <DialogActions>
-            <Button onClick={handleCloseReset} label={t("button_back")} />
-            <Button onClick={passwordInquiry} label={t("button_send")}/>
+            <RegisterButton onClick={handleCloseReset} label={t("button_back")} />
+            <FilledButton  onClick={passwordInquiry} label={t("button_send")}/>
           </DialogActions>
         </ResetDialogContent>
       </MyDialog>

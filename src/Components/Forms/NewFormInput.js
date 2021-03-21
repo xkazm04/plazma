@@ -12,18 +12,20 @@ const StyledInput = styled.input`
     padding: .5rem;
     font-size: 0.8rem;
     border: none;
+    border: ${prop => prop.error ? '1px solid #98000E' : 'none'};
     text-align: 'left';
     transition-duration: 0.4s;
+    
     width: ${props => props.width || '85%'};
     &:hover{
         background-color: ${props => props.theme.colors.main};
         transition-duration: 0.4s;
-        border-radius: 15px;
+        border-radius: 10px;
     }
     &:focus{
         background-color: ${props => props.theme.colors.main};
         transition-duration: 0.4s;
-        border-radius: 15px;
+        border-radius: 10px;
     }
     &::placeholder {
         font-size: 0.8rem;
@@ -32,7 +34,9 @@ const StyledInput = styled.input`
   }
   @media screen and (max-width: 700px) {
      font-size: 0.7rem;
-     width: ${props => props.smallerWidth || '90%'}
+     width: ${props => props.smallerWidth || '90%'};
+     margin-top: 2%;
+     margin-bottom: 2%;
      }
 `
 
@@ -42,16 +46,16 @@ const StyledLabel = styled.label`
     position: relative;
     font-family: Roboto;
     font-weight: 400;
-    color: #858795;
+    padding-top: 2%;
+    color: ${prop => prop.error ? '#98000E': '#858795'};
 `
 
 
 export const NewFormInput = ({ error, label, id, ...inputProps}) => {
   return <>
-    <StyledLabel htmlFor={id}>{label}</StyledLabel>
-    <StyledInput
+    <StyledLabel error={error} htmlFor={id}>{label}</StyledLabel>
+    <StyledInput error={error}
       {...inputProps}
     />
-    {error && <div>{error.message}</div>} 
   </>
 }

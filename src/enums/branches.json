@@ -1,0 +1,29 @@
+
+{  "data":[{
+    "id": "1",
+    "title": "Nemocnice na Františku",
+    "text1": "We accept first time donors on email nafrantisku@net.cz or phone number: +420: 123456789. Thank you.",
+    "Monday": "8:00 - 12:30, 13:30 - 15:30",
+    "Tuesday": "8:00 - 12:30, 13:30 - 15:30",
+    "Wednesday": "11:00 - 15:00",
+    "Thursday": "10:00 - 18:00",
+    "Friday": "8:00 - 12:30, 13:30 - 15:30",
+    "phone": "+420 123654789",
+    "email": "email@nafrantisku.cz",
+    "address": "U Nemocnice 499/2, 128 08 Praha 2"
+    
+  },{  
+    "id": "2",
+    "title": "Subcenter dvojka",
+    "text1": "We accept first time donors on email nafrantisku@net.cz or phone number: +420: 123456789. Thank you.",
+    "Monday": "Monday working hours",
+    "Tuesday": "Tuesday working hours",
+    "Wednesday": "Wednesday working hours",
+    "phone": "987654321",
+    "email": "email@dvojka.cz",
+    "address": "Fakultní nemocnice Bulovka Budínova 67/2 Praha 8 – Libeň"
+    }
+    
+    
+    ]}
+

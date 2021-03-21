@@ -2,7 +2,7 @@ import { useContext } from "react";
 import { Link } from "react-router-dom";
 
 import PowerSettingsNewIcon from "@material-ui/icons/PowerSettingsNew";
-import { makeStyles } from "@material-ui/core/styles";
+import { makeStyles, withTheme } from "@material-ui/core/styles";
 import { useTranslation } from "react-i18next";
 import AccountCircleIcon from "@material-ui/icons/AccountCircle";
 
@@ -10,6 +10,7 @@ import { UserContext } from "../Utils/UserContext";
 import MenuButton from "../Buttons/MenuButton";
 
 import styled from "styled-components";
+import branchEnum from '../../enums/branches.json'
 
 const useStyles = makeStyles(() => ({
   container: {
@@ -19,6 +20,8 @@ const useStyles = makeStyles(() => ({
     paddingBottom: "1%",
     paddingRight: "2%",
     marginBottom: "1%",
+    background: 'white',
+    width: '100%'
   },
   leftBox: {
     flexGrow: "1",
@@ -76,7 +79,7 @@ export default function Header() {
     setIsAuth(false);
     console.log(isAuth);
     localStorage.removeItem("defaultSubcenter");
-    localStorage.removeItem("token");
+    localStorage.removeItem("jwt");
     localStorage.removeItem("donorCode");
     localStorage.removeItem("theme");
   };
@@ -98,6 +101,12 @@ export default function Header() {
       {/* <div className={classes.centerLogo}>{branch}</div> */}
       {/* Right menu part */}
       <div>
+      {branchEnum.data.filter(data => data.id == branch).map(filteredData => (
+        <>
+          {filteredData.title}
+         </>
+
+      ))}
         <Link className={classes.userRightPart} to="/">
           <MenuButton width={"3rem"} label={heartSvg} />
         </Link>

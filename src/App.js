@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { Route, Switch, Redirect } from "react-router-dom";
-import { makeStyles } from "@material-ui/core/styles";
 import {useTranslation } from "react-i18next";
 
 import ProtectedRoute from './Components/Utils/ProtectedRoute'
@@ -11,7 +10,6 @@ import ResetPassword from "./Pages/ResetPassword";
 import Reservations from "./Pages/Reservations";
 import Profile from './Pages/Profile'
 import Home from './Pages/Home'
-import FormButton from './Components/Buttons/FormButton'
 
 import { createGlobalStyle, ThemeProvider } from "styled-components";
 import { theme} from "./Themes/theme";
@@ -25,31 +23,29 @@ import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder';
 import DateRangeIcon from '@material-ui/icons/DateRange';
 import PermIdentityIcon from '@material-ui/icons/PermIdentity';
 
+import back from './Back.jpg'; 
 
-
-const useStyles = makeStyles(() => ({
-  container: {
-    backgroundColor: "inherit",
-    justifySelf: 'center',
-    justifyContent: 'center',
-  },
-  main: {
-    backgroundColor: "inherit",
-    minHeight: "700px",
-    marginLeft: '1rem',
-    display: 'flex',
-    justifySelf: 'center',
-    justifyContent: 'center',
-  },
-}));
 
 // Overriding Material UI with styled component
-
-
-const HeaderContainer = styled.div`
+const MainGrid = styled(Grid)`
     background-color: inherit;
-    margin-left: 5%;
+    justify-self: center;
+    justify-content: center;
 `
+const Main = styled.div`
+    background-color: inherit;
+    min-height: 700px;
+    margin-left: 1rem;
+    display: flex;
+    justify-self: center;
+    justify-content: center;
+`
+
+const ImageBackground = styled.div`
+  background: url(${back});
+  position: absolute;
+`
+
 const StyledLink = styled.a`
   text-decoration: none;
   margin: 0.3rem;
@@ -59,6 +55,7 @@ const Footer = styled(Grid)`
   background: ${(props) => props.theme.Primitive.Shade};
   height: 100%;
   min-height: 10vh;
+  bottom: 0;
   @media screen and (min-width: 700px) {
       display: none;
      }
@@ -106,7 +103,7 @@ const heartSvg = (
 
 const GlobalStyle = createGlobalStyle`
   body {
-   background-color: ${(props) => props.theme.colors.blackwhite};
+   background-color: #F7F8F9;
   }
   h1, a, div{
     color: ${(props) => props.theme.colors.text};
@@ -124,30 +121,30 @@ function App() {
 
   // Toggle theme mode
   const themeMode =  theme
-  const classes = useStyles();
 
   const {i18n} = useTranslation()
   const changeLanguage = (language) => {
     i18n.changeLanguage(language)
   }
 
-  
+
   return (
     <div>
       {/* Apply visual theme, global style and Context for Auth */}
       <ThemeProvider theme={themeMode}>
         <GlobalStyle />
           <UserContext.Provider value={{isAuth, setIsAuth}}>
-              <Grid container className={classes.container} spacing={3}>
+              <MainGrid container spacing={3}>
+                <ImageBackground/>
                 <Grid item xs={12}>
-                  <HeaderContainer>
+                  <div>
                 {/* Do not Show header if not logged in */}
                 {isAuth === true ?   <Header />  :                   
                 <Grid container spacing={1}>    
-                <Grid item xs={11} lg={11}>        
+                <Grid item xs={9} lg={9}>        
                 <StyledLink >{heartSvg}<i>PlasmaStream</i></StyledLink>
                     </Grid>
-                      <Grid item xs={1} lg={1}>
+                      <Grid item xs={3} lg={3}>
                          {/* Change language - CZ,EN */} 
                   {isAuth === false ? <div>
                      <LangButton value="check" onClick={() => {changeLanguage("cz"); }}>
@@ -158,12 +155,12 @@ function App() {
                     </LangButton> </div>: null}
                     </Grid>
                     </Grid>}       
-                    </HeaderContainer>
+                    </div>
                 </Grid>
                 {/* Content component */}
                 
                 <Grid  item xs={12} sm={11} m={11} >
-                  <div className={classes.main}>
+                  <Main>
                     <Switch>
                       <ProtectedRoute exact path="/reservations" component={Reservations} isAuth={isAuth} />
                       <Route exact path="/" render={() => <Home />} isAuth={isAuth} />
@@ -172,7 +169,7 @@ function App() {
                       {/* Redirect any other routest */}
                       <Route render={() => <Redirect to="/" />} />
                     </Switch>
-                  </div>
+                  </Main>
                 </Grid>
                 {/* Footer, mobile navigation if logged in. Contact information if not logged */}
                 <Footer  item xs={12} sm={12} m={12}>
@@ -183,7 +180,7 @@ function App() {
                 </FooterNavigation> :   null}         
 
                  </Footer> 
-              </Grid>
+              </MainGrid>
           </UserContext.Provider>
       </ThemeProvider>
     </div>

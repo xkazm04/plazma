@@ -1,10 +1,8 @@
 import React, { useState } from "react";
-import { makeStyles } from "@material-ui/core/styles";
 import { useTranslation } from "react-i18next";
 import styled from "styled-components";
 import axios from 'axios'
 
-import Button from "../Buttons/FormButton";
 import Title from "../Texts/Title";
 import RegisterButton from "../Buttons/RegisterButton";
 import FilledButton from "../Buttons/FilledButton";
@@ -20,18 +18,24 @@ import TextField from '@material-ui/core/TextField';
 
 import Grid from '@material-ui/core/Grid';
 
-
-
-const useStyles = makeStyles(() => ({
-  container: {
-    display: "flex",
-    flexDirection: "column",
+const dummySlots = [
+  {
+    label: "10:15",
+    value: "Monday 12.1. 10:15",
   },
-  inputItem: {
-    marginBottom: '5%'
-  }
-}));
-
+  {
+    label: "10:30",
+    value: "Monday 12.1. 10:30",
+  },
+  {
+    label: "10:45",
+    value: "Monday 12.1. 10:45",
+  },
+  {
+    label: "11:00",
+    value: "Monday 12.1. 11:00",
+  },
+]
 export default function CreateReservation({ changeVisit }) {
   const [date, setDate] = useState();
   const [open, setOpen] = useState(false);
@@ -62,17 +66,22 @@ export default function CreateReservation({ changeVisit }) {
     background: ${(props) => props.theme.colors.blackWhite};
   `;
 
-  const GridDate = styled(Grid)`
-    margin-bottom: 3%;
+
+// Create reservation from
+  const CreateReservationContainer = styled.div`
+    margin: 1%;
+    background: white;
+    padding: 5%;
   `
 
   const DateField = styled(TextField)`
-    width: 80%;
-    margin-bottom: 1%;
+    width: 100%;
   `
 
+
+
+
   const { t } = useTranslation();
-  const classes = useStyles();
   const [slots, setSlots] = useState([]);
   const [slotSelected, setSlot] = useState(null);
   const pickSlot = (event) => {
@@ -102,24 +111,7 @@ export default function CreateReservation({ changeVisit }) {
   // Dummy toggle found slots
 
   const [slotFound, setSlotFound] = useState(false);
-  const dummySlots = [
-    {
-      label: "10:15",
-      value: "Monday 12.1. 10:15",
-    },
-    {
-      label: "10:30",
-      value: "Monday 12.1. 10:30",
-    },
-    {
-      label: "10:45",
-      value: "Monday 12.1. 10:45",
-    },
-    {
-      label: "11:00",
-      value: "Monday 12.1. 11:00",
-    },
-  ]
+
 
   const handleFindNewTerm = () => {
     setSlotFound(true);
@@ -155,60 +147,26 @@ export default function CreateReservation({ changeVisit }) {
   };
 
   return (
-    <div className={classes.container}>
-      <Grid container spacing={0}>
-        <GridDate item xs={12} lg={4}>
+    <div>
+      <Grid container spacing={0} justify="center" >
+        <CreateReservationContainer>
+        <Grid item xs={12} lg={12}>
         <DateField
         id="date"
         label="Termín"
         type="date"
         defaultValue="2017-05-24T10:30"
-        fullWidth
         InputLabelProps={{
           shrink: true,
         }}
       />
- </GridDate>
- <GridDate item xs={12} lg={4}>
-        <DateField
-        id="time"
-        label="od"
-        type="time"
-        defaultValue={""}
-        fullWidth
-        InputLabelProps={{
-          shrink: true,
-        }}
-      />
- </GridDate>
- <GridDate item xs={12} lg={4}>
-        <DateField
-        id="time"
-        label="do"
-        type="time"
-        fullWidth
-        defaultValue={""}
-        InputLabelProps={{
-          shrink: true,
-        }}
-      />
-       </GridDate>
-      </Grid>
-      {/* <div className={classes.inputItem}>
-        <FormInputLabel label={"Reservation date"} />
-        <FormInput onChange={setDate} type={"date"} />
-      </div>
-      <div className={classes.inputItem}>
-        <FormInputLabel label={"Reservation time"} />
-        <FormInput onChange={setDate} type={"time"} />
-      </div> */}
-      <div className={classes.inputItem}>
-        {/* Find slot */}
-        <Button
-          width="50%"
+ </Grid>
+         {/* Find slot */}
+        <FilledButton
           label={t("visits.findSlots")}
           onClick={handleFindNewTerm}
         />
+        
         {/* Display found slots via radio buttons */}
         {slotFound ? null : null}
         {slotFound ? (
@@ -227,14 +185,13 @@ export default function CreateReservation({ changeVisit }) {
         {/* If no slots found */}
         {slots ? null : <p>{t("reservation_noSlotsAvailable")}</p>}
         {slotSelected != null ? (
-          <Button
-            width="50%"
+          <FilledButton
             label={t("reservation_createReservationNew")}
             onClick={handleClickOpen}
           />
         ) : null}
-      </div>
-
+        </CreateReservationContainer>
+      </Grid>
       {/* Slide dialog  */}
       <MyDialog open={open} onClose={handleClose} keepMounted>
         <MyDialogContent>

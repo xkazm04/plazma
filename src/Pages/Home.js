@@ -18,12 +18,11 @@ const Kontejner = styled.div`
 
 const LoginContainer = styled.div`
   width: 1200px;
-`;
-
+`
 
 export default function Home() {
   const { isAuth, setIsAuth } = useContext(UserContext);
-  const token = localStorage.getItem("token");
+  const token = localStorage.getItem("jwt");
   const checkAuth = () => {
     if (token) {
       setIsAuth(true);
@@ -34,7 +33,7 @@ export default function Home() {
   useEffect(() => {
     checkAuth();
   }, []);
-
+  
   return (
     <Kontejner>
       {/* If logged in, show dashboard */}
@@ -46,7 +45,6 @@ export default function Home() {
           <Grid container spacing={3}>
             <Grid item xs={12} sm={12} md={12} lg={6}>
               <PayoutComponent branch={"1"} />
-
             </Grid>
 
             <Grid item xs={12} sm={12} md={12} lg={6}>

@@ -6,7 +6,7 @@ import useFormState from "../../hooks/useFormState";
 import axios from "axios";
 // Material UI form control
 import { makeStyles } from "@material-ui/core/styles";
-import styled from "styled-components";
+import styled, {keyframes} from "styled-components";
 
 import Grid from "@material-ui/core/Grid";
 import Dialog from "@material-ui/core/Dialog";
@@ -18,20 +18,21 @@ import DialogTitle from "@material-ui/core/DialogTitle";
 import Button from "../Buttons/FormButton";
 import DisabledButton from "../Buttons/DisabledButton";
 import FilledButton from "../Buttons/FilledButton";
+import RegisterButton from '../Buttons/RegisterButton';
 import GdprDialog from "../Texts/Gdpr";
 import LinkButton from "../Buttons/LinkButton";
-import ErrorMessage from "../Texts/ErrorMessage";
+import ErrorMessage from "../Alerts/ErrorMessage";
 import Title from "../Texts/Title";
 import Checkbox from "../Forms/Checkbox";
 
 // Dynamic content
 import BranchSpecificContent from "../DynamicContent/BranchSpecificContent";
 
-//Form
-import { useForm } from "react-hook-form";
-import * as Yup from "yup";
-import { NewFormInput } from "../Forms/NewFormInput";
+// Animations
+import {motion} from 'framer-motion';
 
+//Form
+import { NewFormInput } from "../Forms/NewFormInput";
 import { useTranslation } from "react-i18next";
 
 const useStyles = makeStyles(() => ({
@@ -72,44 +73,23 @@ const FormTitle = styled.div`
      }
 `;
 
+
+
 export default function RegistrationFormExisting({ password, email }) {
   const { t } = useTranslation();
   const classes = useStyles();
-  const [error, setError] = useState(null);
+  const [error, setError] = useState(false);
   const { setIsAuth } = useContext(UserContext);
-  const [donorCode, updateDonorCode] = useFormState(null);
+  const [donorCode, updateDonorCode] = useFormState("");
+  const [donorError, setDonorError] = useState(false)
   const [formEmail, updateFormEmail] = useFormState(email);
+  const [emailError, setEmailError] = useState(false)
   const [formPassword, updateFormPassword] = useFormState(password);
+  const [passwordError, setPasswordError] = useState(false)
   const [repeatedPassword, updateRepeatedPassword] = useFormState("");
+  const [repeatedPasswordError, setRepeatedPasswordError] = useState(false)
   const [branch, setBranch] = useState(null);
 
-  // Form validations
-  const { register, handleSubmit, errors } = useForm({
-    mode: "onBlur",
-    validationSchema: Yup.object({
-      formPassword: Yup.string()
-        .min(3, "Password should be longer than 3 characters")
-        .max(20, "Max exceeded")
-        .required("Required"),
-      repeatedPassword: Yup.string()
-        .min(3, "Password should be longer than 3 characters")
-        .max(20, "Max exceeded")
-        .required("Required"),
-      formEmail: Yup.string().max(50, "Max exceeded").required(),
-      donorCode: Yup.string().max(20, "Max exceeded").required(),
-    }),
-  });
-
-  const checkPassword = () => {
-    if (formPassword === repeatedPassword) {
-      console.log("Password ok");
-      setError(null);
-      onSubmit();
-    } else {
-      console.log("Password nok");
-      setError("Chyba: Zadaná hesla nejsou shodná");
-    }
-  };
 
   // Gdpr dialog
   const [checked, setChecked] = useState(false);
@@ -124,8 +104,67 @@ export default function RegistrationFormExisting({ password, email }) {
     setChecked(event.target.checked);
   };
 
+  const validateAndSubmit = () => {
+    // Validate required fields
+    if (error == null) {
+      onSubmit();
+      clearErrors()
+    }
+     else {
+      
+    }
+  };
+
+
+  const validateDonor = () => {
+    if (donorCode == "") {
+      setError(true)
+      setDonorError(true);
+    }     else {
+      setDonorError(false);
+    }
+  }
+
+  const validateEmail = () => {
+    if (formEmail == "") {
+      setError(true)
+      setEmailError(true);
+    }     else {
+      setEmailError(false);
+    }
+  }
+
+  const validatePassword = () => {
+    if (formPassword == "") {
+      setError(true);
+      setPasswordError(true)
+    } else {
+      setPasswordError(false)
+    }
+  }
+
+  const validateRepeatedPassword = () => {
+    if (repeatedPassword == "") {
+      setError(true);
+      setRepeatedPasswordError(true)
+    }  else if (repeatedPassword != formPassword) {
+      setRepeatedPasswordError(true)
+    } else {
+      setRepeatedPasswordError(false)
+    }
+  }
+
+  const clearErrors = () => {
+    setDonorError(false)
+    setEmailError(false)
+    setError(false)
+    setPasswordError(false)
+    setRepeatedPasswordError(false)
+  }
+
   // Form submit function
   const onSubmit = async () => {
+    clearErrors();
     try {
       const res = await axios({
         method: "post",
@@ -140,7 +179,6 @@ export default function RegistrationFormExisting({ password, email }) {
       console.log(res.data);
       // Reset error message
       localStorage.setItem("defaultSubcenter", branch);
-      setError(null);
       // Go to login mode
       setIsAuth(true);
     } catch (err) {
@@ -155,21 +193,32 @@ export default function RegistrationFormExisting({ password, email }) {
         // anything else
       }
       console.log(err);
-      setError(err);
     }
   };
 
   return (
     <div className={classes.container}>
-      {/* Error message if state true */}
-      {error ? <ErrorMessage title={error} /> : null}
+
       <Grid container spacing={0}>
         <form>
+
           <FormTitle>
             Donations are needed more than ever - especially for treating
             patients vulnerable to COVID-19. Donations are needed more than ever
             .
           </FormTitle>
+               {/* Error message if state true */}
+           <Grid item xs={12} lg={12}>
+             {error ? 
+                     <motion.div className="title"
+                     initial={{ y: -250}}
+                     animate={{ y: -10 }}
+                     transition={{ delay: 0.2, type: 'spring', stiffness: 120 }}
+                   >
+                       <ErrorMessage title={"Please check and correct highlighted inputs"} />
+                   </motion.div>
+            : null}
+           </Grid>
           <Grid container spacing={0}>
             <Grid item xs={12} sm={12} md={12} lg={12}>
               <Title title={t("form_title_personal")} />{" "}
@@ -183,13 +232,13 @@ export default function RegistrationFormExisting({ password, email }) {
                 placeholder="123456"
                 label={t("form_donorCode")}
                 onChange={updateDonorCode}
-                ref={register}
-                error={errors.donorCode}
+                error={donorError}
+                onBlur={() => validateDonor()}
               />
             </Grid>
-
             <Grid item xs={12} sm={6} md={6} lg={3}>
               <NewFormInput
+                error={emailError}
                 id="formEmail"
                 type="text"
                 value={formEmail}
@@ -197,8 +246,7 @@ export default function RegistrationFormExisting({ password, email }) {
                 label="Email"
                 placeholder="myplasma@email.com"
                 onChange={updateFormEmail}
-                ref={register}
-                error={errors.formEmail}
+                onBlur={() => validateEmail()}
               />
             </Grid>
             <Grid item xs={12} sm={12} md={12} lg={12}>
@@ -206,6 +254,7 @@ export default function RegistrationFormExisting({ password, email }) {
             </Grid>
             <Grid item xs={12} sm={6} md={6} lg={3}>
               <NewFormInput
+                error={passwordError}
                 id="formPassword"
                 type="password"
                 value={formPassword}
@@ -213,12 +262,12 @@ export default function RegistrationFormExisting({ password, email }) {
                 label={t("form_password")}
                 placeholder={"****"}
                 onChange={updateFormPassword}
-                ref={register}
-                error={errors.formPassword}
+                onBlur={() => validatePassword()}
               />
             </Grid>
             <Grid item xs={12} sm={6} md={6} lg={3}>
               <NewFormInput
+                 error={repeatedPasswordError}
                 id="repeatedPassword"
                 type="password"
                 value={repeatedPassword}
@@ -226,8 +275,7 @@ export default function RegistrationFormExisting({ password, email }) {
                 placeholder={"****"}
                 label={t("form_repeatPassword")}
                 onChange={updateRepeatedPassword}
-                ref={register}
-                error={errors.formPassword}
+                onBlur={() => validateRepeatedPassword()}
               />
             </Grid>
             <Grid item xs={12} sm={12} md={12} lg={12}>
@@ -248,7 +296,7 @@ export default function RegistrationFormExisting({ password, email }) {
           {checked === true ? (
             <FilledButton
               color={"#FA6966"}
-              onClick={onSubmit}
+              onClick={validateAndSubmit}
               label={t("register")}
             />
           ) : (
