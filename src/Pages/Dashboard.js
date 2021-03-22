@@ -61,8 +61,8 @@ export default function Dashboard() {
             <NextVisit/>
             </Grid>
             <Space/>
-            <RegisterButton onClick={changeLocation1} label={"dev button - subcenter 1"}/>
-         <FilledButton onClick={changeLocation2} label={"dev - subcenter 2"}/>
+        <RegisterButton onClick={changeLocation1} label={"dev button - subcenter 1"}/>
+         <FilledButton onClick={changeLocation2} label={"dev button - subcenter 2"}/>
      
         <GridContainer container className={classes.container} spacing={5}>
             <Grid item xs={12} sm={4} md={4}>

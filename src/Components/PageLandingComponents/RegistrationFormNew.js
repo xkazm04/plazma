@@ -56,13 +56,15 @@ const GdprGrid = styled(Grid)`
 `;
 
 const FormTitle = styled.div`
-  margin-top: 2%;
-  margin-left: 5%;
+  margin-top: 5%;
+  margin-bottom: 1%;
+  margin-left: 2%;
   color: #828282;
   font-family: Roboto;
+  font-weight: 400;
   font-size: 1rem;
   @media screen and (max-width: 700px) {
-    font-size: 0.9rem;
+    font-size: 0.8rem;
   }
 `;
 
@@ -214,18 +216,6 @@ export default function RegistrationFormNew({ branch, email, password }) {
                 onChange={updateFirstName}
               />
             </InputGrid>{" "}
-            <InputGrid item xs={12} sm={6} md={6} lg={4}>
-              <FormLabel id="firstName" label={t("form_name")} />
-              <FormInputYup
-                ref={register({ required: true, maxLength: 50 })}
-                id="donorFirstName"
-                type="text"
-                value={donorFirstName}
-                name="donorFirstName"
-                placeholder="John"
-                onChange={updateFirstName}
-              />{" "}
-            </InputGrid>
             {/* Last name */}
             <InputGrid item xs={12} sm={6} md={6} lg={4}>
               <NewFormInput
@@ -248,7 +238,7 @@ export default function RegistrationFormNew({ branch, email, password }) {
                 value={birthdate}
                 name="birthdate"
                 label={t("form_birthdate")}
-                placeholder="10-05-1965"
+                placeholder="MM/DD/YYYY"
                 onChange={updateBirthdate}
                 ref={register}
                 error={errors.birthdate}

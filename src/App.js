@@ -34,6 +34,7 @@ const MainGrid = styled(Grid)`
 `
 const Main = styled.div`
     background-color: inherit;
+    margin-top: 3%;
     min-height: 700px;
     margin-left: 1rem;
     display: flex;
@@ -55,6 +56,7 @@ const Footer = styled(Grid)`
   background: ${(props) => props.theme.Primitive.Shade};
   height: 100%;
   min-height: 10vh;
+  position: sticky;
   bottom: 0;
   @media screen and (min-width: 700px) {
       display: none;

@@ -6,7 +6,7 @@ const StyledTitle = styled.h1`
     font-family: Inter;
     font-size: 18px;
     position: absolute;
-    margin-left: 30px;
+    margin-left: 1%;
     font-weight: 600;
     outline: none;
     color: ${(props) => props.theme.colors.font.paragraphText};

@@ -3,18 +3,16 @@ import styled from 'styled-components'
 
 
 const StyledButton = styled.button` 
-    padding: 1rem 1.5rem;
-    font-size: ${props => props.theme.fonts.p};
+    margin-top: 2rem;
     outline: none;
     position: relative;
-    padding: .5rem;
-    font-weight: bold;
+    font-weight: ${ (props) => (props.active ? 800 : 500 )};
     font-family: Roboto;
-    font-size: 0.8rem;
+    font-size: 18px;
     text-align: center;
-    height: 50px;
+    height: 60px;
     border: none;
-    border-bottom: 3px solid ${ (props) => (props.active ? props.theme.Primary.Main : props.theme.Primitive.Shade )};
+    border-bottom: 4px solid ${ (props) => (props.active ? props.theme.Primary.Main : props.theme.Primitive.Shade )};
     cursor: pointer;
     color:  ${ (props) => (props.active ? props.theme.Primary.Main : props.theme.colors.text )};
     background-color: ${props => props.theme.colors.blackWhite};
@@ -25,6 +23,9 @@ const StyledButton = styled.button`
         color: ${props => props.theme.colors.text};
         background-color: ${ (props) => (props.active ? null  : props.theme.colors.input)};
     }
+    @media screen and (max-width: 700px) {
+    font-size: 0.7rem;
+  }
 `
 
 const ToggleButton = ({ onClick, width, label, active}) => {

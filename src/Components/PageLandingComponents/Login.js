@@ -124,7 +124,7 @@ export default function Login() {
     e.preventDefault();
     setLoading(true);
     try {
-      const res = await axios.post("http://localhost:5000/api/emp/login", { email: email, password: password });
+      const res = await axios.post("http://development-mobileapi.plasmastream.eu/Login", { Username: email, Password: password });
     //  Catch token from response and save it (local storage)
       localStorage.setItem('jwt', res.data.token)
       localStorage.setItem('defaultSubcenter', res.data.DefaultSubcenter)

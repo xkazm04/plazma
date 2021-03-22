@@ -13,7 +13,6 @@ import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogTitle from "@material-ui/core/DialogTitle";
 
-
 const useStyles = makeStyles(() => ({
   container: {
     position: 'relative',
@@ -32,6 +31,7 @@ const MyGrid = styled(Grid)`
   background-color: ${(props) => props.theme.colors.light};
   box-shadow: 0 2px 8px 0 ${(props) => props.theme.colors.shadow};
 `;
+
 
 export default function Register() {
   const classes = useStyles();
@@ -85,6 +85,7 @@ export default function Register() {
     background: ${(props) => props.theme.colors.blackWhite};
   `;
 
+
   return (
     <div >
       <Grid container className={classes.container} spacing={3}>
@@ -101,7 +102,8 @@ export default function Register() {
           <div className={classes.changeButtons}>
             <Button label={t("profile_changeEmail")} onClick={openEmail}  />
             <Button label={t("profile_changePassword")} onClick={openPass} />
-            <Button label={t("profile_changeBranch")} onClick={openBranch}  />        
+            <Button label={t("profile_changeBranch")} onClick={openBranch}  />      
+
           </div>
         </MyGrid>
       </Grid>

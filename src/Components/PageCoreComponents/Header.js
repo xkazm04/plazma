@@ -21,7 +21,9 @@ const useStyles = makeStyles(() => ({
     paddingRight: "2%",
     marginBottom: "1%",
     background: 'white',
-    width: '100%'
+    width: '100%',
+    position: 'sticky',
+    top:'0'
   },
   leftBox: {
     flexGrow: "1",
@@ -101,12 +103,12 @@ export default function Header() {
       {/* <div className={classes.centerLogo}>{branch}</div> */}
       {/* Right menu part */}
       <div>
-      {branchEnum.data.filter(data => data.id == branch).map(filteredData => (
+      {/* {branchEnum.data.filter(data => data.id == branch).map(filteredData => (
         <>
           {filteredData.title}
          </>
 
-      ))}
+      ))} */}
         <Link className={classes.userRightPart} to="/">
           <MenuButton width={"3rem"} label={heartSvg} />
         </Link>

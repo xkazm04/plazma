@@ -63,13 +63,15 @@ const GdprGrid = styled(Grid)`
 
 
 const FormTitle = styled.div`
-  margin-top: 2%;
-  margin-left: 5%;
+  margin-top: 5%;
+  margin-bottom: 1%;
+  margin-left: 2%;
   color: #828282;
   font-family: Roboto;
+  font-weight: 400;
   font-size: 1rem;
   @media screen and (max-width: 700px) {
-    font-size: 0.9rem;
+    font-size: 0.8rem;
      }
 `;
 

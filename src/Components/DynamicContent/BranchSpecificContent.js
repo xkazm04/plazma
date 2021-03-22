@@ -1,14 +1,14 @@
-import { useState, useEffect } from "react";
-import axios from "axios";
+import { useState} from "react";
 import styled from "styled-components";
 import { useTranslation } from "react-i18next";
-import Loader from "react-spinners/GridLoader";
 import Branches from "../../enums/Branches";
 
 import MenuItem from "@material-ui/core/MenuItem";
 import Select from "@material-ui/core/Select";
 import InputLabel from "@material-ui/core/InputLabel";
 import Grid from "@material-ui/core/Grid";
+
+import InfoTable1 from '../PageDashboardComponents/InfoTable1'
 
 import ReactMapGL, { Marker} from "react-map-gl";
 
@@ -35,31 +35,7 @@ const heartSvg = (
   </svg>
 );
 
-const ContactContainer = styled.div`
-  font-family: Roboto;
-  font-size: 16px;
-  margin-top: 2%;
-  padding-top: 2%;
-  padding-bottom: 1%;
-`
 
-const Contact = styled.div`
-    font-size: 0.9rem;
-    font-family: Roboto;
-    font-weight: 400;
-    color: #858795;
-    display: flex;
-  justify-content: space-between;
-`
-
-const GreyGrid = styled(Grid)`
-  background: linear-gradient(180.13deg, #FAFAFA 0.11%, rgba(255, 255, 255, 0) 25.72%);
-  margin-top: 0;
-`
-const Day = styled.div`
-  font-size: 14px;
-  margin: 0;
-`
 
 const MyBranchSelect = styled(Select)`
   padding: 0.2rem;
@@ -115,18 +91,8 @@ const MapContainer = styled.div`
 
 export default function BranchSpecificContent(branch) {
   const { t } = useTranslation();
-  const [isLoading, setLoading] = useState(false);
   const LocId = "cs";
-  const [branchContent, setBranchContent] = useState(null);
-  const [emailContact, setEmailContact] = useState(null);
-  const [phoneContact, setPhoneContact] = useState(null);
-  const [text1, setText1] = useState(null);
-  const [text2, setText2] = useState(null);
-  const [text3, setText3] = useState(null);
-  const [text4, setText4] = useState(null);
-  const [text5, setText5] = useState(null);
-  const [text6, setText6] = useState(null);
-  const [text7, setText7] = useState(null);
+
 
   // Branch selectionfunctions
   const [openBranches, setOpenBranches] = useState(false);
@@ -140,7 +106,7 @@ export default function BranchSpecificContent(branch) {
   };
   const handleChangeBranch = (event) => {
     setBranch(event.target.value);
-    getMeTheContent();
+    console.log(newBranch)
   };
 
   // Map try
@@ -154,64 +120,18 @@ export default function BranchSpecificContent(branch) {
   })
 
 
-  // Get next reservation based on Donor Id
-  const getMeTheContent = async (branch) => {
-    try {
-      const res = await axios({
-        method: "post",
-        url:
-          "https://virtserver.swaggerhub.com/xkazm04/User/1.0.0/getDynamicBranchContent",
-        data: {
-          PlaceId: newBranch,
-          LocId,
-          ContentType: 1
-        },
-      });
-      setLoading(true)
-      setTimeout(() => {
-        setLoading(false);
-      }, 2000);
-      console.log(res.data);
-      setEmailContact(res.data.EmailContact);
-      setPhoneContact(res.data.PhoneContact);
-      setText1(res.data.Text1)
-      setText2(res.data.Text2)
-      setText3(res.data.Text3)
-      setText4(res.data.Text4)
-      setText5(res.data.Text5)
-      setText6(res.data.Text6)
-      setText7(res.data.Text7)
 
-      // Reset error message
-    } catch (err) {
-      // Error
-      if (err.response) {
-        // client received an error response (5xx, 4xx)
-        console.log(err.response);
-        setLoading(false);
-      } else if (err.request) {
-        // client never received a response, or request never left
-        console.log(err.request);
-        setLoading(false);
-      } else {
-        // anything else
-      }
-      console.log(err);
-      setLoading(false);
-    }
-  };
 
   return (
     <Kontejner>
       {/* Branch select */}
       {/* Dynamic component title based on chosen brnach */}
       <Grid container spacing={1}>
-        <Grid item xs={12} sm={12} md={3} lg={3}>
+        <Grid item xs={12} sm={12} md={4} lg={4}>
           <InputLabel shrink id="demo-simple-select-placeholder-label-label">
             {t("form_branch")}
           </InputLabel>
           <MyBranchSelect
-            label="Age"
             labelId="demo-simple-select-placeholder-label-label"
             id="demo-simple-select-placeholder-label"
             displayEmpty
@@ -221,10 +141,6 @@ export default function BranchSpecificContent(branch) {
             onChange={handleChangeBranch}
             onOpen={handleOpenBranches}
             onClose={handleCloseBranches}
-            inputProps={{
-              name: "age",
-              id: "outlined-age-native-simple",
-            }}
             defaultValue={t("landing_chooseBranchSelect")}
           >
             <MyMenuItem value={null}>
@@ -234,6 +150,7 @@ export default function BranchSpecificContent(branch) {
               <MyMenuItem value={loc.id}>{loc.locationName}</MyMenuItem>
             ))}
           </MyBranchSelect>
+          <InfoTable1 branch={newBranch}/>   
         </Grid>
         {/* {branch === null ? null : (
         <GreyGrid item xs={12} sm={6} md={3} lg={3}>
@@ -259,19 +176,8 @@ export default function BranchSpecificContent(branch) {
          </ReactMapGL>
                     </MapContainer>
                     : null}
-
-          {/* Working hours */}
-          <GreyGrid item xs={12} sm={6} md={3} lg={3}>
-          <ol>{isLoading ?  <Loader size={10} color={"#f54275"} loading={isLoading} /> :  <Day> {text1}</Day> }  </ol>
-          <ol>{isLoading ?  <Loader size={10} color={"#f54275"} loading={isLoading} /> :  <Day> {text2}</Day> }  </ol>
-          <ol>{isLoading ?  <Loader size={10} color={"#f54275"} loading={isLoading} /> :  <Day> {text3}</Day> }  </ol>
-          <ol>{isLoading ?  <Loader size={10} color={"#f54275"} loading={isLoading} /> :  <Day> {text4}</Day> }  </ol>
-          <ol>{isLoading ?  <Loader size={10} color={"#f54275"} loading={isLoading} /> :  <Day> {text5}</Day> }  </ol>
-          <ol>{isLoading ?  <Loader size={10} color={"#f54275"} loading={isLoading} /> :  <Day> {text6}</Day> } </ol>
-         <ol>{isLoading ?  <Loader size={10} color={"#f54275"} loading={isLoading} /> :  <Day> {text7}</Day> }  </ol> 
-           </GreyGrid>
-
-      </Grid>
+              
+      </Grid>       
     </Kontejner>
   );
 }

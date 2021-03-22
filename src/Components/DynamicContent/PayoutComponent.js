@@ -130,12 +130,12 @@ export default function RegistrationContent({ branch }) {
         <Payout>
           <MyGrid container spacing={1}>
             <Grid item xs={12}><PayoutTitleRow>{DollarSvg} Přihlašovací údaje</PayoutTitleRow></Grid>
-              <Grid item xs={3} sm={3} md={3}><Collection>Email</Collection></Grid>
-            <Grid item xs={9} sm={9} md={9}><AmountText>testik</AmountText></Grid>
+              <Grid item xs={3} sm={3} md={3}><Collection>Login</Collection></Grid>
+            <Grid item xs={9} sm={9} md={9}><AmountText>donorapp</AmountText></Grid>
           </MyGrid>
           <LastGrid container spacing={1}>
               <Grid item xs={3} sm={3} md={3}><Collection>Heslo</Collection></Grid>
-            <Grid item xs={9} sm={9} md={9}><AmountText>testik</AmountText></Grid>
+            <Grid item xs={9} sm={9} md={9}><AmountText>pass</AmountText></Grid>
           </LastGrid>
          {/* <DottedBox> <Dotted/></DottedBox> */}
         </Payout>
