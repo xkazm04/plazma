@@ -30,7 +30,6 @@ import RegisterFormExisting from './RegistrationFormExisting'
 import ErrorMessage from '../Alerts/ErrorMessage';
 import OKMessage from '../Texts/OKMessage';
 
-
 const useStyles = makeStyles(() => ({
   forgottenForm: {
     marginLeft: "20px",
@@ -119,16 +118,17 @@ export default function Login() {
   const [registerFormType, setRegisterFormType] = useState(false)
 
 
+
     // Login request
   const handleLogin = async (e) => {
     e.preventDefault();
     setLoading(true);
     try {
-      const res = await axios.post("http://development-mobileapi.plasmastream.eu/Login", { Username: email, Password: password });
+      const res = await axios.post(process.env.REACT_APP_API_URL+"Login", { Username: email, Password: password });
     //  Catch token from response and save it (local storage)
       localStorage.setItem('jwt', res.data.token)
-      localStorage.setItem('defaultSubcenter', res.data.DefaultSubcenter)
-      localStorage.setItem('donorCode', res.data.DonorCode)
+      localStorage.setItem('defaultSubcenter', res.data.mobileUser.defaultSubcenterId)
+      localStorage.setItem('donorCode', res.data.mobileUser.DonorCode)
       setError(null);
       setIsAuth(true);
       setLoading(false);
@@ -182,7 +182,7 @@ export default function Login() {
   const passwordInquiry = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.post("https://virtserver.swaggerhub.com/xkazm04/User/1.0.0/resetPassword", { email });
+      const res = await axios.post(process.env.REACT_APP_API_URL+"/resetPassword", { email });
       console.log("Yess");
       handleCloseReset();
     } catch (err) {
@@ -214,6 +214,7 @@ export default function Login() {
         <Title title={t("userLogin.login")}  />
 
         <RegisterButton label={t("registerOption")} onClick={handleOpenRegister} />
+        {process.env.ENV_URL}
         <Line></Line>
         {/* Error message if state true */}
         {passwordSentMessage ? <OKMessage title={passwordSentMessage} /> : null}
