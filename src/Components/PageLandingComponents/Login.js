@@ -126,12 +126,19 @@ export default function Login() {
     try {
       const res = await axios.post(process.env.REACT_APP_API_URL+"Login", { Username: email, Password: password });
     //  Catch token from response and save it (local storage)
+      if (res.data.token == null){
+        console.log(res.data.metaData.notifications.message)
+        setError(res.data.metaData.notifications.message)
+        setLoading(false);
+      }
+      else {
       localStorage.setItem('jwt', res.data.token)
       localStorage.setItem('defaultSubcenter', res.data.mobileUser.defaultSubcenterId)
       localStorage.setItem('donorCode', res.data.mobileUser.DonorCode)
       setError(null);
       setIsAuth(true);
       setLoading(false);
+      }
     } catch (err) {
       // Error
       if (err.response) { 
