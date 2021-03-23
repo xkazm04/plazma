@@ -1,15 +1,16 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import {Link} from 'react-router-dom'
 
 import { useTranslation } from "react-i18next";
-import CreateReservation from "./CreateReservation";
 import styled from "styled-components";
 
 import RegisterButton from "../Buttons/RegisterButton";
 import FilledButton from "../Buttons/FilledButton";
-import Button from "../Buttons/FormButton";
 import Title from "../Texts/Title";
 
+// Icons
+import {EmptyReservationIcon} from '../Icons/Icons'
 import CloseIcon from '@material-ui/icons/Close';
 
 // Alert
@@ -61,7 +62,7 @@ const Xicon = styled(CloseIcon)`
     opacity: 0;
   }
 `
-
+ 
 
 const useStyles = makeStyles(() => ({
   container: {},
@@ -193,14 +194,11 @@ export default function NextVisit() {
 
           {nextVisit === null ? (
             <div className={classes.createReservation}>
+               <EmptyReservationIcon/>
               <div className={classes.noVisitMessage}>
                 <NoVisitMessage>{t("noNextReservation")}</NoVisitMessage>
-                <FilledButton onClick={openReservationForm} width="327px" label={t("Create reservation")}  />
+                <Link to="/CreateReservation">  <FilledButton onClick={openReservationForm} width="327px" label={t("Create reservation")}  /></Link>
               </div>
-            {/* If new reservation requested */}
-              {resForm ? <div> 
-           <CreateReservation changeVisit={nextVisit => setNextVisit(nextVisit)}/> 
-             </div>: null}
             </div>
           ) : (
             // Otherwise options to delete reservation

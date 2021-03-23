@@ -9,6 +9,7 @@ const StyledButton = styled.button`
     color: ${props => props.theme.Secondary.Main};
     background: ${props => props.theme.colors.blackWhite};
     position: relative;
+    z-index: 4;
     padding: .5rem;
     font-weight: bold;
     font-size: 0.9rem;

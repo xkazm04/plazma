@@ -14,6 +14,7 @@ import FilledButton from '../Buttons/FilledButton';
 import ToggleButton from "../Buttons/ToggleButton";
 import LinkButton from "../Buttons/LinkButton";
 import FormInput from "../Forms/FormInput";
+import SelectInput from "../Forms/SelectInput";
 import Title from "../Texts/Title";
 import TitleParagraphText from "../Texts/TitleParagraphText";
 
@@ -127,6 +128,7 @@ export default function Login() {
       const res = await axios.post(process.env.REACT_APP_API_URL+"Login", { Username: email, Password: password });
     //  Catch token from response and save it (local storage)
       if (res.data.token == null){
+        console.log('caught')
         console.log(res.data.metaData.notifications.message)
         setError(res.data.metaData.notifications.message)
         setLoading(false);
@@ -189,7 +191,7 @@ export default function Login() {
   const passwordInquiry = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.post(process.env.REACT_APP_API_URL+"/resetPassword", { email });
+      const res = await axios.post(process.env.REACT_APP_API_URL+"resetPassword", { email });
       console.log("Yess");
       handleCloseReset();
     } catch (err) {

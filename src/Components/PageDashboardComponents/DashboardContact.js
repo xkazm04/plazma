@@ -1,8 +1,9 @@
 
 import { useTranslation } from "react-i18next";
 import styled from "styled-components";
-import Grid from "@material-ui/core/Grid"
 import branchEnum from '../../enums/branches.json'
+
+import {MailIcon, PhoneIcon} from '../Icons/Icons'
 
 
 const Container = styled.div`
@@ -10,20 +11,8 @@ const Container = styled.div`
  margin-left: 2%;
  padding-bottom: 50px;
 `
-const TitleGrid = styled(Grid)`
-  color: #858795;
-  font-family: Roboto;
-  font-size: 14px;
-  padding: 5px;
-`
-
-const ContentGrid = styled(Grid)`
-  font-family: Roboto;
-  font-size: 16px;
-  padding: 5px;
-  @media screen and (max-width: 1000px) {
-    font-size: 14px;
-     }
+const ContactText = styled.a`
+  margin-left: 2%;
 `
 
 
@@ -33,15 +22,13 @@ export default function InfoTable1({branch}) {
     <>
 
       {branchEnum.data.filter(data => data.id == branch).map(filteredData => (
-        <Container container spacing={0}>
+        <Container>
 
           {filteredData.phone ? <>  
-         <TitleGrid item xs={3} lg={3}> Phone contact:   </TitleGrid> 
-         <ContentGrid item xs={9} lg={9}> {filteredData.phone} </ContentGrid></> : null}
+         <p>  <PhoneIcon/> <ContactText>{filteredData.phone} </ContactText>  </p></> : null}
 
          {filteredData.email ? <>  
-         <TitleGrid item xs={3} lg={3}> Email contact:   </TitleGrid> 
-         <ContentGrid item xs={9} lg={9}> {filteredData.email} </ContentGrid></> : null}
+          <p>  <MailIcon/> <ContactText>{filteredData.email} </ContactText>  </p></> : null}
          </Container>
 
       ))}

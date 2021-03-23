@@ -2,11 +2,11 @@ import React from 'react'
 import styled from 'styled-components'
 
 const StyledTitle = styled.h1` 
-    margin: 1rem 1.5rem;
     font-family: Inter;
     font-size: 18px;
     position: absolute;
-    margin-left: 1%;
+    margin-left: 3%;
+    margin-top: 5%;
     font-weight: 600;
     outline: none;
     color: ${(props) => props.theme.colors.font.paragraphText};

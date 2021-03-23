@@ -3,7 +3,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
 import styled from "styled-components";
 
-import NextVisit from '../Components/PageReservationComponents/NextVisit';
+import NextVisit from '../Components/PageDashboardComponents/NextVisit';
 
 const useStyles = makeStyles(() => ({
   container: {

@@ -150,7 +150,7 @@ export default function RegistrationFormNew({ branch, email, password }) {
     try {
       const res = await axios({
         method: "post",
-        url: "https://virtserver.swaggerhub.com/xkazm04/User/1.0.0/register",
+        url: process.env.REACT_APP_API_URL+"RegisterNewUser",
         data: {
           Username: formEmail,
           Password: formPassword,

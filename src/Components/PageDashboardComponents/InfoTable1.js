@@ -27,6 +27,7 @@ const TimeGrid = styled(Grid)`
     font-size: 14px;
      }
 `
+
 export default function InfoTable1({branch}) {
   const { t } = useTranslation();
 

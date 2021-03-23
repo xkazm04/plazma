@@ -9,6 +9,7 @@ const StyledButton = styled.button`
     color: ${props => props.theme.colors.blackWhite};
     background: ${props =>  props.color || props.theme.Primary.Main};
     position: relative;
+    z-index: 4;
     padding: .5rem;
     font-size: 0.9rem;
     font-family: Roboto;
