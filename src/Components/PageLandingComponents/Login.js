@@ -104,6 +104,24 @@ const Xicon = styled(CloseIcon)`
   }
 `
 
+const LoginTitle = styled.p`
+font-family: Roboto;
+font-style: normal;
+font-weight: bold;
+font-size: 28px;
+line-height: 150%;
+text-align: center;
+letter-spacing: -0.01em;
+color: #0B3A3D;
+@media screen and (max-width: 1000px) {
+  font-size: 15px;
+  }
+`
+
+const Highlight = styled.a`
+  color: ${(props) => props.theme.Primary.Main};
+`
+
 export default function Login() {
   const { t } = useTranslation();
   const classes = useStyles();
@@ -220,8 +238,7 @@ export default function Login() {
     <Kontejner>
       
       <FormContainer>
-        <Title title={t("userLogin.login")}  />
-
+       <LoginTitle> Become a donor <Highlight>Today</Highlight> </LoginTitle>
         <RegisterButton label={t("registerOption")} onClick={handleOpenRegister} />
         {process.env.ENV_URL}
         <Line></Line>

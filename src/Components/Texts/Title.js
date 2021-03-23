@@ -6,6 +6,10 @@ const StyledTitle = styled.h1`
     font-family: Roboto;
     font-size: 28px;
     font-weight: 500;
+    font-family: Roboto;
+/* identical to box height */
+
+letter-spacing: -0.01em;
     outline: none;
     color: #0B3A3D;
     text-decoration:  ${props => props.theme.colors.text};

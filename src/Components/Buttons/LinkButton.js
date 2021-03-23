@@ -8,7 +8,7 @@ const StyledButton = styled.button`
     outline: none;
     position: relative;
     font-family: Inter;
-    font-size: 0.8rem;
+    font-size: 14px;
     text-align: center;
     border: none;
     background-color: inherit;
@@ -21,7 +21,7 @@ const StyledButton = styled.button`
         transition-duration: 0.2s;
     }
     @media screen and (max-width: 700px) {
-     font-size: 0.8rem;
+     font-size: 10px;
      }
 
 `
