@@ -14,15 +14,12 @@ import FilledButton from '../Buttons/FilledButton';
 import ToggleButton from "../Buttons/ToggleButton";
 import LinkButton from "../Buttons/LinkButton";
 import FormInput from "../Forms/FormInput";
-import SelectInput from "../Forms/SelectInput";
-import Title from "../Texts/Title";
 import TitleParagraphText from "../Texts/TitleParagraphText";
 
 import Dialog from "@material-ui/core/Dialog";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogActions from "@material-ui/core/DialogActions";
 import CloseIcon from '@material-ui/icons/Close';
-
 
 import RegisterFormNew from './RegistrationFormNew'
 import RegisterFormExisting from './RegistrationFormExisting'
@@ -126,6 +123,7 @@ export default function Login() {
   const { t } = useTranslation();
   const classes = useStyles();
   const [error, setError] = useState(null);
+  const [errorMessage, setErrorMessage] = useState(null)
   const [loading, setLoading] = useState(false)
   
   const { setIsAuth } = useContext(UserContext);
@@ -146,7 +144,7 @@ export default function Login() {
       const res = await axios.post(process.env.REACT_APP_API_URL+"Login", { Username: email, Password: password });
     //  Catch token from response and save it (local storage)
       if (res.data.token == null){
-        console.log('caught')
+        console.log('caught metadata error')
         console.log(res.data.metaData.notifications.message)
         setError(res.data.metaData.notifications.message)
         setLoading(false);
@@ -168,13 +166,14 @@ export default function Login() {
       } else if (err.request) { 
         // client never received a response, or request never left 
         console.log(err)
+        setError("Technical error")
+        setErrorMessage("Please try again request later")
         setLoading(false);
       } else { 
         // anything else 
         console.log(err.message)
       } 
     console.log(err.message);
-    setError(err.message);
     setLoading(false);
     }
   };
@@ -262,7 +261,7 @@ export default function Login() {
           type="password"
           placeholder={t("userLogin.password")}
         />
-         {error ? <ErrorMessage title={error} /> : null}
+         {error ? <ErrorMessage title={error} message={errorMessage} /> : null}
         <FilledButton label={t("loginOption")} onClick={handleLogin} />
         <br></br>
         <LinkButton width="100%"

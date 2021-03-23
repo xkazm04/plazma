@@ -8,6 +8,7 @@ import {UserContext } from './Components/Utils/UserContext'
 
 import Header from "./Components/PageCoreComponents/Header";
 import ResetPassword from "./Pages/ResetPassword";
+import CreateReservation from "./Pages/CreateReservation";
 import Reservations from "./Pages/Reservations";
 import Profile from './Pages/Profile'
 import Home from './Pages/Home'
@@ -25,7 +26,7 @@ import DateRangeIcon from '@material-ui/icons/DateRange';
 import PermIdentityIcon from '@material-ui/icons/PermIdentity';
 
 import back from './Back.jpg'; 
-import CreateReservation from "./Components/PageReservationComponents/CreateReservation";
+
 
 
 // Overriding Material UI with styled component
@@ -57,8 +58,8 @@ const StyledLink = styled.a`
 const Footer = styled(Grid)`
   background: ${(props) => props.theme.Primitive.Shade};
   height: 100%;
-  min-height: 10vh;
   position: sticky;
+  z-index: 5;
   bottom: 0;
   @media screen and (min-width: 700px) {
       display: none;

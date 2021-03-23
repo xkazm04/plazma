@@ -37,7 +37,6 @@ export default function DashboardLocation({branch}) {
         <Container container spacing={0}>
 
           {filteredData.address ? <>  
-         <TitleGrid item xs={3} lg={3}> Address:   </TitleGrid> 
          <ContentGrid item xs={9} lg={9}> {filteredData.address} </ContentGrid></> : null}
 
          </Container>

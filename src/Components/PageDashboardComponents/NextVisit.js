@@ -7,7 +7,7 @@ import styled from "styled-components";
 
 import RegisterButton from "../Buttons/RegisterButton";
 import FilledButton from "../Buttons/FilledButton";
-import Title from "../Texts/Title";
+import TitleHuge from "../Texts/TitleHuge";
 
 // Icons
 import {EmptyReservationIcon} from '../Icons/Icons'
@@ -16,6 +16,7 @@ import CloseIcon from '@material-ui/icons/Close';
 // Alert
 import Snackbar from "@material-ui/core/Snackbar";
 import MuiAlert from "@material-ui/lab/Alert";
+import Grid from "@material-ui/core/Grid";
 
 import { makeStyles } from "@material-ui/core/styles";
 import Dialog from "@material-ui/core/Dialog";
@@ -62,10 +63,18 @@ const Xicon = styled(CloseIcon)`
     opacity: 0;
   }
 `
+
+const Kontejner = styled.div`
+  background: white;
+  width: 40%;
+  padding: 3%;
+  @media screen and (max-width: 1000px) {
+    width: 800%;
+  }
+`
  
 
 const useStyles = makeStyles(() => ({
-  container: {},
   noVisitMessage: {
     paddingLeft: "6%",
     width: "90%",
@@ -182,13 +191,18 @@ export default function NextVisit() {
   };
 
   return (
-    <div className={classes.container}>
-      <Title title={t("reservation_next")} />
+    <>
+    
+      <TitleHuge title={t("reservation_next")} />
       <br></br>
       {isLoading ? (
         <Loader size={10} color={"#f54275"} loading={isLoading} />
       ) : (
-        <div>
+        <Grid container   spacing={0}
+        direction="column"
+        alignItems="center"
+        justify="center" >
+          <Kontejner>
           <Date>{nextVisit} </Date>
           {/* If no planned reservation, show message and option to create new one */}
 
@@ -215,7 +229,8 @@ export default function NextVisit() {
               />
             </div>
           )}
-        </div>
+          </Kontejner>
+        </Grid>
       )}
       {/* Slide dialog to delete reservation  */}
       <MyDialog open={open} onClose={handleClose}>
@@ -240,6 +255,6 @@ export default function NextVisit() {
       >
         <MuiAlert severity="success">Yeeeah</MuiAlert>
       </Snackbar>
-    </div>
+    </>
   );
 }

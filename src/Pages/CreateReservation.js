@@ -3,10 +3,10 @@ import { useTranslation } from "react-i18next";
 import styled from "styled-components";
 import axios from 'axios'
 
-import Title from "../Texts/Title";
-import RegisterButton from "../Buttons/RegisterButton";
-import FilledButton from "../Buttons/FilledButton";
-import SelectInput from "../Forms/SelectInput";
+import Title from "../Components/Texts/Title";
+import RegisterButton from "../Components/Buttons/RegisterButton";
+import FilledButton from "../Components/Buttons/FilledButton";
+import SelectInput from "../Components/Forms/SelectInput";
 
 import Radio from "@material-ui/core/Radio";
 import RadioGroup from "@material-ui/core/RadioGroup";
@@ -18,8 +18,8 @@ import DialogTitle from "@material-ui/core/DialogTitle";
 import TextField from '@material-ui/core/TextField';
 
 import Grid from '@material-ui/core/Grid';
-import { NewFormInput } from "../Forms/NewFormInput";
-import InfoMessage from '../Alerts/InfoMessage';
+import { NewFormInput } from "../Components/Forms/NewFormInput";
+import InfoMessage from '../Components/Alerts/InfoMessage';
 
 const dummySlots = [
   {
@@ -152,11 +152,10 @@ export default function CreateReservation({ changeVisit }) {
   return (
     <div>
       <Grid container spacing={0} justify="center" >
-        <Title title="Reservation"/>
+        <Title title="Reservation - Under construction"/>
         <CreateReservationContainer>
         <Grid item xs={12} lg={12}>
-          <NewFormInput/>
-          <NewFormInput/>
+
         <DateField
         id="date"
         label="Termín"
@@ -172,16 +171,7 @@ export default function CreateReservation({ changeVisit }) {
           label={t("visits.findSlots")}
           onClick={handleFindNewTerm}
         />
-        <label for="selectid">Label</label>
-        <SelectInput id={"selectid"} required 
-        children={
-          
-        <optgroup>
-          <option>option1</option>
-          <option>option2</option>
-        </optgroup>
 
-        }/>
         {/* Display found slots via radio buttons */}
         {slotFound ? null : null}
         {slotFound ? (
