@@ -61,6 +61,9 @@ const PayoutTitleRow = styled.div`
   margin-bottom: 3%;
   padding-top: 5%;
   padding-bottom: 5%;
+  @media screen and (max-width: 800px) {
+  font-size: 15px;
+  }
 `
 
 
@@ -71,6 +74,9 @@ const Collection = styled.p`
   font-weight: 700;
   font-family: Roboto;
   font-size: 18px;
+  @media screen and (max-width: 800px) {
+  font-size: 15px;
+  }
 `
 
 const AmountText = styled.p`
@@ -79,6 +85,9 @@ const AmountText = styled.p`
   font-weight: 400;
   font-family: Roboto;
   font-size: 18px;
+  @media screen and (max-width: 800px) {
+  font-size: 15px;
+  }
 `
 
 const MyGrid = styled(Grid)`
@@ -94,8 +103,16 @@ const LastGrid = styled(Grid)`
   max-width: 80%;
 `
 
+const Title = styled.h1`
+  @media screen and (max-width: 800px) {
+  font-size: 17px;
+  }
+`
 const Subtitle = styled.h2`
   font-weight: 300;
+  @media screen and (max-width: 800px) {
+  font-size: 15px;
+  }
 `
 
 const DottedDivRight = styled.div`
@@ -134,7 +151,7 @@ export default function RegistrationContent({ branch }) {
   return (
     <Kontejner>
         <Welcome>   
-      <h1>Be A Hero - It's in your blood</h1>
+      <Title>Be A Hero - It's in your blood</Title>
       <Subtitle>PlasmaStream will make you happy</Subtitle>
       <SubSub>Because we care<Space3/><HeartIcon/></SubSub>
 

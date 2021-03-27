@@ -8,8 +8,6 @@ import PayoutComponent from "../Components/DynamicContent/PayoutComponent";
 
 import Grid from "@material-ui/core/Grid";
 
-
-
 const Kontejner = styled.div`
   text-align: center;
   color: ${(props) => props.theme.blackwhite};
@@ -40,7 +38,7 @@ export default function Home() {
       {isAuth === true ? (
         <Dashboard />
       ) : (
-        // If not, show Login/Registered from
+        // If not, show Welcome page with login form
         <div>
           <Grid container spacing={3}>
             <Grid item xs={12} sm={12} md={12} lg={6}>

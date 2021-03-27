@@ -6,7 +6,7 @@ import useFormState from "../../hooks/useFormState";
 import axios from "axios";
 // Material UI form control
 import { makeStyles } from "@material-ui/core/styles";
-import styled, {keyframes} from "styled-components";
+import styled from "styled-components";
 
 import Grid from "@material-ui/core/Grid";
 import Dialog from "@material-ui/core/Dialog";
@@ -18,10 +18,9 @@ import DialogTitle from "@material-ui/core/DialogTitle";
 import Button from "../Buttons/FormButton";
 import DisabledButton from "../Buttons/DisabledButton";
 import FilledButton from "../Buttons/FilledButton";
-import RegisterButton from '../Buttons/RegisterButton';
 import GdprDialog from "../Texts/Gdpr";
 import LinkButton from "../Buttons/LinkButton";
-import ErrorMessage from "../Alerts/ErrorMessage";
+import {ErrorMessage} from '../Alerts/Alerts';
 import Title from "../Texts/Title";
 import Checkbox from "../Forms/Checkbox";
 
@@ -60,7 +59,6 @@ const GdprGrid = styled(Grid)`
   font-family: Roboto;
   font-size: 0.8rem;
 `
-
 
 const FormTitle = styled.div`
   margin-top: 5%;
@@ -108,52 +106,42 @@ export default function RegistrationFormExisting({ password, email }) {
 
   const validateAndSubmit = () => {
     // Validate required fields
-    if (error == null) {
+    if (error === null) return
       onSubmit();
       clearErrors()
-    }
-     else {
-      
-    }
+    return 
   };
 
 
   const validateDonor = () => {
-    if (donorCode == "") {
+    if (donorCode === "") return
       setError(true)
       setDonorError(true);
-    }     else {
+    return
       setDonorError(false);
-    }
   }
 
   const validateEmail = () => {
-    if (formEmail == "") {
-      setError(true)
+    if (formEmail === "") return
+      setError(true);
       setEmailError(true);
-    }     else {
+    return
       setEmailError(false);
-    }
   }
 
   const validatePassword = () => {
-    if (formPassword == "") {
+    if (formPassword === "") return 
       setError(true);
       setPasswordError(true)
-    } else {
-      setPasswordError(false)
-    }
+    return setPasswordError(false)
   }
 
   const validateRepeatedPassword = () => {
-    if (repeatedPassword == "") {
+    if (repeatedPassword === "") return
       setError(true);
       setRepeatedPasswordError(true)
-    }  else if (repeatedPassword != formPassword) {
-      setRepeatedPasswordError(true)
-    } else {
-      setRepeatedPasswordError(false)
-    }
+    if (repeatedPassword !== formPassword) return  setRepeatedPasswordError(true);
+    return setRepeatedPasswordError(false)
   }
 
   const clearErrors = () => {
@@ -171,6 +159,7 @@ export default function RegistrationFormExisting({ password, email }) {
       const res = await axios({
         method: "post",
         url: process.env.REACT_APP_API_URL+"RegisterExistingUser",
+        timeout: 5000,
         data: {
           Username: formEmail,
           Password: formPassword,
@@ -189,8 +178,9 @@ export default function RegistrationFormExisting({ password, email }) {
         // client received an error response (5xx, 4xx)
         console.log(err.response);
       } else if (err.request) {
-        // client never received a response, or request never left
-        console.log(err.request);
+        // client never received a response, or request never left (5xx)
+        console.log(err)
+        setError(t("error_common"))
       } else {
         // anything else
       }

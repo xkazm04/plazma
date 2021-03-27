@@ -1,5 +1,4 @@
 import { useState, useContext } from "react";
-import { makeStyles } from "@material-ui/core/styles";
 import { useTranslation } from "react-i18next";
 import { UserContext } from "../Utils/UserContext";
 
@@ -19,28 +18,13 @@ import TitleParagraphText from "../Texts/TitleParagraphText";
 import Dialog from "@material-ui/core/Dialog";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogActions from "@material-ui/core/DialogActions";
-import CloseIcon from '@material-ui/icons/Close';
 
 import RegisterFormNew from './RegistrationFormNew'
 import RegisterFormExisting from './RegistrationFormExisting'
 
 //Alerts
-import ErrorMessage from '../Alerts/ErrorMessage';
+import {ErrorMessage} from '../Alerts/Alerts';
 import OKMessage from '../Texts/OKMessage';
-
-const useStyles = makeStyles(() => ({
-  forgottenForm: {
-    marginLeft: "20px",
-    marginRight: "20px",
-    padding: '20px',
-  },
-  registerTitle:{
-    marginTop: '5%',
-    marginBottom: '2%',
-    display: "flex",
-    justifyContent: "center",
-  }
-}));
 
 
 const Kontejner = styled.div`
@@ -48,6 +32,9 @@ const Kontejner = styled.div`
     display: flex;
     position: relative;
     justify-content: center;
+    @media screen and (max-width: 700px) {
+    margin-top: 0;
+     }
 `
 
 const FormContainer = styled.div`
@@ -88,8 +75,8 @@ const Line = styled.div`
   height: 2px;
 `
 
-const Xicon = styled(CloseIcon)`
-  position: absolute;
+const Xicon = styled.div`
+  position: fixed;
   margin-left: 78%;
   color: ${(props) => props.theme.Primary.Main};
   &:hover{
@@ -102,15 +89,15 @@ const Xicon = styled(CloseIcon)`
 `
 
 const LoginTitle = styled.p`
-font-family: Roboto;
-font-style: normal;
-font-weight: bold;
-font-size: 28px;
-line-height: 150%;
-text-align: center;
-letter-spacing: -0.01em;
-color: #0B3A3D;
-@media screen and (max-width: 1000px) {
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 28px;
+  line-height: 150%;
+  text-align: center;
+  letter-spacing: -0.01em;
+  color: #0B3A3D;
+@media screen and (max-width: 800px) {
   font-size: 15px;
   }
 `
@@ -121,7 +108,6 @@ const Highlight = styled.a`
 
 export default function Login() {
   const { t } = useTranslation();
-  const classes = useStyles();
   const [error, setError] = useState(null);
   const [errorMessage, setErrorMessage] = useState(null)
   const [loading, setLoading] = useState(false)
@@ -135,20 +121,28 @@ export default function Login() {
   const [registerFormType, setRegisterFormType] = useState(false)
 
 
-
     // Login request
   const handleLogin = async (e) => {
     e.preventDefault();
     setLoading(true);
     try {
-      const res = await axios.post(process.env.REACT_APP_API_URL+"Login", { Username: email, Password: password });
-    //  Catch token from response and save it (local storage)
+      const res = await axios({
+        method: "post",
+        timeout: 5000,
+        url: process.env.REACT_APP_API_URL+"Login",
+        data: {
+          Username: email,
+          Password: password,
+        }
+      });
+    //  Metadata Error
       if (res.data.token == null){
         console.log('caught metadata error')
         console.log(res.data.metaData.notifications.message)
         setError(res.data.metaData.notifications.message)
         setLoading(false);
       }
+    // Response 200
       else {
       localStorage.setItem('jwt', res.data.token)
       localStorage.setItem('defaultSubcenter', res.data.mobileUser.defaultSubcenterId)
@@ -160,20 +154,20 @@ export default function Login() {
     } catch (err) {
       // Error
       if (err.response) { 
-        // client received an error response (5xx, 4xx)
+        // client received an error response (5xx)
         console.log(err)
-        setLoading(false);
+        setError(t("error_common"))
+        setErrorMessage(t("error_message_common"))
       } else if (err.request) { 
-        // client never received a response, or request never left 
+        // client never received a response, or request never left (4xx)
         console.log(err)
-        setError("Technical error")
-        setErrorMessage("Please try again request later")
-        setLoading(false);
+        setError(t("error_common"))
+        setErrorMessage(t("error_message_common"))
       } else { 
         // anything else 
-        console.log(err.message)
+        setError(t("error_common"))
+        setErrorMessage(t("error_message_common"))
       } 
-    console.log(err.message);
     setLoading(false);
     }
   };
@@ -196,32 +190,31 @@ export default function Login() {
     setOpenRegisterDialog(false);
   };
 
+  // Toggle Registration form New/Existing
   const toggleRegisterType = () => {
-    if (registerFormType === true) {
-      setRegisterFormType(!registerFormType);
-    } else {
-      setRegisterFormType(!registerFormType);
-    }
-  };
+    if (registerFormType === true) return setRegisterFormType(!registerFormType);
+    return setRegisterFormType(!registerFormType)
+  }
 
 
   const passwordInquiry = async (e) => {
     e.preventDefault();
     try {
       const res = await axios.post(process.env.REACT_APP_API_URL+"resetPassword", { email });
-      console.log("Yess");
+      console.log(res);
       handleCloseReset();
     } catch (err) {
       // Error 😨
       if (err.response) {
-        // client received an error response (5xx, 4xx)
+        // client received an error response (4xx)
         console.log(err.response);
-        setError("Reset password error")
+        setError(t("error_resetPassword"))
         setLoading(false);
       } else if (err.request) {
-        setError("Reset password error")
-        // client never received a response, or request never left
-        console.log(err.request);
+        // client never received a response, or request never left (5xx)
+        console.log(err)
+        setError(t("error_common"))
+        setErrorMessage(t("error_message_common"))
         setLoading(false);
       } else {
       }
@@ -235,7 +228,6 @@ export default function Login() {
 
 // Login component
     <Kontejner>
-      
       <FormContainer>
        <LoginTitle> Become a donor <Highlight>Today</Highlight> </LoginTitle>
         <RegisterButton label={t("registerOption")} onClick={handleOpenRegister} />
@@ -289,7 +281,6 @@ export default function Login() {
       {/* Forgotten email dialog */}
       <MyDialog open={openResetDialog} onClose={handleCloseReset} maxWidth={"lg"}>
         <ResetDialogContent>
-          <div className={classes.forgottenForm}>
             <Xicon onClick={handleCloseReset}/>
             <TitleParagraphText
               content=
@@ -302,7 +293,6 @@ export default function Login() {
               type={"email"}
               required={"required"}
             />
-          </div>
           <DialogActions>
             <RegisterButton onClick={handleCloseReset} label={t("button_back")} />
             <FilledButton  onClick={passwordInquiry} label={t("button_send")}/>

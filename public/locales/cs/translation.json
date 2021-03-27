@@ -32,6 +32,18 @@
       "cancelReservation": "Zrušit rezervaci",
       "findSlots": "Najít termín"
     },
+    "day":{
+      "monday": "Pondělí",
+      "tuesday": "Úterý",
+      "wednesday": "Středa",
+      "thursday": "Čtvrtek",
+      "friday": "Pátek",
+      "saturday": "Sobota",
+      "sunday": "Neděle"
+    },
+    "alert":{
+      "reservation_canceled": "Rezervace byla zrušena"
+    },
     "or":"nebo",
     "button_no": "Ne",
     "button_back": "Zpět",
@@ -84,5 +96,14 @@
     "reservation_noSlotsAvailable": "Pro tuto dobu nenalezen volný čas pro rezervaci",
     "reservation_next":"Datum příští rezervace",
     "reservation_warning": "Prosím dostavte se nejpozději 30 minut před časem rezervace!!!",
-    "reservation_cancel": "Opravdu si přejete zrušit rezervaci??"
+    "reservation_cancel": "Opravdu si přejete zrušit rezervaci??",
+    "dashboardTitle_workingHours": "Pracovní doba",
+    "dashboardTitle_contact": "Kontakt",
+    "dashboardTitle_location": "Kde nás najdete",
+    "error_common": "Techická chyba",
+    "error_message_common": "Akci se nepodařilo provézt, prosím opakujte akci později",
+    "resetPass_title": "Změna hesla",
+    "resetPass_info": "Změna hesla info",
+    "resetPass_success": "Reset hesla byl úspěšně proveden, redirect...",
+    "resetPass_button_homepage": "Jít na hlavní stránku"
   }

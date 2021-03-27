@@ -11,19 +11,17 @@ import TitleHuge from "../Texts/TitleHuge";
 
 // Icons
 import {EmptyReservationIcon} from '../Icons/Icons'
-import CloseIcon from '@material-ui/icons/Close';
 
 // Alert
 import Snackbar from "@material-ui/core/Snackbar";
 import MuiAlert from "@material-ui/lab/Alert";
 import Grid from "@material-ui/core/Grid";
-
-import { makeStyles } from "@material-ui/core/styles";
 import Dialog from "@material-ui/core/Dialog";
 import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 import ParagraphText from "../Texts/ParagraphText";
 import Loader from "react-spinners/GridLoader";
+import {ErrorMessage} from '../Alerts/Alerts';
 
 // Styled components
 const Date = styled.h1`
@@ -51,55 +49,23 @@ const MyDialogContent = styled(DialogContent)`
   }
 `;
 
-const Xicon = styled(CloseIcon)`
-  position: absolute;
-  margin-left: 85%;
-  color: ${(props) => props.theme.Primary.Main};
-  &:hover{
-    cursor:pointer;
-    color: ${(props) => props.theme.Primary.Dark};
-  };
-  @media screen and (max-width: 1000px) {
-    opacity: 0;
-  }
-`
-
 const Kontejner = styled.div`
   background: white;
-  width: 40%;
   padding: 3%;
   @media screen and (max-width: 1000px) {
-    width: 800%;
+    width: 100%;
   }
 `
  
-
-const useStyles = makeStyles(() => ({
-  noVisitMessage: {
-    paddingLeft: "6%",
-    width: "90%",
-  },
-  inputItem: {
-    display: "flex",
-    flexDirection: "column",
-  },
-}));
-
 export default function NextVisit() {
   const { t } = useTranslation();
   const [isLoading, setLoading] = useState(true);
   const myDonorCode = localStorage.getItem("donorCode");
   const [nextVisit, setNextVisit] = useState(null);
   const [reservationId, setReservationId] = useState(null);
-  const classes = useStyles();
   const [open, setOpen] = useState(false);
-
-
-  // Reservation form
-  const [resForm, setResForm] = useState(false)
-  const openReservationForm = () => {
-    setResForm(true)
-  }
+  const [error, setError] = useState(null);
+  const [errorMessage, setErrorMessage] = useState(null);
   
 
   // Alert dialog
@@ -142,8 +108,10 @@ export default function NextVisit() {
         // client received an error response (5xx, 4xx)
         console.log(err.response);
       } else if (err.request) {
-        // client never received a response, or request never left
-        console.log(err.request);
+        console.log(err)
+        setError(t("error_common"))
+        setErrorMessage(t("error_message_common"))
+        setLoading(false);
       } else {
         // anything else
       }
@@ -162,13 +130,13 @@ export default function NextVisit() {
   // Cancel reservation API
   const cancelReservation = async () => {
     try {
+      // TODO - Pass to existing 
       const res = await axios({
         method: "post",
         timeout: 5000,
-        url:
-          "https://virtserver.swaggerhub.com/xkazm04/User/1.0.0/cancelReservation",
+        url: "https://virtserver.swaggerhub.com/xkazm04/User/1.0.0/getNextReservationDate",
         data: {
-          ReservationId: reservationId,
+          Id: reservationId,
         },
       });
       console.log(res.data);
@@ -179,20 +147,22 @@ export default function NextVisit() {
       // Error
       if (err.response) {
         // client received an error response (5xx, 4xx)
+        setOpen(false);
         console.log(err.response);
       } else if (err.request) {
-        // client never received a response, or request never left
-        console.log(err.request);
+        setOpen(false);
+        setError(t("error_common"))
+        setErrorMessage(t("error_message_common"))
       } else {
         // anything else
       }
       console.log(err);
+      setLoading(false);
     }
   };
 
   return (
     <>
-    
       <TitleHuge title={t("reservation_next")} />
       <br></br>
       {isLoading ? (
@@ -207,13 +177,11 @@ export default function NextVisit() {
           {/* If no planned reservation, show message and option to create new one */}
 
           {nextVisit === null ? (
-            <div className={classes.createReservation}>
+            <>
                <EmptyReservationIcon/>
-              <div className={classes.noVisitMessage}>
                 <NoVisitMessage>{t("noNextReservation")}</NoVisitMessage>
-                <Link to="/CreateReservation">  <FilledButton onClick={openReservationForm} width="327px" label={t("Create reservation")}  /></Link>
-              </div>
-            </div>
+                <Link to="/CreateReservation">  <FilledButton width="327px" label={t("Create reservation")}  /></Link>
+            </>
           ) : (
             // Otherwise options to delete reservation
             <div>
@@ -222,6 +190,7 @@ export default function NextVisit() {
                   t("reservation_warning")
                 }
               />
+              {error ? <ErrorMessage title={error} message={errorMessage} /> : null}
               <FilledButton
                 onClose={handleClose}
                 onClick={handleClickOpen}
@@ -235,11 +204,10 @@ export default function NextVisit() {
       {/* Slide dialog to delete reservation  */}
       <MyDialog open={open} onClose={handleClose}>
         <MyDialogContent>
-          <Xicon onClick={handleClose}/>
           <ParagraphText content={t("reservation_cancel")}/> 
           <DialogActions>
-             <RegisterButton label={t("button_no")} width="50%" onClick={handleClose} />
              <FilledButton label={t("button_confirm")} width="50%" onClick={cancelReservation} />
+             <RegisterButton label={t("button_no")} width="50%" onClick={handleClose} />
           </DialogActions>
         </MyDialogContent>
       </MyDialog>
@@ -249,11 +217,11 @@ export default function NextVisit() {
           vertical: "top",
           horizontal: "center",
         }}
-        open={successAlertOpen}
-        autoHideDuration={5000}
-        onClose={handleCloseSuccessAlert}
+          open={successAlertOpen}
+          autoHideDuration={5000}
+          onClose={handleCloseSuccessAlert}
       >
-        <MuiAlert severity="success">Yeeeah</MuiAlert>
+        <MuiAlert severity="success">{t("alert.reservation_canceled")}</MuiAlert>
       </Snackbar>
     </>
   );

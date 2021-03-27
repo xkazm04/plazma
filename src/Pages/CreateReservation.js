@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import styled from "styled-components";
 import axios from 'axios'
@@ -6,60 +6,17 @@ import axios from 'axios'
 import Title from "../Components/Texts/Title";
 import RegisterButton from "../Components/Buttons/RegisterButton";
 import FilledButton from "../Components/Buttons/FilledButton";
-import SelectInput from "../Components/Forms/SelectInput";
 
-import Radio from "@material-ui/core/Radio";
-import RadioGroup from "@material-ui/core/RadioGroup";
-import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Dialog from "@material-ui/core/Dialog";
 import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import TextField from '@material-ui/core/TextField';
+import Select from 'react-select';
 
 import Grid from '@material-ui/core/Grid';
-import { NewFormInput } from "../Components/Forms/NewFormInput";
-import InfoMessage from '../Components/Alerts/InfoMessage';
-
-const dummySlots = [
-  {
-    label: "10:15",
-    value: "Monday 12.1. 10:15",
-  },
-  {
-    label: "10:30",
-    value: "Monday 12.1. 10:30",
-  },
-  {
-    label: "10:45",
-    value: "Monday 12.1. 10:45",
-  },
-  {
-    label: "11:00",
-    value: "Monday 12.1. 11:00",
-  },
-]
-export default function CreateReservation({ changeVisit }) {
-  const [date, setDate] = useState();
-  const [open, setOpen] = useState(false);
-  const [alertError, setAlertError] = useState(null)
-  const [slotStart, setSlotStart] = useState()
-  const [slotEnd, setSlotEnd] = useState()
-  const [loading, setLoading] = useState(null)
-
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
-
-  const handleClose = () => {
-    setOpen(false);
-  };
-
-  const createReservation = () => {
-    setOpen(false);
-    changeVisit(slotSelected);
-  };
-
+import {InfoMessage} from '../Components/Alerts/Alerts';
+import moment from 'moment';
   // Dialog
   const MyDialog = styled(Dialog)`
     background: ${(props) => props.theme.colors.blackWhite};
@@ -80,23 +37,94 @@ export default function CreateReservation({ changeVisit }) {
   const DateField = styled(TextField)`
     width: 100%;
   `
+  const SelectContainer = styled.div`
+    margin-top: 7%;
+  `
+
+  // react-select styling
+  const customSelectStyles = {
+    option: (provided, state) => ({
+      ...provided,
+      borderBottom: '2px dotted green',
+      color: state.isSelected ? 'yellow' : 'black',
+      backgroundColor: state.isSelected ? 'green' : 'white'
+    }),
+    control: (provided) => ({
+      ...provided,
+      marginTop: "5%",
+    })
+  }
 
 
-
-
+export default function CreateReservation() {
   const { t } = useTranslation();
+  // Default Slot range for getting slots (2 months)
+  const tomorrow = moment().add(1,'days').format("YYYY-MM-DD");
+  const monthperiod = moment().add(60,'days').format("YYYY-MM-DD");
+  // Timezone to pass in header (source: Browser)
+  const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone
+
+  const [open, setOpen] = useState(false);
+  const [alertError, setAlertError] = useState(null)
+  const [alertSuccess, setAlertSuccess] = useState(false)
+  const [loading, setLoading] = useState(null)
+
+  
   const [slots, setSlots] = useState([]);
-  const [slotSelected, setSlot] = useState(null);
-  const pickSlot = (event) => {
-    setSlot(event.target.value);
+  const [freeOptions, setFreeOptions] = useState([])
+  const [slotSelected, setSelectedSlot] = useState([]);
+  const token = localStorage.getItem('jwt');
+  const subcenterid = localStorage.getItem('defaultSubcenter')
+
+  const handleClickOpen = () => {
+    setOpen(true);
   };
 
-      // Login request
+  const handleClose = () => {
+    setOpen(false);
+  };
+
+  const createReservation = () => {
+    setOpen(false);
+  };
+
+  const handleChange = (item) => {
+    setSelectedSlot(item.value)
+    console.log(item)
+  }
+
+
+    // Find Slots within default date range
+    useEffect(() => {
+      findSlots();
+      setTimeout(() => {
+        setLoading(false);
+      }, 2000);
+    }, []);
+
+      // Get Slots for given time period
+      // npm install -g json-server
+      // json-server --watch db.json --port 3001
+      // Will be needed to adjust response
       const findSlots = async () => {
         try {
-          const res = await axios.post("https://virtserver.swaggerhub.com/xkazm04/User/1.0.0/login");
-          console.log(slots);
-          setSlots(dummySlots)
+          const res = await axios({
+            method: "get",
+            url: 'http://localhost:3001/slots',
+            data: {
+              From: tomorrow,
+              To: monthperiod,
+              SubcenterId: subcenterid 
+            },
+        // Hardcoded timezone
+            headers: { 
+              Authorization: `Bearer ${token}`,
+              ai_tzn: timezone
+            }
+          });
+          console.log(res.data);
+          setSlots(res.data);
+          
         } catch (err) {
           // Error
           if (err.response) { 
@@ -111,15 +139,26 @@ export default function CreateReservation({ changeVisit }) {
         }
       };
 
-  // Dummy toggle found slots
 
-  const [slotFound, setSlotFound] = useState(false);
-
-
-  const handleFindNewTerm = () => {
-    setSlotFound(true);
-    findSlots();
-  };
+      //0. Filter free slots
+     const filterSlotFunction = () => {
+        const freeSlots = slots.filter(d => d.slotCapacityTotal > d.slotCapacityUsed);
+        if (freeSlots.length === 0) {
+          //do something if there isn't a match
+          alert("sorry there are no results for that search");
+          
+        } else{
+      //1. Get unique free dates from Slots (Stringify x Reduce x Slice)
+      //2. Highlight unique dates in Datepicker
+      //3. Filter slots
+          setFreeOptions(freeSlots)
+        }
+      }
+      const options = freeOptions.map(d => ({
+        "value" : d.id,
+        "label" : (d.timeFrom).slice(11, -3)
+      }))
+  // Register api
 
   const onSubmit = async () => {
     setLoading(true);
@@ -131,6 +170,7 @@ export default function CreateReservation({ changeVisit }) {
       setTimeout(() => {
         setLoading(false);
       }, 2000);
+      console.log(res)
     } catch (err) {
       // Error 😨
       if (err.response) {
@@ -147,6 +187,7 @@ export default function CreateReservation({ changeVisit }) {
       setAlertError(err.request);
       setLoading(false);
     }
+    // Clear states, redirect
   };
 
   return (
@@ -155,41 +196,35 @@ export default function CreateReservation({ changeVisit }) {
         <Title title="Reservation - Under construction"/>
         <CreateReservationContainer>
         <Grid item xs={12} lg={12}>
-
         <DateField
         id="date"
         label="Termín"
         type="date"
         defaultValue="2017-05-24T10:30"
+        onChange={filterSlotFunction}
         InputLabelProps={{
           shrink: true,
         }}
       />
  </Grid>
-         {/* Find slot */}
-        <FilledButton
-          label={t("visits.findSlots")}
-          onClick={handleFindNewTerm}
-        />
 
         {/* Display found slots via radio buttons */}
-        {slotFound ? null : null}
-        {slotFound ? (
-          <RadioGroup row value={slotSelected} onChange={pickSlot}>
-            {slots.map((slot) => (
-              <FormControlLabel
-                value={slot.value}
-                control={<Radio />}
-                label={slot.label}
-                onChange={pickSlot}
-              />
-            ))}
-          </RadioGroup>
-        ) : null}
+        {freeOptions.length != 0 ?
+      <SelectContainer>
+            <Select
+              styles ={customSelectStyles}
+              onChange={handleChange}
+              options={options}
+              placeholder={'Vyberte termín rezervace'}
+              noOptionsMessage={''}
+            /> </SelectContainer>: null }
+     
 
         {/* If no slots found */}
         {slots ? null : <p>{t("reservation_noSlotsAvailable")}</p>}
-        {slotSelected != null ? (
+
+        {/* Enable Create reservation button only if Slot selected */}
+        {slotSelected.length != 0 ? (
           <FilledButton
             label={t("reservation_createReservationNew")}
             onClick={handleClickOpen}

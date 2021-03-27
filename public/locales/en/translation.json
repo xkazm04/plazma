@@ -32,6 +32,18 @@
       "cancelReservation": "Cancel reservation",
       "findSlots": "Find new term"
     },
+    "day":{
+      "monday": "Monday",
+      "tuesday": "Tuesday",
+      "wednesday": "Wednesday",
+      "thursday": "Thursday",
+      "friday": "Friday",
+      "saturday": "Saturday",
+      "sunday": "Sunday"
+    },
+    "alert":{
+      "reservation_canceled": "Rezervation successfully cancelled"
+    },
     "or":"or",
     "button_no": "No",
     "button_back": "Back",
@@ -83,5 +95,8 @@
     "reservation_noSlotsAvailable": "Unable to find free slots for selected slot",
     "reservation_next":"Next reservation",
     "reservation_warning": "Please arrive at least 30 minutes before the ordered time!!!",
-    "reservation_cancel": "Do you really want to cancel reservation??"
+    "reservation_cancel": "Do you really want to cancel reservation??",
+    "dashboardTitle_workingHours": "Working hours",
+    "dashboardTitle_contact": "Contact",
+    "dashboardTitle_location": "Center location"
   }

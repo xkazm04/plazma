@@ -1,4 +1,5 @@
 
+
 {  "data":[{
     "id": "1",
     "title": "Nemocnice na Františku",
@@ -10,7 +11,9 @@
     "Friday": "8:00 - 12:30, 13:30 - 15:30",
     "phone": "+420 123654789",
     "email": "email@nafrantisku.cz",
-    "address": "U Nemocnice 499/2, 128 08 Praha 2"
+    "address": "U Nemocnice 499/2, 128 08 Praha 2",
+    "logoText": "Na Františku",
+    "logoIcon": "/logos/dp.png"
     
   },{  
     "id": "2",
@@ -21,7 +24,9 @@
     "Wednesday": "Wednesday working hours",
     "phone": "987654321",
     "email": "email@dvojka.cz",
-    "address": "Fakultní nemocnice Bulovka Budínova 67/2 Praha 8 – Libeň"
+    "address": "Fakultní nemocnice Bulovka Budínova 67/2 Praha 8 – Libeň",
+    "logoText": "Subcenter 2 - Libeň",
+    "logoIcon": "/logos/dp.png"
     }
     ]}
 

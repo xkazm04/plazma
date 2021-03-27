@@ -18,7 +18,7 @@ import DisabledButton from "../Buttons/DisabledButton";
 import FilledButton from "../Buttons/FilledButton";
 import GdprDialog from "../Texts/Gdpr";
 import LinkButton from "../Buttons/LinkButton";
-import ErrorMessage from "../Alerts/ErrorMessage";
+import {ErrorMessage} from '../Alerts/Alerts';
 import Title from "../Texts/Title";
 import Checkbox from "../Forms/Checkbox";
 
@@ -134,15 +134,10 @@ export default function RegistrationFormNew({ branch, email, password }) {
 
   const validateAndSubmit = () => {
     // Validate required fields
-    if (donorFirstName == null) {
-      setAlertError("Name required");
-    }
-    // Validate required surname
-    else if (donorSurname == null) {
-      alertOpen();
-    } else {
-      onSubmit();
-    }
+    if (donorFirstName == null) return setAlertError("Name required")
+    if (donorSurname == null) return alertOpen();
+    // Submit from if ok
+    return onSubmit();
   };
 
   const onSubmit = async (e) => {
@@ -151,6 +146,7 @@ export default function RegistrationFormNew({ branch, email, password }) {
       const res = await axios({
         method: "post",
         url: process.env.REACT_APP_API_URL+"RegisterNewUser",
+        timeout: 5000,
         data: {
           Username: formEmail,
           Password: formPassword,
@@ -169,15 +165,15 @@ export default function RegistrationFormNew({ branch, email, password }) {
       setIsAuth(true);
     } catch (err) {
       // Error 😨
-      if (err.response) {
+      if (err.response)  {
         // client received an error response (5xx, 4xx)
         console.log(err.response);
         setAlertError(err.request);
         setLoading(false);
       } else if (err.request) {
+        // client never received a response, or request never left (5xx)
+        console.log(err)
         setAlertError(err.request);
-        // client never received a response, or request never left
-        console.log(err.request);
         setLoading(false);
       } else {
         // anything else

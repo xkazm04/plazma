@@ -1,0 +1,54 @@
+{
+    "slots": [
+        {
+            "id": 126350,
+            "timeFrom": "2021-03-30T08:00:00",
+            "timeTo": "2021-03-30T08:15:00",
+            "slotLength": 15,
+            "slotCapacityTotal": 2,
+            "slotCapacityRegistered": 1,
+            "slotCapacityUsed": 0,
+            "slotCapacityRegisteredUsed": 0
+        },
+        {
+            "id": 126348,
+            "timeFrom": "2021-03-30T08:15:00",
+            "timeTo": "2021-03-30T08:30:00",
+            "slotLength": 15,
+            "slotCapacityTotal": 2,
+            "slotCapacityRegistered": 1,
+            "slotCapacityUsed": 0,
+            "slotCapacityRegisteredUsed": 0
+        },
+        {
+            "id": 126347,
+            "timeFrom": "2021-03-30T08:30:00",
+            "timeTo": "2021-03-30T08:45:00",
+            "slotLength": 15,
+            "slotCapacityTotal": 2,
+            "slotCapacityRegistered": 1,
+            "slotCapacityUsed": 0,
+            "slotCapacityRegisteredUsed": 0
+        },
+        {
+            "id": 126350,
+            "timeFrom": "2021-03-30T08:30:00",
+            "timeTo": "2021-03-30T08:45:00",
+            "slotLength": 15,
+            "slotCapacityTotal": 2,
+            "slotCapacityRegistered": 1,
+            "slotCapacityUsed": 0,
+            "slotCapacityRegisteredUsed": 0
+        },
+        {
+            "id": 126360,
+            "timeFrom": "2021-03-30T08:30:00",
+            "timeTo": "2021-03-30T08:45:00",
+            "slotLength": 15,
+            "slotCapacityTotal": 0,
+            "slotCapacityRegistered": 0,
+            "slotCapacityUsed": 0,
+            "slotCapacityRegisteredUsed": 0
+        }
+    ]
+  }

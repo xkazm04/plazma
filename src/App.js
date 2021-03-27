@@ -1,33 +1,24 @@
 import React, { useState } from "react";
-import { Route, Switch, Redirect } from "react-router-dom";
+import { Route, Switch, Redirect, Link } from "react-router-dom";
 import {useTranslation } from "react-i18next";
 import styled from "styled-components";
 
 import ProtectedRoute from './Components/Utils/ProtectedRoute'
 import {UserContext } from './Components/Utils/UserContext'
 
-import Header from "./Components/PageCoreComponents/Header";
+import Footer from "./Components/Navigation/Footer";
+import Header from "./Components/Navigation/Header";
 import ResetPassword from "./Pages/ResetPassword";
 import CreateReservation from "./Pages/CreateReservation";
 import Reservations from "./Pages/Reservations";
 import Profile from './Pages/Profile'
 import Home from './Pages/Home'
-import ToggleLanguage from './Components/Buttons/ToggleLanguage'
 
 import { createGlobalStyle, ThemeProvider } from "styled-components";
 import { theme} from "./Themes/theme";
 import {HeartIcon} from './Components/Icons/Icons'
 
 import Grid from "@material-ui/core/Grid";
-import BottomNavigation from '@material-ui/core/BottomNavigation';
-import BottomNavigationAction from '@material-ui/core/BottomNavigationAction';
-import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder';
-import DateRangeIcon from '@material-ui/icons/DateRange';
-import PermIdentityIcon from '@material-ui/icons/PermIdentity';
-
-import back from './Back.jpg'; 
-
-
 
 // Overriding Material UI with styled component
 const MainGrid = styled(Grid)`
@@ -43,19 +34,18 @@ const Main = styled.div`
     display: flex;
     justify-self: center;
     justify-content: center;
+    @media screen and (max-width: 700px) {
+      margin-left: 0;
+     }
 `
 
-const ImageBackground = styled.div`
-  background: url(${back});
-  position: absolute;
-`
-
-const StyledLink = styled.a`
+const StyledLink = styled(Link)`
   text-decoration: none;
-  margin: 0.3rem;
+  margin-left: 2rem;
+  cursor: pointer;
 `;
 
-const Footer = styled(Grid)`
+const GridFooter = styled(Grid)`
   background: ${(props) => props.theme.Primitive.Shade};
   height: 100%;
   position: sticky;
@@ -65,15 +55,6 @@ const Footer = styled(Grid)`
       display: none;
      }
   `
-
-const FooterNavigation = styled(BottomNavigation)`
-  background: ${(props) => props.theme.Primitive.Shade};
-`
-
-const MyBottomNavigationAction = styled(BottomNavigationAction)`
-   background: ${(props) => props.theme.Primitive.Shade};
-`
-
 const LangButton = styled.button`
   margin-top: 4%;
   background: inherit;
@@ -89,9 +70,7 @@ const LangButton = styled.button`
     }
 `
 
-
-
-
+// Global background and styling
 const GlobalStyle = createGlobalStyle`
   body {
     background: rgba(230, 242, 239, 0.7);
@@ -109,7 +88,6 @@ function App() {
   
   // Setting Auth to put in Context for whole application
   const [isAuth, setIsAuth] = useState(false);
-  const [ln, setLen] = useState('en')
   // Toggle theme mode
   const themeMode =  theme
 
@@ -126,14 +104,13 @@ function App() {
         <GlobalStyle />
           <UserContext.Provider value={{isAuth, setIsAuth}}>
               <MainGrid container spacing={3}>
-                <ImageBackground/>
                 <Grid item xs={12}>
                   <div>
                 {/* Do not Show header if not logged in */}
-                {isAuth === true ?   <Header />  :                   
+                {isAuth === true ?   <Header/>  :                   
                 <Grid container spacing={1}>    
                 <Grid item xs={9} lg={9}>        
-                <StyledLink><HeartIcon/><i>PlasmaStream</i></StyledLink>
+                <StyledLink to='/'><HeartIcon/><i>Powered by PlasmaStream</i></StyledLink>
                     </Grid>
                       <Grid item xs={3} lg={3}>
                          {/* Change language - CZ,EN */} 
@@ -148,8 +125,7 @@ function App() {
                     </Grid>}       
                     </div>
                 </Grid>
-                {/* Content component */}
-                
+                {/* Main page component router */}
                 <Grid  item xs={12} sm={11} m={11} >
                   <Main>
                     <Switch>
@@ -164,14 +140,10 @@ function App() {
                   </Main>
                 </Grid>
                 {/* Footer, mobile navigation if logged in. Contact information if not logged */}
-                <Footer  item xs={12} sm={12} m={12}>
-                {isAuth === true ?                   <FooterNavigation showLabels  >
-                <MyBottomNavigationAction label={<FavoriteBorderIcon/>} />
-                <MyBottomNavigationAction label={<DateRangeIcon/>}  />
-                 <MyBottomNavigationAction label={<PermIdentityIcon/>}/>
-                </FooterNavigation> :   null}         
-
-                 </Footer> 
+                <GridFooter  item xs={12} sm={12} m={12}>
+                {isAuth === true ?      
+                <Footer/>  :   null}         
+                 </GridFooter> 
               </MainGrid>
           </UserContext.Provider>
       </ThemeProvider>
