@@ -5,6 +5,7 @@ import styled from "styled-components";
 
 import ProtectedRoute from './Components/Utils/ProtectedRoute'
 import {UserContext } from './Components/Utils/UserContext'
+import {BranchContext } from './Components/Utils/BranchContext'
 
 import Footer from "./Components/Navigation/Footer";
 import Header from "./Components/Navigation/Header";
@@ -88,6 +89,7 @@ function App() {
   
   // Setting Auth to put in Context for whole application
   const [isAuth, setIsAuth] = useState(false);
+  const [branch, setBranch] = useState(null)
   // Toggle theme mode
   const themeMode =  theme
 
@@ -96,13 +98,13 @@ function App() {
     i18n.changeLanguage(language);
   }
 
-
   return (
     <div>
       {/* Apply visual theme, global style and Context for Auth */}
       <ThemeProvider theme={themeMode}>
         <GlobalStyle />
           <UserContext.Provider value={{isAuth, setIsAuth}}>
+           <BranchContext.Provider value={{branch, setBranch}}>
               <MainGrid container spacing={3}>
                 <Grid item xs={12}>
                   <div>
@@ -112,17 +114,18 @@ function App() {
                 <Grid item xs={9} lg={9}>        
                 <StyledLink to='/'><HeartIcon/><i>Powered by PlasmaStream</i></StyledLink>
                     </Grid>
-                      <Grid item xs={3} lg={3}>
-                         {/* Change language - CZ,EN */} 
-                  {isAuth === false ? <div>
-                     <LangButton  onClick={() => {changeLanguage("cz"); }}>
-                      CZ
-                    </LangButton>           
-                    <LangButton  onClick={() => {changeLanguage("en");}} >
-                      EN
-                    </LangButton> </div>: null}
-                    </Grid>
-                    </Grid>}       
+                   {/* Possible to change language only locally on main page. */} 
+                    {process.env.REACT_APP_MULTILANGUAGE === '1' ? 
+                          <Grid item xs={3} lg={3}>
+                          {isAuth === false ? <div>
+                        <LangButton  onClick={() => {changeLanguage("cz"); }}>
+                          CZ
+                        </LangButton>           
+                        <LangButton  onClick={() => {changeLanguage("en");}} >
+                          EN
+                        </LangButton> </div>: null} 
+                        </Grid>  : null}   
+                        </Grid>}  
                     </div>
                 </Grid>
                 {/* Main page component router */}
@@ -145,6 +148,7 @@ function App() {
                 <Footer/>  :   null}         
                  </GridFooter> 
               </MainGrid>
+            </BranchContext.Provider>
           </UserContext.Provider>
       </ThemeProvider>
     </div>

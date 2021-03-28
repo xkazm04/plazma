@@ -60,10 +60,11 @@ const StyledLabel = styled.label`
 
 
 
-export const NewFormInput = ({ error, label, id, type, value, name, placeholder, onChange, ref}) => {
+export const Input = ({ error, label, id, ...inputProps}) => {
   return <>
     <StyledLabel error={error} htmlFor={id}>{label}</StyledLabel>
-    <StyledInput error={error} id={id} type={type} value={value} name={name} placeholder={placeholder} onChange={onChange} ref={ref} 
+    <StyledInput error={error}
+      {...inputProps}
     />
   </>
 }

@@ -4,7 +4,7 @@ import styled from 'styled-components'
 
 const StyledButton = styled.button` 
     margin: 0.2rem;
-    margin-top: 4%;
+    margin-top: 40px;
     outline: none;
     color: ${props => props.theme.Secondary.Main};
     background: ${props => props.theme.colors.blackWhite};

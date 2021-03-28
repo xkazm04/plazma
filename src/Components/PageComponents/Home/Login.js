@@ -1,19 +1,19 @@
 import { useState, useContext } from "react";
 import { useTranslation } from "react-i18next";
-import { UserContext } from "../Utils/UserContext";
+import { UserContext } from "../../Utils/UserContext";
 
 import axios from 'axios'
 import styled from "styled-components";
 
 import Loader from "react-spinners/GridLoader";
 
-import useFormState from "../../hooks/useFormState";
-import RegisterButton from '../Buttons/RegisterButton';
-import FilledButton from '../Buttons/FilledButton';
-import ToggleButton from "../Buttons/ToggleButton";
-import LinkButton from "../Buttons/LinkButton";
-import FormInput from "../Forms/FormInput";
-import TitleParagraphText from "../Texts/TitleParagraphText";
+import useFormState from "../../../hooks/useFormState";
+import RegisterButton from '../../Buttons/RegisterButton';
+import FilledButton from '../../Buttons/FilledButton';
+import ToggleButton from "../../Buttons/ToggleButton";
+import LinkButton from "../../Buttons/LinkButton";
+import FormInput from "../../Forms/FormInput";
+import TitleParagraphText from "../../Texts/TitleParagraphText";
 
 import Dialog from "@material-ui/core/Dialog";
 import DialogContent from "@material-ui/core/DialogContent";
@@ -23,8 +23,8 @@ import RegisterFormNew from './RegistrationFormNew'
 import RegisterFormExisting from './RegistrationFormExisting'
 
 //Alerts
-import {ErrorMessage} from '../Alerts/Alerts';
-import OKMessage from '../Texts/OKMessage';
+import {ErrorMessage} from '../../Alerts/Alerts';
+import OKMessage from '../../Texts/OKMessage';
 
 
 const Kontejner = styled.div`

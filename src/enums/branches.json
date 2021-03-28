@@ -3,6 +3,7 @@
 {  "data":[{
     "id": "1",
     "title": "Nemocnice na Františku",
+    "welcome": "Welcome to Branch 1",
     "text1": "We accept first time donors on email nafrantisku@net.cz or phone number: +420: 123456789. Thank you.",
     "Monday": "8:00 - 12:30, 13:30 - 15:30",
     "Tuesday": "8:00 - 12:30, 13:30 - 15:30",
@@ -13,11 +14,22 @@
     "email": "email@nafrantisku.cz",
     "address": "U Nemocnice 499/2, 128 08 Praha 2",
     "logoText": "Na Františku",
-    "logoIcon": "/logos/dp.png"
-    
+    "logoIcon": "/logos/dp.png",
+    "gdpr1":"Tímto výslovně, bezúplatně, informovaně, svobodně a dobrovolně uděluji souhlas se zpracováním, shromažďováním a uchováním svých osobních údajů správcem UNICAplasma s.r.o. (dále jen „Správce“), a to v rozsahu údajů uvedených v registračním formuláři, tj. jméno, příjmení, datum narození, telefonní číslo, e-mailová adresa. Beru na vědomí a souhlasím s tím, aby mé osobní údaje byly Správcem využity za účelem registrace do objednávkového systému správce za účelem objednání se na vyšetření či odběr krve nebo jejích složek a za účelem včasného připomenutí objednávky. Beru na vědomí, že právním základem pro zpracování mých osobních údajů je článek 6 odst. 1. písm. a) nařízení Evropského parlamentu a Rady (EU) č. 2016/679, obecné nařízení o ochraně osobních údajů (dále jen „GDPR“). Tento souhlas poskytuji na dobu určitou 2 let ode dne mého posledního přihlášení do objednávkového systému.",
+    "gdpr2":"Prohlašuji, že si jsem plně vědom/a svých práv podle GDPR, zejména jsem si vědom/a, že:",
+    "gdpr_a":"(a) mám právo požadovat od Správce přístup k osobním údajům a informacím uvedeným v čl. 15 GDPR, které se mne týkají, mám právo na opravu nebo výmaz osobních údajů, popřípadě omezení jejich zpracování a právo na přenositelnost údajů k jinému správci za podmínek a s omezeními uvedenými v čl. 20 GDPR",
+    "gdpr_b":"(b) mám právo tento souhlas kdykoliv odvolat",
+    "gdpr_c":"(c) pro případ, že budu nespokojen/a se zpracováním mých osobních údajů, mám právo podat stížnost u dozorového úřadu, kterým je v České republice Úřad pro ochranu osobních údajů, se sídlem Pplk. Sochora 27, 170 00 Praha 7, www.uoou.cz",
+    "gdpr_d":"(d) nemám povinnost své osobní údaje Správci poskytnout, poskytuji je však svobodně a dobrovolně; bez poskytnutí těchto údajů by mi Správce nemohl poskytnout příslušné služby, např. objednat mne na vyšetření či odběr krve nebo jejích složek elektronicky a připomenout mi zadané objednávky",
+    "gdpr_e":"(e) v žádném případě nedochází k automatizovanému rozhodování, vč. profilování, uvedenému v čl. 22 GDPR",
+    "gdpr_f":"(f)  mé osobní údaje nebudou předávány do třetích zemí nebo mezinárodní organizaci ve smyslu čl. 13 odst. 1. písm. f) GDPR",
+    "gdpr_g":"(g) příjemcem mých osobních údajů je Správce a zpracovatel – poskytovatel hostingových služeb, kterým ke dni udělení souhlasu je společnost MULTIMA a.s. (IČO: 25056051)",
+    "gdpr_h":"(h)  v situaci, kdy by byly osobní údaje zapotřebí pro účely uplatnění či ochrany mých práv či práv Správce ve sporech, v soudním či správním řízení, budou mé osobní údaje uchovávány po dobu trvání sporu, a to výhradně za účelem ochrany práv v takovém sporu.",
+    "gdpr_footer":"V případě, že budu mít jakýkoliv dotaz nebo požadavek, můžu se kdykoliv obrátit na Správce nebo jeho pověřence pro ochranu osobních údajů, kterým je: Personal Data Services s.r.o., IČO: 07064373, se sídlem Washingtonova 1624/5, Praha 1, 110 00, Česká republika, e-mail: dpo@dataservices.cz, www.dataservices.cz"
   },{  
     "id": "2",
     "title": "Subcenter dvojka",
+    "welcome": "Welcome to Branch 2",
     "text1": "We accept first time donors on email nafrantisku@net.cz or phone number: +420: 123456789. Thank you.",
     "Monday": "Monday working hours",
     "Tuesday": "Tuesday working hours",
@@ -26,7 +38,9 @@
     "email": "email@dvojka.cz",
     "address": "Fakultní nemocnice Bulovka Budínova 67/2 Praha 8 – Libeň",
     "logoText": "Subcenter 2 - Libeň",
-    "logoIcon": "/logos/dp.png"
+    "logoIcon": "/logos/dp.png",
+    "gdpr1":"gdpr1, branch 2",
+    "gdpr2":"gdpr2, branch 2"
     }
     ]}
 

@@ -1,16 +1,16 @@
 import React, { useEffect, useContext } from "react";
 import { UserContext } from "../Components/Utils/UserContext";
+import { BranchContext } from "../Components/Utils/BranchContext";
 import styled from "styled-components";
 
 import Dashboard from "./Dashboard";
-import Login from "../Components/PageLandingComponents/Login";
+import Login from "../Components/PageComponents/Home/Login";
 import PayoutComponent from "../Components/DynamicContent/PayoutComponent";
 
 import Grid from "@material-ui/core/Grid";
 
 const Kontejner = styled.div`
   text-align: center;
-  color: ${(props) => props.theme.blackwhite};
   background-repeat: no-repeat;
 `;
 
@@ -18,14 +18,24 @@ const LoginContainer = styled.div`
   width: 1200px;
 `
 
+const WelcomeGrid = styled(Grid)`
+  background: white;
+`
+
 export default function Home() {
   const { isAuth, setIsAuth } = useContext(UserContext);
+  const { branch, setBranch } = useContext(BranchContext);
   const token = localStorage.getItem("jwt");
+  const contextBranch = localStorage.getItem('defaultSubcenterId')
+
+  // Show Dashboard if IsAuth and Branch known
   const checkAuth = () => {
     if (token) {
       setIsAuth(true);
+      setBranch(contextBranch)
     } else {
       setIsAuth(false);
+      setBranch(null)
     }
   };
   useEffect(() => {
@@ -39,10 +49,9 @@ export default function Home() {
         <Dashboard />
       ) : (
         // If not, show Welcome page with login form
-        <div>
-          <Grid container spacing={3}>
+          <WelcomeGrid container spacing={3}>
             <Grid item xs={12} sm={12} md={12} lg={6}>
-              <PayoutComponent branch={"1"} />
+              <PayoutComponent branch={branch} />
             </Grid>
 
             <Grid item xs={12} sm={12} md={12} lg={6}>
@@ -50,8 +59,7 @@ export default function Home() {
                 <Login />
               </LoginContainer>
             </Grid>
-          </Grid>
-        </div>
+          </WelcomeGrid>
       )}
     </Kontejner>
   );

@@ -5,7 +5,7 @@ const StyledTitle = styled.h1`
     margin-bottom: 1rem;
     font-family: Roboto;
     font-size: 28px;
-    font-weight: 500;
+    font-weight: 600;
    letter-spacing: -0.01em;
     outline: none;
     color: #0B3A3D;
@@ -17,8 +17,6 @@ const StyledTitle = styled.h1`
      font-size: 1.3rem;
   }
 `
-
-
 
 const Title = ({title}) => {
 return  <StyledTitle>{title}</StyledTitle>;

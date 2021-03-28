@@ -12,25 +12,20 @@ import Dialog from "@material-ui/core/Dialog";
 import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogTitle from "@material-ui/core/DialogTitle";
+import { ChangePasswordSvg, ChangeEmailSvg, ChangeBranchSvg } from "../Components/Icons/Icons";
 
 const useStyles = makeStyles(() => ({
-  container: {
-    position: 'relative',
-    margin: '0.1rem',
-    width: '100vw',
-    maxWidth: '100%',
-  },
   changeButtons: {
     display: "flex",
     flexDirection: "column",
   },
 }));
 
-
-const MyGrid = styled(Grid)`
-  background-color: ${(props) => props.theme.colors.light};
-  box-shadow: 0 2px 8px 0 ${(props) => props.theme.colors.shadow};
-`;
+const Kontejner = styled.div`
+  background: white;
+  width: 100%;
+  padding: 5%;
+`
 
 
 export default function Register() {
@@ -87,31 +82,32 @@ export default function Register() {
 
 
   return (
-    <div >
-      <Grid container className={classes.container} spacing={3}>
-        <MyGrid item xs={12} sm={2} md={2}>
+    <Kontejner >
+      <Grid container direction='row' spacing={3}>
+        <Grid item xs={12} sm={2} md={2}>
           <h1> Albert Brutus</h1>
           albertos@net.cz
-        </MyGrid>
-        <MyGrid item xs={122} sm={2} md={2}>
+        </Grid>
+        {/* <Grid item xs={12} sm={2} md={2}>
           <ParagraphText content={t("profile_changeLanguage")} />
           <button onClick={() => {changeLanguage("cz");}}>CZ</button>             
           <button onClick={() => {changeLanguage("en");}}> EN</button>  
-        </MyGrid>
-        <MyGrid item xs={12} sm={2} md={2}>
+        </Grid> */}
+        <Grid item xs={12} sm={10} md={10}>
           <div className={classes.changeButtons}>
             <Button label={t("profile_changeEmail")} onClick={openEmail}  />
             <Button label={t("profile_changePassword")} onClick={openPass} />
             <Button label={t("profile_changeBranch")} onClick={openBranch}  />      
 
           </div>
-        </MyGrid>
+        </Grid>
       </Grid>
       {/* Change email dialog  */}
   
       <MyDialog open={openPassDialog} onClose={closePass} keepMounted>
         <MyDialogContent>
           <DialogTitle>{t("profile_changePassword")}</DialogTitle>
+          <ChangePasswordSvg/>
           <Grid container spacing={1}>
           <Grid item xs={12} sm={6} md={6}>
             <FormInput placeholder={t("form_currentPassword")} type={'password'} />
@@ -135,6 +131,7 @@ export default function Register() {
             <MyDialog open={openEmailDialog} onClose={closeEmail} keepMounted>
         <MyDialogContent>
           <DialogTitle>{t("profile_changeEmail")}</DialogTitle>
+          <ChangeEmailSvg/>
           <Grid container spacing={1}>
           <Grid item xs={12} sm={6} md={6}>
             <FormInput placeholder={t("form_enterEmail")} type={'email'} />
@@ -156,7 +153,9 @@ export default function Register() {
             <MyDialog open={openBranchDialog} onClose={closeBranch} keepMounted>
         <MyDialogContent>
           <DialogTitle>{t("profile_changeBranch")}</DialogTitle>
+          <ChangeBranchSvg/>
           <Grid container spacing={1}>
+
           <Grid item xs={12} sm={6} md={6}>
             <FormInput placeholder={t("chooseBranchSelect")} type={'text'} />
           </Grid>
@@ -173,6 +172,6 @@ export default function Register() {
       </MyDialog>
 
       
-    </div>
+    </Kontejner>
   );
 }

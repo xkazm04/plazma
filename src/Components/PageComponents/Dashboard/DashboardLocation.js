@@ -1,14 +1,14 @@
 import { useTranslation } from "react-i18next";
 import styled from "styled-components";
 import Grid from "@material-ui/core/Grid"
-import branchEnum from '../../enums/branches.json'
-import { LocationIcon } from '../Icons/Icons';
-import TitleDash from '../Texts/TitleDash'
+import branchEnum from '../../../enums/branches.json'
+import { LocationIcon } from '../../Icons/Icons';
+import TitleDash from '../../Texts/TitleDash'
 
 const Container = styled.div`
   margin-top: 80px;
   margin-left: 2%;
-  padding-bottom: 50px;
+  padding-bottom: 20px;
 `
 const ContentGrid = styled(Grid)`
   font-family: Roboto;

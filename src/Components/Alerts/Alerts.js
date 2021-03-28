@@ -1,9 +1,9 @@
 import React from "react";
 import styled from "styled-components";
-import { AlertErrorIcon,AlertInfoIcon } from "../Icons/Icons";
+import { AlertErrorIcon,AlertInfoIcon,AlertSuccessIcon } from "../Icons/Icons";
 
 const StyledTitle = styled.div`
-  margin-top: 20px;
+  margin-top: 5px;
   display: flex;
   flex-direction: row;
   text-align: left;
@@ -74,7 +74,7 @@ export const SuccessMessage = ({ title, message }) => {
   return (
     <StyledTitle background={"white"} color={"green"}>
       <IconDiv>
-        <AlertErrorIcon />
+        <AlertSuccessIcon />
       </IconDiv>
       <MessageBox>
         <MessageTitle  color={"green"}>{title}</MessageTitle>

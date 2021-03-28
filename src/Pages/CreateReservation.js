@@ -12,7 +12,7 @@ import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import TextField from '@material-ui/core/TextField';
-import Select from 'react-select';
+import SelectInput from '../Components/Forms/SelectInput'
 
 import Grid from '@material-ui/core/Grid';
 import {InfoMessage} from '../Components/Alerts/Alerts';
@@ -37,23 +37,7 @@ import moment from 'moment';
   const DateField = styled(TextField)`
     width: 100%;
   `
-  const SelectContainer = styled.div`
-    margin-top: 7%;
-  `
 
-  // react-select styling
-  const customSelectStyles = {
-    option: (provided, state) => ({
-      ...provided,
-      borderBottom: '2px dotted green',
-      color: state.isSelected ? 'yellow' : 'black',
-      backgroundColor: state.isSelected ? 'green' : 'white'
-    }),
-    control: (provided) => ({
-      ...provided,
-      marginTop: "5%",
-    })
-  }
 
 
 export default function CreateReservation() {
@@ -90,7 +74,6 @@ export default function CreateReservation() {
 
   const handleChange = (item) => {
     setSelectedSlot(item.value)
-    console.log(item)
   }
 
 
@@ -210,16 +193,13 @@ export default function CreateReservation() {
 
         {/* Display found slots via radio buttons */}
         {freeOptions.length != 0 ?
-      <SelectContainer>
-            <Select
-              styles ={customSelectStyles}
+            <SelectInput
               onChange={handleChange}
               options={options}
               placeholder={'Vyberte termín rezervace'}
               noOptionsMessage={''}
-            /> </SelectContainer>: null }
+            /> : null }
      
-
         {/* If no slots found */}
         {slots ? null : <p>{t("reservation_noSlotsAvailable")}</p>}
 

@@ -1,46 +1,43 @@
 // create.component.js
 
 import React, { useState, useContext } from "react";
-import { UserContext } from "../Utils/UserContext";
-import useFormState from "../../hooks/useFormState";
+import { UserContext } from "../../Utils/UserContext";
+import useFormState from "../../../hooks/useFormState";
 import axios from "axios";
 // Material UI form control
-import { makeStyles } from "@material-ui/core/styles";
 import styled from "styled-components";
 
 import Grid from "@material-ui/core/Grid";
 import Dialog from "@material-ui/core/Dialog";
 import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
-import DialogTitle from "@material-ui/core/DialogTitle";
 
 // Custom components
-import Button from "../Buttons/FormButton";
-import DisabledButton from "../Buttons/DisabledButton";
-import FilledButton from "../Buttons/FilledButton";
-import GdprDialog from "../Texts/Gdpr";
-import LinkButton from "../Buttons/LinkButton";
-import {ErrorMessage} from '../Alerts/Alerts';
-import Title from "../Texts/Title";
-import Checkbox from "../Forms/Checkbox";
-
+import Button from "../../Buttons/FormButton";
+import DisabledButton from "../../Buttons/DisabledButton";
+import FilledButton from "../../Buttons/FilledButton";
+import LinkButton from "../../Buttons/LinkButton";
+import {ErrorMessage} from '../../Alerts/Alerts';
+import Title from "../../Texts/Title";
+import Checkbox from "../../Forms/Checkbox";
 // Dynamic content
-import BranchSpecificContent from "../DynamicContent/BranchSpecificContent";
+import BranchSpecificContent from "../../DynamicContent/BranchSpecificContent";
+import GdprContent from "../../DynamicContent/GdprContent";
+import { BranchContext } from "../../Utils/BranchContext";
 
 // Animations
 import {motion} from 'framer-motion';
 
 //Form
-import { NewFormInput } from "../Forms/NewFormInput";
+import { NewFormInput } from "../../Forms/NewFormInput";
 import { useTranslation } from "react-i18next";
 
-const useStyles = makeStyles(() => ({
-  container: {
-    display: "flex",
-    position: "relative",
-    justifyContent: "center",
-  },
-}));
+
+const Kontejner = styled.div`
+      display: flex;
+    position: relative;
+    justify-content: center;
+`
 
 const MyDialog = styled(Dialog)`
   background: black;
@@ -61,7 +58,7 @@ const GdprGrid = styled(Grid)`
 `
 
 const FormTitle = styled.div`
-  margin-top: 5%;
+  margin-top: 2%;
   margin-bottom: 1%;
   margin-left: 2%;
   color: #828282;
@@ -74,11 +71,10 @@ const FormTitle = styled.div`
 `;
 
 
-
 export default function RegistrationFormExisting({ password, email }) {
   const { t } = useTranslation();
-  const classes = useStyles();
   const [error, setError] = useState(false);
+  const [errorMessage, setErrorMessage] = useState(null)
   const { setIsAuth } = useContext(UserContext);
   const [donorCode, updateDonorCode] = useFormState("");
   const [donorError, setDonorError] = useState(false)
@@ -88,8 +84,9 @@ export default function RegistrationFormExisting({ password, email }) {
   const [passwordError, setPasswordError] = useState(false)
   const [repeatedPassword, updateRepeatedPassword] = useFormState("");
   const [repeatedPasswordError, setRepeatedPasswordError] = useState(false)
-  const [branch, setBranch] = useState(null);
 
+  // Branch selection
+  const { branch } = useContext(BranchContext);
 
   // Gdpr dialog
   const [checked, setChecked] = useState(false);
@@ -100,48 +97,58 @@ export default function RegistrationFormExisting({ password, email }) {
   const handleCloseGdpr = () => {
     setOpenGdpr(false);
   };
-  const handleCheck = (event) => {
+  const handleCheckAndValidate = (event) => {
     setChecked(event.target.checked);
+    validateDonor()
+    validateEmail()
+    validatePassword()
+    validateRepeatedPassword()
+    console.log(error)
   };
+
 
   const validateAndSubmit = () => {
     // Validate required fields
-    if (error === null) return
+    if (error === null) {
       onSubmit();
       clearErrors()
-    return 
+    }
+    else {} 
   };
 
 
   const validateDonor = () => {
-    if (donorCode === "") return
+    if (donorCode === "") {
       setError(true)
-      setDonorError(true);
-    return
-      setDonorError(false);
+      setDonorError(true)}
+   else{
+      setDonorError(false)}
   }
 
   const validateEmail = () => {
-    if (formEmail === "") return
+    if (formEmail === "") {
       setError(true);
-      setEmailError(true);
-    return
-      setEmailError(false);
+      setEmailError(true)}
+    else{
+      setEmailError(false)}
   }
 
   const validatePassword = () => {
-    if (formPassword === "") return 
+    if (formPassword === "") { 
       setError(true);
-      setPasswordError(true)
-    return setPasswordError(false)
+      setPasswordError(true)}
+    else{ 
+      setPasswordError(false)}
   }
 
   const validateRepeatedPassword = () => {
-    if (repeatedPassword === "") return
+    if (repeatedPassword === "") {
       setError(true);
-      setRepeatedPasswordError(true)
-    if (repeatedPassword !== formPassword) return  setRepeatedPasswordError(true);
-    return setRepeatedPasswordError(false)
+      setRepeatedPasswordError(true)}
+
+    else if (repeatedPassword !== formPassword) {  
+      setRepeatedPasswordError(true)}
+    else { setRepeatedPasswordError(false)}
   }
 
   const clearErrors = () => {
@@ -150,6 +157,7 @@ export default function RegistrationFormExisting({ password, email }) {
     setError(false)
     setPasswordError(false)
     setRepeatedPasswordError(false)
+    setErrorMessage(null)
   }
 
   // Form submit function
@@ -167,37 +175,36 @@ export default function RegistrationFormExisting({ password, email }) {
           DefaultSubcenterId: branch,
         },
       });
-      console.log(res.data);
-      // Reset error message
-      localStorage.setItem("defaultSubcenter", branch);
-      // Go to login mode
-      setIsAuth(true);
+      if (res.status == 200){
+        setIsAuth(true) 
+        localStorage.setItem("defaultSubcenter", branch);
+      }
     } catch (err) {
       // Error
       if (err.response) {
         // client received an error response (5xx, 4xx)
+        setError(t("error_common"))
         console.log(err.response);
       } else if (err.request) {
         // client never received a response, or request never left (5xx)
         console.log(err)
         setError(t("error_common"))
       } else {
-        // anything else
+        setError(t("error_common"))
       }
       console.log(err);
     }
   };
 
+
+
   return (
-    <div className={classes.container}>
+    <Kontejner>
 
       <Grid container spacing={0}>
         <form>
-
           <FormTitle>
-            Donations are needed more than ever - especially for treating
-            patients vulnerable to COVID-19. Donations are needed more than ever
-            .
+            {t("form_introduction")}
           </FormTitle>
                {/* Error message if state true */}
            <Grid item xs={12} lg={12}>
@@ -207,7 +214,7 @@ export default function RegistrationFormExisting({ password, email }) {
                      animate={{ y: -10 }}
                      transition={{ delay: 0.2, type: 'spring', stiffness: 120 }}
                    >
-                       <ErrorMessage title={"Please check and correct highlighted inputs"} />
+                       <ErrorMessage title={t("form_error_checkinputs")} message={errorMessage}/>
                    </motion.div>
             : null}
            </Grid>
@@ -274,18 +281,18 @@ export default function RegistrationFormExisting({ password, email }) {
               <Title title={t("form_title_location")} />{" "}
             </Grid>
             <Grid item xs={12} sm={12} md={12} lg={12}>
-              <BranchSpecificContent branch={branch} />
+           <BranchSpecificContent/>
             </Grid>
           </Grid>
         </form>
-        {/* GDPR checkbox and form */}
+        {/* GDPR checkbox and form, Branch specific */}
         <GdprContainer>
           <GdprGrid item xs={12} sm={12} md={12} lg={12}>
-            <Checkbox checked={checked} onChange={handleCheck} label={"ahoj"}>
+            {branch ? <Checkbox checked={checked} onChange={handleCheckAndValidate} label={"ahoj"}>
             {t("gdprAgreePre")}<LinkButton label={t("gdprAgree")} onClick={handleOpenGdpr} />
-            </Checkbox>
+            </Checkbox> : null} 
           </GdprGrid>
-          {checked === true ? (
+          {checked === true && error === false  ? (
             <FilledButton
               color={"#FA6966"}
               onClick={validateAndSubmit}
@@ -296,18 +303,15 @@ export default function RegistrationFormExisting({ password, email }) {
           )}
         </GdprContainer>
       </Grid>
-      <div>
         {/* Gdpr dialog */}
         <MyDialog open={openGdpr} onClose={handleCloseGdpr} maxWidth={"lg"}>
           <MyDialogContent>
-            <DialogTitle>GDPR</DialogTitle>
-            <GdprDialog branch={branch} />
+            <GdprContent branch={branch} />
             <DialogActions>
               <Button onClick={handleCloseGdpr} label={t("close")} />
             </DialogActions>
           </MyDialogContent>
         </MyDialog>
-      </div>
-    </div>
+    </Kontejner>
   );
 }

@@ -5,12 +5,12 @@ import {Link} from 'react-router-dom'
 import { useTranslation } from "react-i18next";
 import styled from "styled-components";
 
-import RegisterButton from "../Buttons/RegisterButton";
-import FilledButton from "../Buttons/FilledButton";
-import TitleHuge from "../Texts/TitleHuge";
+import RegisterButton from "../../Buttons/RegisterButton";
+import FilledButton from "../../Buttons/FilledButton";
+import TitleHuge from "../../Texts/TitleHuge";
 
 // Icons
-import {EmptyReservationIcon} from '../Icons/Icons'
+import {EmptyReservationIcon} from '../../Icons/Icons'
 
 // Alert
 import Snackbar from "@material-ui/core/Snackbar";
@@ -19,11 +19,19 @@ import Grid from "@material-ui/core/Grid";
 import Dialog from "@material-ui/core/Dialog";
 import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
-import ParagraphText from "../Texts/ParagraphText";
+import ParagraphText from "../../Texts/ParagraphText";
 import Loader from "react-spinners/GridLoader";
-import {ErrorMessage} from '../Alerts/Alerts';
+import {ErrorMessage} from '../../Alerts/Alerts';
 
 // Styled components
+const Kontejner = styled.div`
+  background: white;
+  padding: 3%;
+  @media screen and (max-width: 1000px) {
+    width: 100%;
+  }
+`
+
 const Date = styled.h1`
   margin: 0rem 0rem 1rem 0rem;
 `;
@@ -49,13 +57,7 @@ const MyDialogContent = styled(DialogContent)`
   }
 `;
 
-const Kontejner = styled.div`
-  background: white;
-  padding: 3%;
-  @media screen and (max-width: 1000px) {
-    width: 100%;
-  }
-`
+
  
 export default function NextVisit() {
   const { t } = useTranslation();

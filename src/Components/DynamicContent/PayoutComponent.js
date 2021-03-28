@@ -19,20 +19,32 @@ const Kontejner = styled.div`
   }
 `
 
-const Welcome = styled.div`
-    background: rgba(255,255,255);
-    color: #0B3A3D;
-    position: relative;
-    z-index: 2;
-    margin-top: 5%;
-    padding-left: 5%;
-    font-weight: 700;
-    font-family: Roboto;
-    font-size: 20px;
-    @media screen and (max-width: 700px) {
-      font-size: 14px;
+
+const Title = styled.h1`
+  font-family: Inter;
+font-style: normal;
+font-weight: bold;
+font-size: 48px;
+line-height: 130%;
+color: #0B3A3D;
+  @media screen and (max-width: 800px) {
+  font-size: 20px;
   }
 `
+const Subtitle = styled.h2`
+  font-weight: 300;
+  font-family: Inter;
+font-style: normal;
+font-weight: normal;
+font-size: 18px;
+line-height: 27px;
+/* or 150% */
+color: #222A41;
+  @media screen and (max-width: 800px) {
+  font-size: 15px;
+  }
+`
+
 const PayoutBackground = styled.div`
   display: flex;
   justify-content: center;
@@ -42,7 +54,7 @@ const Payout = styled.div`
     position: relative;
     z-index: 2;
     background: rgba(255,255,255);
-    margin-top: 20%;
+    margin-top: 10%;
     width: 100%;
     padding-left: 5%;
     border-top: 4px solid ${(props) => props.theme.Primary.Main};
@@ -93,33 +105,22 @@ const AmountText = styled.p`
 const MyGrid = styled(Grid)`
   margin-left: 5%;
   margin-bottom: 2%;
-  max-width: 80%;
+  max-width: 90%;
+  padding-top: 10px;
   border-bottom: 1px solid #EAEAEA;
 `
 
 const LastGrid = styled(Grid)`
   margin-left: 5%;
-  margin-bottom: 2%;
-  max-width: 80%;
-`
-
-const Title = styled.h1`
-  @media screen and (max-width: 800px) {
-  font-size: 17px;
-  }
-`
-const Subtitle = styled.h2`
-  font-weight: 300;
-  @media screen and (max-width: 800px) {
-  font-size: 15px;
-  }
+  padding-top: 10px;
+  max-width: 90%;
 `
 
 const DottedDivRight = styled.div`
   position: absolute;
   z-index: 1;
-  top: 55%;
-  left: 90%;
+  top: 52%;
+  left: 88%;
   @media screen and (max-width: 700px) {
       display:none;
   }
@@ -135,9 +136,6 @@ const DottedDivLeft = styled.div`
   }
 `
 
-const SubSub = styled.p`
-  color: #ed3b9a;
-`
 
 // Additional text spacing 3%
 const Space3 = styled.a`
@@ -150,26 +148,28 @@ export default function RegistrationContent({ branch }) {
 
   return (
     <Kontejner>
-        <Welcome>   
+        <>   
       <Title>Be A Hero - It's in your blood</Title>
-      <Subtitle>PlasmaStream will make you happy</Subtitle>
-      <SubSub>Because we care<Space3/><HeartIcon/></SubSub>
+      <Subtitle>Everything has beauty, but not everyone sees it. think wrongly, if you please, but in all cases think for yourself. everytime you smile at someone.</Subtitle>
 
-        </Welcome>
+        </>
         <PayoutBackground>
         <DottedDivRight><Dots/></DottedDivRight>
         <DottedDivLeft><Dots/></DottedDivLeft>
         <Payout>
           <MyGrid container spacing={1}>
-            <Grid item xs={12}><PayoutTitleRow><MoneyIcon/><Space3/>Přihlašovací údaje</PayoutTitleRow></Grid>
-              <Grid item xs={3} sm={3} md={3}><Collection>Login</Collection></Grid>
-            <Grid item xs={9} sm={9} md={9}><AmountText>donorapp</AmountText></Grid>
+            <Grid item xs={12}><PayoutTitleRow><MoneyIcon/><Space3/>Financial rewards</PayoutTitleRow></Grid>
+              <Grid item xs={4} sm={4} md={4}><Collection>1st collection</Collection></Grid>
+            <Grid item xs={8} sm={8} md={8}><AmountText>deposit 400 Kč from amount 700 Kč</AmountText></Grid>
+          </MyGrid>
+          <MyGrid container spacing={1}>
+              <Grid item xs={4} sm={4} md={4}><Collection>2nd collection</Collection></Grid>
+            <Grid item xs={8} sm={8} md={8}><AmountText>1000Kč</AmountText></Grid>
           </MyGrid>
           <LastGrid container spacing={1}>
-              <Grid item xs={3} sm={3} md={3}><Collection>Heslo</Collection></Grid>
-            <Grid item xs={9} sm={9} md={9}><AmountText>pass</AmountText></Grid>
+              <Grid item xs={4} sm={4} md={4}><Collection>3rd collection</Collection></Grid>
+            <Grid item xs={8} sm={8} md={8}><AmountText>every next collection 700 Kč</AmountText></Grid>
           </LastGrid>
-         {/* <DottedBox> <Dotted/></DottedBox> */}
         </Payout>
         </PayoutBackground>
     </Kontejner>

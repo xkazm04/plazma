@@ -1,14 +1,15 @@
 import { useContext } from "react";
 import { Link } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
 import PowerSettingsNewIcon from "@material-ui/icons/PowerSettingsNew";
-import AccountCircleIcon from "@material-ui/icons/AccountCircle";
 
 import { UserContext } from "../Utils/UserContext";
 import MenuButton from "../Buttons/MenuButton";
 import styled from "styled-components";
 import branchEnum from '../../enums/branches.json'
-import {HeartIcon} from '../Icons/Icons'
+import {HeartIcon, ProfileIcon} from '../Icons/Icons'
+import ReactTooltip from 'react-tooltip';
 
 
 // Header for desktop primary
@@ -24,7 +25,6 @@ const Kontejner = styled.div`
     position: sticky;
     top: 0;
     @media screen and (max-width: 700px) {
-      position: fixed;
       background: inherit;
       flex-direction: row-reverse;
       top: 2%;
@@ -59,9 +59,6 @@ const HeaderRight = styled.div`
     &:hover{
       color: red;
     }
-    @media screen and (max-width: 700px) {
-      display: none;
-  }
 `
 
 const StyledLink = styled(Link)`
@@ -69,15 +66,11 @@ const StyledLink = styled(Link)`
   margin: 0.3rem;
 `;
 
-const MobileLogout = styled.div`
-      @media screen and (min-width: 700px) {
-      display: none;
-      }
-`
 
 
 
 export default function Header() {
+  const { t } = useTranslation();
   const { isAuth, setIsAuth } = useContext(UserContext);
   const branch = localStorage.getItem("defaultSubcenter");
 
@@ -108,33 +101,37 @@ export default function Header() {
         </StyledLink>
       </HeaderLeft>
       {/* Center part with specific branch message*/}
-      <HeaderCenter>{branch}</HeaderCenter>
+      <HeaderCenter>
+      {branchEnum.data.filter(data => data.id === branch).map(filteredData => (
+        <div>
+          {filteredData.welcome ? <>  
+           {filteredData.welcome}
+          </> : null}
+         </div>
+      ))}
+      </HeaderCenter>
       {/* Right menu part */}
       <HeaderRight>
         <Link  to="/">
           <MenuButton width={"3rem"} label={<HeartIcon/>} />
         </Link>
-        <Link to="/profile">
-          <MenuButton width={"3rem"} label={<AccountCircleIcon />} />
+        <Link data-tip={t("tooltip_profile")} t  to="/profile">
+           <ReactTooltip />
+          <MenuButton width={"3rem"} label={<ProfileIcon />} />
         </Link>
-        <Link to="/resetPassword">
+        <Link data-tip={"ResetPasswordTest"} to="/resetPassword">
+        <ReactTooltip  />
           <MenuButton width={"3rem"} label={'reset'}  onClick={handleLogout}/>
         </Link>
-        <MenuButton
-          width={"3rem"}
-          label={<PowerSettingsNewIcon />}
-          onClick={handleLogout}
-        />
+        <Link data-tip={t("tooltip_logout")} to="/">
+            <ReactTooltip /> 
+            <MenuButton  
+              width={"3rem"}
+              label={<PowerSettingsNewIcon />}
+              onClick={handleLogout}
+            />
+        </Link>
       </HeaderRight>
-      {/* Logout option only for small resolution display */}
-      <MobileLogout>      
-        <MenuButton
-          width={"3rem"}
-          label={<PowerSettingsNewIcon />}
-          onClick={handleLogout}
-        /> 
-      </MobileLogout>
-
     </Kontejner>
   );
 }

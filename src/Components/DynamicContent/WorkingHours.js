@@ -3,12 +3,10 @@ import { useTranslation } from "react-i18next";
 import styled from "styled-components";
 import Grid from "@material-ui/core/Grid"
 import branchEnum from '../../enums/branches.json'
-import { ClockIcon } from '../Icons/Icons';
-import TitleDash from '../Texts/TitleDash'
+import Title from '../Texts/Title'
 
 const Container = styled(Grid)`
- margin-top: 80px;
- padding-bottom: 50px;
+ padding-bottom: 20px;
  margin-left: 2%;
 `
 
@@ -28,15 +26,18 @@ const TimeGrid = styled(Grid)`
      }
 `
 
-export default function InfoTable1({branch}) {
+
+export default function WorkingHours({branch}) {
   const { t } = useTranslation();
+  console.log(branch)
 
   return (
     <>
-      <TitleDash title={t("dashboardTitle_workingHours")}  icon={<ClockIcon/>}/>
       {branchEnum.data.filter(data => data.id === branch).map(filteredData => (
+    
         <Container container spacing={0}>
-
+          <Grid item xs={12} lg={12}>
+          <Title title={t("dashboardTitle_workingHours")} /></Grid>
           {filteredData.Monday ? <>  
          <DayGrid item xs={4} lg={4}> {t("day.monday")}:   </DayGrid> 
          <TimeGrid item xs={8} lg={8}> {filteredData.Monday} </TimeGrid></> : null}
