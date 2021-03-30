@@ -112,6 +112,7 @@ export default function Header() {
       </HeaderCenter>
       {/* Right menu part */}
       <HeaderRight>
+        <>
         <Link  to="/">
           <MenuButton width={"3rem"} label={<HeartIcon/>} />
         </Link>
@@ -131,6 +132,7 @@ export default function Header() {
               onClick={handleLogout}
             />
         </Link>
+        </>
       </HeaderRight>
     </Kontejner>
   );

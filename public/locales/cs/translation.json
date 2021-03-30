@@ -108,6 +108,7 @@
     "form_val_pass_max": "Maximální limit znaků pro zadání hesla překročen",
     "form_val_pass_required": "Heslo není vyplněno",
     "form_val_pass_notmatch": "Zadaná hesla nesouhlasí",
+    "form_val_donorCode_required": "Kód dárce není vyplněn",
     "reservation_createReservationButton": "Vytvořit rezervaci",
     "reservation_createReservationConfirmation": "Opravdu si přejete zarezervovat na daný termín?",
     "reservation_createReservationNew": "Zadat novou rezervaci",

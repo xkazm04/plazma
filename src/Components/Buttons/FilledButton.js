@@ -5,12 +5,12 @@ import styled from 'styled-components'
 const StyledButton = styled.button` 
     margin: 0.2rem;
     margin-top: 40px;
+    padding: .5rem;
     outline: none;
     color: ${props => props.theme.colors.blackWhite};
     background: ${props =>  props.color || props.theme.Primary.Main};
     position: relative;
     z-index: 4;
-    padding: .5rem;
     font-size: 0.9rem;
     font-family: Roboto;
     text-align: center;
@@ -20,11 +20,9 @@ const StyledButton = styled.button`
     cursor: pointer;
     width: ${props => props.width || '14rem'};
     height: ${props => props.height || '2.5rem'};
-    animation: 2s ease-in;
-    transition-duration: 0.4s;
+    transition-duration: 0.2s;
     &:hover{
-        color: ${props => props.theme.Primary.Main};
-        background: ${props => props.theme.colors.slotInput};
+        background: ${props =>  props.hoverColor || props.theme.Primary.Hover};
     }
     @media screen and (max-width: 700px) {
      font-size: 0.8rem;
@@ -32,13 +30,12 @@ const StyledButton = styled.button`
      }
 `
 
-
-
-const FilledButton = ({ onClick,height, width, label, color}) => {
+const FilledButton = ({ onClick,height, width, label, color,hoverColor}) => {
 return  <StyledButton
             onClick={onClick}
             width={width}
             color={color}
+            hoverColor={hoverColor}
             height={height}
             >{label}</StyledButton>;
 };

@@ -3,7 +3,7 @@ import styled from 'styled-components'
 
 
 const StyledButton = styled.button` 
-    margin-top: 2rem;
+    margin-top: 1rem;
     outline: none;
     position: relative;
     font-weight: ${ (props) => (props.active ? 800 : 500 )};
@@ -24,7 +24,7 @@ const StyledButton = styled.button`
         background-color: ${ (props) => (props.active ? null  : props.theme.colors.input)};
     }
     @media screen and (max-width: 700px) {
-    font-size: 0.7rem;
+    font-size: 0.9rem;
   }
 `
 

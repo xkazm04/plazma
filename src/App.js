@@ -7,6 +7,7 @@ import ProtectedRoute from './Components/Utils/ProtectedRoute'
 import {UserContext } from './Components/Utils/UserContext'
 import {BranchContext } from './Components/Utils/BranchContext'
 
+import Components from "./Pages/Components";
 import Footer from "./Components/Navigation/Footer";
 import Header from "./Components/Navigation/Header";
 import ResetPassword from "./Pages/ResetPassword";
@@ -105,7 +106,7 @@ function App() {
         <GlobalStyle />
           <UserContext.Provider value={{isAuth, setIsAuth}}>
            <BranchContext.Provider value={{branch, setBranch}}>
-              <MainGrid container spacing={3}>
+              <MainGrid container spacing={0}>
                 <Grid item xs={12}>
                   <div>
                 {/* Do not Show header if not logged in */}
@@ -135,6 +136,7 @@ function App() {
                       <ProtectedRoute exact path="/reservations" component={Reservations} isAuth={isAuth} />
                       <Route exact path="/" render={() => <Home />} isAuth={isAuth} />
                       <Route exact path="/resetPassword" component={ResetPassword} />
+                      <Route exact path="/components" component={Components} />
                       <ProtectedRoute exact path="/profile" component={Profile} isAuth={isAuth} />
                       <ProtectedRoute exact path="/createReservation" component={CreateReservation} isAuth={isAuth} />
                       {/* Redirect any other routest */}

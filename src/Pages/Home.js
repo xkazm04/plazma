@@ -49,7 +49,7 @@ export default function Home() {
         <Dashboard />
       ) : (
         // If not, show Welcome page with login form
-          <WelcomeGrid container spacing={3}>
+          <WelcomeGrid container spacing={0}>
             <Grid item xs={12} sm={12} md={12} lg={6}>
               <PayoutComponent branch={branch} />
             </Grid>

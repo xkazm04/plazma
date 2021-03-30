@@ -4,12 +4,12 @@ import styled from 'styled-components'
 
 const StyledButton = styled.button` 
     margin: 0.2rem;
-    margin-top: 2%;
+    margin-top: 40px;
+    padding: .5rem;
     outline: none;
     color: ${props => props.theme.colors.blackWhite};
     background: ${props =>  props.color || props.theme.Primitive.Shade};
     position: relative;
-    padding: .5rem;
     font-size: 0.9rem;
     font-family: Roboto;
     text-align: center;
@@ -27,8 +27,6 @@ const StyledButton = styled.button`
      }
 
 `
-
-
 
 const DisabledButton = ({ width, label, color}) => {
 return  <StyledButton 

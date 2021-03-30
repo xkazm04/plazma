@@ -143,8 +143,6 @@ export default function RegistrationFormNew({ email, password }) {
     repeatedPassword: yup.string().oneOf([yup.ref('formPassword'), null], t("form_val_pass_notmatch")).required(t("form_val_pass_required"))
   });
   
- 
-
   //Loading
   const [isLoading, setLoading] = useState(false);
 

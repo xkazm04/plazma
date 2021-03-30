@@ -105,6 +105,7 @@
     "form_val_pass_max": "Password: Max number of characters exceeded",
     "form_val_pass_required": "Password required",
     "form_val_pass_notmatch": "Passwords do not match",
+    "form_val_donorCode_required": "Donor code required",
     "form_title_personal": "Personal information",
     "form_title_location": "Location",
     "reservation_createReservationButton": "Create reservation",

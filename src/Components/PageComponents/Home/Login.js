@@ -21,6 +21,7 @@ import DialogActions from "@material-ui/core/DialogActions";
 
 import RegisterFormNew from './RegistrationFormNew'
 import RegisterFormExisting from './RegistrationFormExisting'
+import Box from '../../Box'
 
 //Alerts
 import {ErrorMessage} from '../../Alerts/Alerts';
@@ -37,23 +38,6 @@ const Kontejner = styled.div`
      }
 `
 
-const FormContainer = styled.div`
-    padding: 10px;
-    background: white;
-    position: relative;
-    text-align: center;
-    border: none;
-    width: 50%;
-    border-radius: 25px;
-    margin-left: 5%;
-    box-shadow: 12px 16px 40px rgba(0, 72, 102, 0.05);
-    @media screen and (max-width: 1000px) {
-     width: 100%;
-     }
-     @media screen and (max-width: 1500px) {
-     width: 80%;
-     }
-`
 
 const MyDialog = styled(Dialog)`
   background: ${(props) => props.theme.Primary.Shade};
@@ -116,7 +100,6 @@ export default function Login() {
 
   const [email, updateEmail] = useFormState("");
   const [password, updatePassword] = useFormState("");
-
   const [passwordSentMessage, setPasswordSentMessage] = useState(false)
   const [registerFormType, setRegisterFormType] = useState(false)
 
@@ -228,8 +211,7 @@ export default function Login() {
 
 // Login component
     <Kontejner>
-      <FormContainer>
-       <LoginTitle> Become a donor <Highlight>Today</Highlight> </LoginTitle>
+      <Box children={      <div> <LoginTitle> Become a donor <Highlight>Today</Highlight> </LoginTitle>
         <RegisterButton label={t("registerOption")} onClick={handleOpenRegister} />
         {process.env.ENV_URL}
         <Line></Line>
@@ -259,9 +241,7 @@ export default function Login() {
         <LinkButton width="100%"
           label={t("userLogin.forgottenPassword")}
           onClick={handleOpenReset}
-        />
-      </FormContainer>
-
+        /> </div>}/>
 
       {/* Registration dialog */}
       <MyDialog open={openRegisterDialog} onClose={handleCloseRegister} maxWidth={"lg"}>

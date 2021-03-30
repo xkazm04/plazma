@@ -5,7 +5,6 @@ import Branches from "../../enums/Branches";
 
 import MenuItem from "@material-ui/core/MenuItem";
 import Select from "@material-ui/core/Select";
-import InputLabel from "@material-ui/core/InputLabel";
 import Grid from "@material-ui/core/Grid";
 
 import {HeartIcon} from '../Icons/Icons'
@@ -16,16 +15,16 @@ import ReactMapGL, { Marker} from "react-map-gl";
 
 const Kontejner = styled.div`
   position: relative;
-  margin-left: 2%;
   margin-top: 2%;
 `;
 
 const MyBranchSelect = styled(Select)`
   padding: 0.2rem;
+  padding-left: 1rem;
+  margin-left: 5%;
   font-size: 0.8rem;
   text-align: left;
   border-radius: 0.5em;
-  padding-left: 1rem;
   cursor: pointer;
   outline: none;
   min-width: 220px;
@@ -46,7 +45,24 @@ const MyBranchSelect = styled(Select)`
     background-color: ${(props) => props.theme.colors.main};
     border-bottom: none;
   }
-`;
+  @media screen and (max-width: 700px) {
+     font-size: 0.8rem;
+     width: 100%;
+     }
+`
+
+const StyledLabel = styled.label`
+    font-size: 0.9rem;
+    margin-left: 5%;   
+    position: relative;
+    font-family: Roboto;
+    font-weight: 400;
+    padding-top: 2%;
+    color: ${prop => prop.error ? '#98000E': '#858795'};
+    @media screen and (max-width: 700px) {
+      margin-left: 0%;   
+     }
+`
 
 const MyMenuItem = styled(MenuItem)`
   background-color: ${(props) => props.theme.colors.input};
@@ -108,12 +124,9 @@ export default function BranchSpecificContent() {
       {/* Dynamic component title based on chosen brnach */}
       <Grid container spacing={1}>
         <Grid item xs={12} sm={12} md={4} lg={4}>
-          <InputLabel shrink id="demo-simple-select-placeholder-label-label">
-            {t("form_branch")}
-          </InputLabel>
+          <StyledLabel for id="branch-select">{t("form_branch")}</StyledLabel>
           <MyBranchSelect
-            labelId="demo-simple-select-placeholder-label-label"
-            id="demo-simple-select-placeholder-label"
+            id="branch-select"
             displayEmpty
             disableUnderline
             open={openBranches}

@@ -1,7 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
 
-
 const StyledButton = styled.button` 
     margin: 0.2rem;
     margin-top: 2%;
@@ -22,6 +21,7 @@ const StyledButton = styled.button`
     border-radius: 4px;
     cursor: pointer;
     width: ${props => props.width || '14rem'};
+    height: ${props => props.height || '2.5rem'};
     animation: 2s ease-in;
     transition-duration: 0.4s;
     &:hover{
@@ -34,8 +34,6 @@ const StyledButton = styled.button`
      }
 
 `
-
-
 
 const FormButton = ({ onClick, width, label}) => {
 return  <StyledButton 
