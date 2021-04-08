@@ -1,6 +1,7 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import axios from "axios";
 import {Link} from 'react-router-dom'
+import { UserContext } from "../../Utils/UserContext";
 
 import { useTranslation } from "react-i18next";
 import styled from "styled-components";
@@ -61,6 +62,7 @@ const MyDialogContent = styled(DialogContent)`
  
 export default function NextVisit() {
   const { t } = useTranslation();
+  const { setIsAuth } = useContext(UserContext);
   const [isLoading, setLoading] = useState(true);
   const myDonorCode = localStorage.getItem("donorCode");
   const [nextVisit, setNextVisit] = useState(null);
@@ -92,21 +94,21 @@ export default function NextVisit() {
       const res = await axios({
         method: "post",
         url:
-          "https://virtserver.swaggerhub.com/xkazm04/User/1.0.0/getNextReservationDate",
+          "https://virtserver.swaggerhub.com/xkazm04/User/1.0.0/getNextReservation",
         data: {
           DonorCode: myDonorCode,
         },
       });
-      setTimeout(() => {
-        setLoading(false);
-      }, 2000);
       console.log(res.data);
       setNextVisit(res.data.NextReservationDate);
       setReservationId(res.data.ReservationId);
-      // Reset error message
     } catch (err) {
-      // Error
-      if (err.response) {
+      if (err.response.status === 401) { 
+        // JWT not authorized (401)
+        console.log(err)
+        setIsAuth(false)
+      }
+        else if (err.response) {
         // client received an error response (5xx, 4xx)
         console.log(err.response);
       } else if (err.request) {
@@ -115,9 +117,8 @@ export default function NextVisit() {
         setErrorMessage(t("error_message_common"))
         setLoading(false);
       } else {
-        // anything else
+        setLoading(false);
       }
-      console.log(err);
     }
   };
 

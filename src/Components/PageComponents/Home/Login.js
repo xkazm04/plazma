@@ -136,12 +136,18 @@ export default function Login() {
       }
     } catch (err) {
       // Error
-      if (err.response) { 
+      if (err.response === 401) { 
         // client received an error response (5xx)
         console.log(err)
         setError(t("error_common"))
         setErrorMessage(t("error_message_common"))
-      } else if (err.request) { 
+      } if (err.response) { 
+        // client received an error response (5xx)
+        console.log(err)
+        setError(t("error_common"))
+        setErrorMessage(t("error_message_common"))
+      }
+      else if (err.request) { 
         // client never received a response, or request never left (4xx)
         console.log(err)
         setError(t("error_common"))

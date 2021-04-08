@@ -7,11 +7,9 @@ import MenuItem from "@material-ui/core/MenuItem";
 import Select from "@material-ui/core/Select";
 import Grid from "@material-ui/core/Grid";
 
-import {HeartIcon} from '../Icons/Icons'
 import { BranchContext } from "../Utils/BranchContext";
 
 import WorkingHours from './WorkingHours'
-import ReactMapGL, { Marker} from "react-map-gl";
 
 const Kontejner = styled.div`
   position: relative;
@@ -80,13 +78,6 @@ const MyMenuItem = styled(MenuItem)`
   }
 `;
 
-const MapContainer = styled.div`
-  @media screen and (max-width: 700px) {
-    display: none;
-  }
-`
-
-
 
 export default function BranchSpecificContent() {
   const { t } = useTranslation();
@@ -107,15 +98,6 @@ export default function BranchSpecificContent() {
     setBranch(event.target.value);
   };
 
-  // Map try
-  const [selectedFacility, setSelectedFacility] = useState(null)
-  const [viewport, setViewport] = useState({
-    latitude: 50.0755381,
-    longitude: 14.4378005,
-    width: "30vw",
-    height: "30vh",
-    zoom: 13
-  })
 
 
   return (
@@ -145,20 +127,7 @@ export default function BranchSpecificContent() {
           </MyBranchSelect>
           <WorkingHours branch={branch}/>   
         </Grid>
-
-      {/* Map component */}
-      {process.env.REACT_APP_SHOW_MAP === 1 ?
-        <MapContainer>
-        <ReactMapGL {...viewport}
-         mapboxApiAccessToken={process.env.REACT_APP_MAPBOX_TOKEN}
-         mapStyle="mapbox://styles/mapbox/light-v10"
-         onViewportChange={viewport=> {
-          setViewport(viewport);
-         }}>
-              <Marker     latitude= {50.0755381} longitude={14.4378005}><HeartIcon/></Marker>
-         </ReactMapGL>
-                    </MapContainer>
-           : null}        
+    
       </Grid>       
     </Kontejner>
   );
